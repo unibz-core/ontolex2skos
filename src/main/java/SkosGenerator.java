@@ -1,11 +1,17 @@
 import org.apache.jena.ontology.OntModel;
+import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.update.UpdateAction;
+import org.apache.jena.update.UpdateFactory;
+import org.apache.jena.update.UpdateRequest;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static java.util.stream.Collectors.toList;
 
 public class SkosGenerator {
   OntModel model;
@@ -14,8 +20,6 @@ public class SkosGenerator {
   final Ontolex ontolex;
   final Lexinfo lexinfo;
   final Skos skos;
-
-  private Map<String, List<String>> referencesPerSense;
 
   public SkosGenerator(OntModel model, OntModel target) {
     this.model = model;
@@ -27,9 +31,6 @@ public class SkosGenerator {
     lexinfo = new Lexinfo(model);
     System.out.println("Loading skos...");
     skos = new Skos(model, target);
-
-    System.out.println("Building maps...");
-    referencesPerSense = ontolex.getReferenceUriMap();
   }
 
   public void generateSkosData() {
@@ -38,6 +39,18 @@ public class SkosGenerator {
 
     System.out.println("Mapping synsets to concepts...");
     synsets.forEach(this::mapSynsetToConcept);
+
+    System.out.println("Deriving skos:altLabel from acronyms...");
+    deriveAltLabelFromAcronyms();
+    System.out.println("Deriving ontolex:isConceptof...");
+    ontolex.deriveIsConceptOf();
+    System.out.println("Deriving ontolex:isEvokedBy...");
+    ontolex.deriveIsEvokedBy();
+    System.out.println("Deriving skos:broader and skos:narrower...");
+    skos.deriveBroaderNarrower();
+
+    //TODO: DERIVE alt label from acronym (ZIN/CIZ should be alt label of the concept that points to Zoorginstituut Nederland)
+    //TODO: name conflict resolution (aambieder and zorgambieder)
   }
 
   public List<Synset> getSynsets() {
@@ -67,20 +80,12 @@ public class SkosGenerator {
   }
 
   private void mapSynsetToConcept(Synset synset) {
-    System.out.println("Mapping synset: " + synset);
     String conceptUri = skos.createConcept();
-
-    System.out.println("Adding ontolex:isLexicalizedSenseOf...");
     addIsLexicalizedSenseOf(conceptUri, synset);
-    System.out.println("Adding ontolex:isConceptof...");
-    addIsConceptOf(conceptUri, synset);
 
-    System.out.println("Adding skos:prefLabel...");
     addPrefLabel(conceptUri, synset);
-    System.out.println("Adding skos:altLabel...");
     addAltLabels(conceptUri, synset);
 
-    System.out.println("Copying skos textual properties...");
     copySkosTextProperty("skos:definition", conceptUri, synset);
     copySkosTextProperty("skos:editorialNote", conceptUri, synset);
     copySkosTextProperty("skos:scopeNote", conceptUri, synset);
@@ -89,19 +94,36 @@ public class SkosGenerator {
     copySkosTextProperty("skos:changeNote", conceptUri, synset);
   }
 
-
-  private void addIsLexicalizedSenseOf(String conceptUri, Synset synset) {
+  private void addIsLexicalizedSenseOf1(String conceptUri, Synset synset) {
     synset.stream()
             .map(Resource::getURI)
             .forEach(senseUri -> ontolex.addIsLexicalizedSenseOf(senseUri, conceptUri));
   }
 
-  private void addIsConceptOf(String conceptUri, Synset synset) {
-    synset.stream()
+  public void addIsLexicalizedSenseOf(String conceptUri, Synset synset) {
+    List<String> statements = synset.stream()
             .map(Resource::getURI)
-            .filter(referencesPerSense::containsKey)
-            .map(referencesPerSense::get)
-            .forEach(referenceUris -> ontolex.addIsConceptOf(conceptUri, referenceUris));
+            .map(uri -> "<" + uri + "> ontolex:isLexicalizedSenseOf <" + conceptUri + "> ")
+            .collect(toList());
+
+    insertData(statements);
+  }
+
+  private void insertData(List<String> statements) {
+    String sparqlInsert = "PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#> " +
+            "PREFIX skos: <http://www.w3.org/2004/02/skos/core#> " +
+            "PREFIX lexinfo: <http://www.lexinfo.net/ontology/3.0/lexinfo#> " +
+            "INSERT DATA { " +
+            String.join(" . ", statements) +
+            "}";
+
+    execute(sparqlInsert);
+  }
+
+  private void execute(String sparql) {
+    UpdateRequest request = UpdateFactory.create(sparql);
+    UpdateAction.execute(request, model);
+    UpdateAction.execute(request, target);
   }
 
   private void copySkosTextProperty(String propertyUri, String conceptUri, Synset synset) {
@@ -138,6 +160,49 @@ public class SkosGenerator {
     if (label != null)
       skos.addAltLabel(conceptUri, label);
 
+  }
+
+  private void deriveAltLabelFromAcronyms() {
+    String sparqlQuery = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>  " +
+            "PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#> " +
+            "PREFIX lexinfo: <http://www.lexinfo.net/ontology/3.0/lexinfo#> " +
+            "SELECT ?concept ?label " +
+            "WHERE { " +
+            "   ?concept ontolex:lexicalizedSense ?sense . " +
+            "   ?sense ontolex:isSenseOf ?entry . " +
+            "   ?entry lexinfo:fullFormFor ?acronym . " +
+            "   ?acronym ontolex:canonicalForm ?form . " +
+            "   ?form ontolex:writtenRep ?label . " +
+            "} ";
+
+    Query query = QueryFactory.create(sparqlQuery);
+
+    List<String> statements = new ArrayList<>();
+
+    try (QueryExecution qexec = QueryExecutionFactory.create(query, model)) {
+      ResultSet results = qexec.execSelect();
+
+      while (results.hasNext()) {
+        QuerySolution soln = results.nextSolution();
+        Resource concept = soln.getResource("concept");
+        Literal label = soln.getLiteral("label");
+        String sanitizedLabel = getSanitizedText(label);
+        statements.add("<" + concept + ">" + " skos:altLabel " + sanitizedLabel);
+      }
+    }
+
+    insertData(statements);
+  }
+
+  private String getSanitizedText(Literal literal) {
+    String language = literal.getLanguage();
+    String text = literal.getString()
+            .replaceAll("\n", " ")
+            .replaceAll("\r", "")
+            .replaceAll("\"", "\\\\\"")
+            .trim();
+
+    return "\"\"\"" + text + "\"\"\"@" + language;
   }
 
 

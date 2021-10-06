@@ -1,6 +1,7 @@
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.Literal;
+import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.update.UpdateAction;
 import org.apache.jena.update.UpdateFactory;
@@ -39,7 +40,6 @@ public class Skos {
             "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> " +
             "INSERT DATA { " +
             "   <" + uri + "> rdf:type skos:Concept . " +
-            "   <" + uri + "> rdf:type ontolex:LexicalConcept . " +
             "} ";
 
     execute(sparql);
@@ -115,5 +115,49 @@ public class Skos {
             .trim();
 
     return "\"\"\"" + text + "\"\"\"@" + language;
+  }
+
+  public void deriveBroaderNarrower() {
+    String sparqlQuery = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>  " +
+            "PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#> " +
+            "PREFIX skos: <http://www.w3.org/2004/02/skos/core#> " +
+            "PREFIX lexinfo: <http://www.lexinfo.net/ontology/3.0/lexinfo#> " +
+            "SELECT DISTINCT ?narrower ?broader " +
+            "WHERE { " +
+            "   ?narrower rdf:type skos:Concept . " +
+            "   ?hyponym ontolex:isLexicalizedSenseOf ?narrower . " +
+            "   ?hypernym ontolex:isLexicalizedSenseOf ?broader . " +
+            "   ?broader rdf:type skos:Concept  . " +
+            "   { ?hyponym lexinfo:hypernym ?hypernym } " +
+            "   UNION " +
+            "   { ?hypernym lexinfo:hyponym ?hyponym }" +
+            "} ";
+
+    Query query = QueryFactory.create(sparqlQuery);
+
+    List<String> statements = new ArrayList<>();
+
+    try (QueryExecution qexec = QueryExecutionFactory.create(query, model)) {
+      ResultSet results = qexec.execSelect();
+
+      while (results.hasNext()) {
+        QuerySolution soln = results.nextSolution();
+        Resource narrower = soln.getResource("narrower");
+        Resource broader = soln.getResource("broader");
+        statements.add("<" + narrower + ">" + " skos:broader " + "<" + broader + ">");
+        statements.add("<" + broader + ">" + " skos:narrower " + "<" + narrower + ">");
+      }
+    }
+
+    insertData(statements);
+  }
+
+  private void insertData(List<String> statements) {
+    String sparqlInsert = "PREFIX skos: <http://www.w3.org/2004/02/skos/core#> " +
+            "INSERT DATA { " +
+            String.join(" . ", statements) +
+            "}";
+
+    execute(sparqlInsert);
   }
 }

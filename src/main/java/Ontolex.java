@@ -1,6 +1,7 @@
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.Literal;
+import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.update.UpdateAction;
@@ -8,9 +9,6 @@ import org.apache.jena.update.UpdateFactory;
 import org.apache.jena.update.UpdateRequest;
 
 import java.util.*;
-import java.util.stream.Collectors;
-
-import static java.util.stream.Collectors.joining;
 
 public class Ontolex {
   public static final String IRI = "http://www.w3.org/ns/lemon/ontolex#";
@@ -147,19 +145,90 @@ public class Ontolex {
     }
   }
 
-  public void addIsConceptOf(String conceptUri, List<String> entityUris) {
-    if (entityUris == null || entityUris.isEmpty())
-      return;
+//  public void addIsConceptOf(String conceptUri, List<String> entityUris) {
+//    if (entityUris == null || entityUris.isEmpty())
+//      return;
+//
+//    String sparql = "PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#> " +
+//            "INSERT DATA { " +
+//            "";
+//
+//    sparql = entityUris.stream()
+//            .map(uri -> "<" + conceptUri + "> ontolex:isConceptOf <" + uri + "> .")
+//            .collect(joining(" ", sparql, "}"));
+//
+//    execute(sparql);
+//  }
 
-    String sparql = "PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#> " +
+  public void deriveIsConceptOf() {
+    String sparqlQuery = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>  " +
+            "PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#> " +
+            "PREFIX skos: <http://www.w3.org/2004/02/skos/core#> " +
+            "SELECT ?concept ?entity " +
+            "WHERE { " +
+            "   ?concept rdf:type skos:Concept . " +
+            "   ?concept ontolex:lexicalizedSense ?sense . " +
+            "   ?sense ontolex:reference ?entity " +
+            "} ";
+
+    Query query = QueryFactory.create(sparqlQuery);
+
+    List<String> statements = new ArrayList<>();
+
+    try (QueryExecution qexec = QueryExecutionFactory.create(query, model)) {
+      ResultSet results = qexec.execSelect();
+
+      while (results.hasNext()) {
+        QuerySolution soln = results.nextSolution();
+        Resource concept = soln.getResource("?concept");
+        RDFNode entity = soln.get("?entity");
+
+        if (entity.isURIResource() && entity.asResource().getURI() != null)
+          statements.add("<" + concept + ">" + " ontolex:isConceptOf " + "<" + entity + ">");
+      }
+
+    }
+
+    insertData(statements);
+  }
+
+
+  public void deriveIsEvokedBy() {
+    String sparqlQuery = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>  " +
+            "PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#> " +
+            "PREFIX skos: <http://www.w3.org/2004/02/skos/core#> " +
+            "SELECT ?concept ?entry " +
+            "WHERE { " +
+            "   ?concept rdf:type skos:Concept . " +
+            "   ?concept ontolex:lexicalizedSense ?sense . " +
+            "   ?sense ontolex:isSenseOf ?entry . " +
+            "} ";
+
+    Query query = QueryFactory.create(sparqlQuery);
+
+    List<String> statements = new ArrayList<>();
+
+    try (QueryExecution qexec = QueryExecutionFactory.create(query, model)) {
+      ResultSet results = qexec.execSelect();
+
+      while (results.hasNext()) {
+        QuerySolution soln = results.nextSolution();
+        Resource concept = soln.getResource("concept");
+        Resource entry = soln.getResource("entry");
+        statements.add("<" + concept + ">" + " ontolex:isEvokedBy " + "<" + entry + ">");
+      }
+    }
+
+    insertData(statements);
+  }
+
+  private void insertData(List<String> statements) {
+    String sparqlInsert = "PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#> " +
             "INSERT DATA { " +
-            "";
+            String.join(" . ", statements) +
+            "}";
 
-    sparql = entityUris.stream()
-            .map(uri -> "<" + conceptUri + "> ontolex:isConceptOf <" + uri + "> .")
-            .collect(joining(" ", sparql, "}"));
-
-    execute(sparql);
+    execute(sparqlInsert);
   }
 
 }

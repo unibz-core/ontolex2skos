@@ -1,0 +1,398 @@
+@prefix ontolex: <http://www.w3.org/ns/lemon/ontolex#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
+@prefix thor:    <http://purl.org/ZIN-Thor/> .
+@prefix vph-g:   <http://purl.org/ozo/vph-g#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+
+thor:ontolexLexicalSense_persoon_1
+        ontolex:isLexicalizedSenseOf  thor:Concept_28736ebe-6462-43d2-abb0-1537a37da9da .
+
+thor:ontolexLexicalSense_verpleeghuis_1
+        ontolex:isLexicalizedSenseOf  thor:Concept_b0edcd82-3094-4e9c-abe0-cc2f02d6ae2c .
+
+thor:Concept_eba0201d-bfcb-4d84-b291-1b282a6d412e
+        rdf:type            skos:Concept ;
+        skos:altLabel       "zorgaanbieder"@nl ;
+        skos:broader        thor:Concept_778a3c6d-7334-45ca-afcb-caa7b165aace , thor:Concept_28736ebe-6462-43d2-abb0-1537a37da9da ;
+        skos:definition     "een instelling of beroepskracht die zorg en/of hulpverlening levert."@nl ;
+        skos:editorialNote  "Definitie overgenomen zoals deze in Thesaurus zorg en welzijn staat (en ook op istandaarden.nl gepubliceerd is/wordt), maar dan wel in enkelvoud.  Deze definitie sluit aan bij de definitie zoals opgenomen in de wettekst wlz.  Nog n.t.b. of/hoe we dit met meer formele relaties kunnen verwijzen"@nl , "1. Nu aangegeven dat deze synoniem is aan zorgaanbieder, ondanks dat dit ook bijv. een schoonmaakbedrijf kan zijn dat huishoudelijke hulp levert i.h.k.v. de Wmo. Een schoonmaakbedrijf wordt typisch niet als een zorgaanbieder gezien, en schoonmaken niet als \"zorg\", maar zo'n organisatie opereert dan wel in de rol van \"aanbieder\" i.h.k.v. Wmo-ondersteuning, die gelijk is aan de rol \"zorgaanbieder\" die bijv. een verpleeghuis kan hebben. 2. De aanduiding 'preferred term' betekent dat \"aanbieder\" binnen de context van het sociaal domein de voorkeur heeft boven het gebruik van de term \"zorgaanbieder\"."@nl ;
+        skos:prefLabel      "aanbieder"@nl ;
+        ontolex:isEvokedBy  thor:ontolexLexicalEntry_aanbieder.n , thor:ontolexLexicalEntry_zorgaanbieder.n .
+
+thor:Concept_208c7304-2ee3-47e2-835f-77621c0f7156
+        rdf:type            skos:Concept ;
+        skos:altLabel       "zorgtoewijzing"@nl ;
+        skos:definition     "Een zorgtoewijzing is een opdracht van een zorgkantoor om zorg of ondersteuning te leveren aan een cliënt."@nl , "Een toewijzing is een opdracht van een zorgkantoor of gemeente om zorg of ondersteuning te leveren aan een cliënt."@nl ;
+        skos:editorialNote  "Ik heb nu synoniemrelatie gemaakt met \"toewijzing\", maar strikt bekeken zou het misschien beter een hypernym relatie zijn; de term zorgtoewijzing wordt alleen gebruikt voor toewijzingen in Wlz. Ik zou eigenlijk alleen wel graag willen dat beide termen naar hetzelfde concept verwijzen. Iets vergelijkbaars geldt eigenlijk voor zorgaanbieder en aanbieder, die heb ik nu ook synoniem gemaakt (en kunnen ook wel synoniem gezien worden, in de TZW wordt dit nu ook als synoniem gedefinieerd)."@nl , "Kunnen we een link leggen naar de TZW? In de thesaurus Zorg & Welzijn voor iStandaarden staat: officiële opdracht van een zorgkantoor of gemeente aan een zorgaanbieder van zorg of ondersteuning om voor een bepaalde periode bepaalde zorg of ondersteuning te leveren aan een cliënt, het toegewezen product; binnen de Wmo en de Jeugdwet wordt dit een toewijzing genoemd, binnen de Wlz zorgtoewijzing; voor wat betreft de Wmo en Jeugdwet heeft de gemeente de mogelijkheid om specifiek (productcategorie en productcode gevuld) of aspecifiek (alleen productcategorie gevuld) toe te wijzen; bij het toewijzen van een budget is het tevens mogelijk om zowel productcategorie als productcode leeg te laten (generieke toewijzing)"@nl ;
+        skos:prefLabel      "toewijzing"@nl ;
+        ontolex:isEvokedBy  thor:ontolexLexicalEntry_toewijzing.n , thor:ontolexLexicalEntry_zorgtoewijzing.n .
+
+thor:Concept_76097e17-4b85-4f7f-9d68-2f3da715ec82
+        rdf:type             skos:Concept ;
+        skos:altLabel        "zorgorganisatie"@nl ;
+        skos:broader         thor:Concept_2712d8ca-d8fa-432a-b0d1-2737a12c8b23 ;
+        skos:definition      "Een zorginstelling is \"een rechtspersoon die bedrijfsmatig zorg verleent, een organisatorisch verband van natuurlijke personen die bedrijfsmatig zorg verlenen of doen verlenen, alsmede een natuurlijke persoon die bedrijfsmatig zorg doet verlenen\"."@nl , "Een zorgorganisatie is een organisatie die als primaire taak zorg verleent aan personen."@nl , "Een zorginstelling is een organisatie die als primaire taak zorg verleent aan personen."@nl ;
+        skos:narrower        thor:Concept_b0edcd82-3094-4e9c-abe0-cc2f02d6ae2c , thor:Concept_f00452ce-3847-4267-83f7-a30656909aab ;
+        skos:prefLabel       "zorginstelling"@nl ;
+        ontolex:isConceptOf  vph-g:CareOrganization ;
+        ontolex:isEvokedBy   thor:ontolexLexicalEntry_zorginstelling.n , thor:ontolexLexicalEntry_zorgorganisatie.n .
+
+thor:Concept_b0edcd82-3094-4e9c-abe0-cc2f02d6ae2c
+        rdf:type             skos:Concept ;
+        skos:altLabel        "verpleeghuisorganisatie"@nl ;
+        skos:broader         thor:Concept_76097e17-4b85-4f7f-9d68-2f3da715ec82 ;
+        skos:definition      "Een verpleeghuisorganisatie is een zorgorganisatie die zich richt op het geclusterd verlenen van woonruimte en intensieve zorg en verpleging aan mensen die door ziekte of beperking (tijdelijk) niet in staat zijn zelfstandig te wonen en/of in hun eigen verzorging te voorzien."@nl , "Een verpleeghuis is een zorgorganisatie die zich richt op het geclusterd verlenen van woonruimte en intensieve zorg en verpleging aan mensen die door ziekte of beperking (tijdelijk) niet in staat zijn zelfstandig te wonen en/of in hun eigen verzorging te voorzien."@nl ;
+        skos:example         "'Het verpleeghuis is failliet/gaat fuseren/heeft 200 medewerkers.'"@nl ;
+        skos:prefLabel       "verpleeghuis"@nl ;
+        ontolex:isConceptOf  vph-g:NursingHomeOrgaanization , vph-g:NursingHomeOrganization ;
+        ontolex:isEvokedBy   thor:ontolexLexicalEntry_verpleeghuisorganisatie.n , thor:ontolexLexicalEntry_verpleeghuis.n .
+
+thor:ontolexLexicalSense_toekenningsbeschikking_1
+        ontolex:isLexicalizedSenseOf  thor:Concept_0f074ae9-7712-4200-a78e-f711e15af01c .
+
+thor:ontolexLexicalSense_verloop_2
+        ontolex:isLexicalizedSenseOf  thor:Concept_5b2e5819-9421-43f6-81c9-2db5b618748d .
+
+thor:ontolexLexicalSense_bestuursorgaan_1
+        ontolex:isLexicalizedSenseOf  thor:Concept_7cbc33f4-75dc-45c8-9c2d-fcd40ceac960 .
+
+thor:ontolexLexicalSense_uitstroom_2
+        ontolex:isLexicalizedSenseOf  thor:Concept_5b2e5819-9421-43f6-81c9-2db5b618748d .
+
+thor:ontolexLexicalSense_toewijzen_1
+        ontolex:isLexicalizedSenseOf  thor:Concept_d23973e7-d404-4ebe-adb9-71f84460b842 .
+
+thor:ontolexLexicalSense_zelfstandige_zonder_personeel_1
+        ontolex:isLexicalizedSenseOf  thor:Concept_6b52e8ac-6c2c-49dd-9c51-17ed02ef71c6 .
+
+thor:ontolexLexicalSense_mens_1
+        ontolex:isLexicalizedSenseOf  thor:Concept_28736ebe-6462-43d2-abb0-1537a37da9da .
+
+thor:Concept_2712d8ca-d8fa-432a-b0d1-2737a12c8b23
+        rdf:type             skos:Concept ;
+        skos:definition      "\"Een organisatie is een doelgerichte samenbundeling van kennis, vaardigheden en kracht tussen meerdere personen die primair middelen en activiteiten aanwendt om te voorzien in de behoefte aan producten en/of diensten in haar omgeving.\""@nl ;
+        skos:narrower        thor:Concept_76097e17-4b85-4f7f-9d68-2f3da715ec82 ;
+        skos:prefLabel       "organisatie"@nl ;
+        ontolex:isConceptOf  vph-g:Organization ;
+        ontolex:isEvokedBy   thor:ontolexLexicalEntry_organisatie.n .
+
+thor:Concept_5b2e5819-9421-43f6-81c9-2db5b618748d
+        rdf:type             skos:Concept ;
+        skos:altLabel        "verloop"@nl ;
+        skos:broader         thor:Concept_d0cd5c84-b542-44e0-9067-a49915da3557 ;
+        skos:definition      "Uitstroom is het geheel van personeelsleden dat gedurende een periode ontslag neemt of krijgt bij een werkgever."@nl , "Verloop is het geheel van personeelsleden dat gedurende een periode ontslag neemt of krijgt bij een werkgever."@nl ;
+        skos:narrower        thor:Concept_3d288c45-9a97-47b9-8988-8d3231493321 ;
+        skos:prefLabel       "uitstroom"@nl ;
+        ontolex:isConceptOf  vph-g:LeavingAnOrganizationEvent , vph-g:LeavingAnOrganizationEvent2 ;
+        ontolex:isEvokedBy   thor:ontolexLexicalEntry_verloop.n.1 , thor:ontolexLexicalEntry_uitstroom.n .
+
+thor:ontolexLexicalSense_zorgorganisatie_1
+        ontolex:isLexicalizedSenseOf  thor:Concept_76097e17-4b85-4f7f-9d68-2f3da715ec82 .
+
+thor:ontolexLexicalSense_zorgtoewijzing_1
+        ontolex:isLexicalizedSenseOf  thor:Concept_208c7304-2ee3-47e2-835f-77621c0f7156 .
+
+thor:ontolexLexicalSense_zorgaanbieder_1
+        ontolex:isLexicalizedSenseOf  thor:Concept_eba0201d-bfcb-4d84-b291-1b282a6d412e .
+
+thor:ontolexLexicalSense_indicatiebericht_1
+        ontolex:isLexicalizedSenseOf  thor:Concept_e2a363d8-64b5-402b-bfd0-2b513912f542 .
+
+thor:Concept_778a3c6d-7334-45ca-afcb-caa7b165aace
+        rdf:type            skos:Concept ;
+        skos:broader        thor:Concept_28736ebe-6462-43d2-abb0-1537a37da9da ;
+        skos:definition     "persoon of organisatie die goederen of diensten levert aan een vragende partij"@nl ;
+        skos:narrower       thor:Concept_eba0201d-bfcb-4d84-b291-1b282a6d412e ;
+        skos:prefLabel      "aanbieder"@nl ;
+        ontolex:isEvokedBy  thor:ontolexLexicalEntry_aanbieder.n .
+
+thor:ontolexLexicalSense_verzender_1
+        ontolex:isLexicalizedSenseOf  thor:Concept_25021b28-a80a-4956-a042-d135c9f8a77b .
+
+thor:ontolexLexicalSense_toewijzing_1
+        ontolex:isLexicalizedSenseOf  thor:Concept_208c7304-2ee3-47e2-835f-77621c0f7156 .
+
+thor:Concept_c035bccb-3e1a-4c4d-8b5a-eb705095fc7e
+        rdf:type            skos:Concept ;
+        skos:broader        thor:Concept_28736ebe-6462-43d2-abb0-1537a37da9da ;
+        skos:definition     "Rol van een persoon die van de diensten van een beroepskracht met een dienstverlenend beroep, zoals advocaat, notaris, therapeut of assurantieadviseur gebruikmaakt; in het bijzonder mensen die gebruikmaken van een vorm van zorg- of hulpverlening."@nl ;
+        skos:prefLabel      "cliënt"@nl ;
+        ontolex:isEvokedBy  thor:ontolexLexicalEntry_client .
+
+thor:ontolexLexicalSense_aanbieder_2
+        ontolex:isLexicalizedSenseOf  thor:Concept_778a3c6d-7334-45ca-afcb-caa7b165aace .
+
+thor:Concept_de5f7207-40a5-4390-ab93-21e34d919304
+        rdf:type             skos:Concept ;
+        skos:altLabel        "CIZ"@nl ;
+        skos:broader         thor:Concept_2fb72d97-cdd9-4f88-bf6f-237ccc529d1e ;
+        skos:definition      "Het Centrum Indicatiestelling Zorg (CIZ) is een zelfstandig bestuursorgaan van het ministerie van Volksgezondheid, Welzijn en Sport (VWS) dat beoordeelt of iemand in aanmerking komt voor zorg uit de Wet langdurige zorg (Wlz)."@nl ;
+        skos:prefLabel       "Centrum Indicatiestelling Zorg"@nl ;
+        ontolex:isConceptOf  vph-g:ServiceOrganization ;
+        ontolex:isEvokedBy   thor:ontolexLexicalEntry_Centrum_Indicatiestelling_Zorg.mwu .
+
+thor:ontolexLexicalSense_uitstroom_1
+        ontolex:isLexicalizedSenseOf  thor:Concept_d0cd5c84-b542-44e0-9067-a49915da3557 .
+
+thor:Concept_20279004-99a3-4505-82f8-8689b038fbd3
+        rdf:type            skos:Concept ;
+        skos:altLabel       "indicatiebesluit"@nl ;
+        skos:definition     "[nl] Wetten.nl wlz Art 1.1.1 besluit van het CIZ waarbij beoordeeld wordt of en in welke omvang de verzekerde in aanmerking komt voor zorg"@nl ;
+        skos:editorialNote  "Wetten.nl wlz Art 1.1.1 besluit van het CIZ waarbij beoordeeld wordt of en in welke omvang de verzekerde in aanmerking komt voor zorg"@nl ;
+        skos:prefLabel      "indicatie"@nl ;
+        ontolex:isEvokedBy  thor:ontolexLexicalEntry_indicatie.n , thor:ontolexLexicalEntry_indicatiebesluit.n .
+
+thor:Concept_d0cd5c84-b542-44e0-9067-a49915da3557
+        rdf:type             skos:Concept ;
+        skos:definition      "Uitstroom is het geheel van dingen dat iets verlaat."@nl ;
+        skos:example         "'de uitstroom van water', 'de uitstroom van ouderen in de woningmarkt', 'de uitstroom van kapitaal naar het buitenland'."@nl ;
+        skos:narrower        thor:Concept_5b2e5819-9421-43f6-81c9-2db5b618748d ;
+        skos:prefLabel       "uitstroom"@nl ;
+        ontolex:isConceptOf  vph-g:Translocation ;
+        ontolex:isEvokedBy   thor:ontolexLexicalEntry_uitstroom.n .
+
+thor:ontolexLexicalSense_contactpersoon_1
+        ontolex:isLexicalizedSenseOf  thor:Concept_ce834973-1b0a-4256-8241-61d13a160b3e .
+
+thor:Concept_d23973e7-d404-4ebe-adb9-71f84460b842
+        rdf:type            skos:Concept ;
+        skos:definition     "deelproces in de uitvoering van de Wlz, Wmo en Jeugdwet dat ondersteund wordt door de iStandaarden; het proces heeft tot doel om een officiële opdracht te verstrekken aan een aanbieder om zorg of ondersteuning te leveren aan een cliënt"@nl ;
+        skos:prefLabel      "toewijzen"@nl ;
+        ontolex:isEvokedBy  thor:ontolexLexicalEntry_toewijzen.v .
+
+thor:ontolexLexicalSense_Centrum_Indicatiestelling_Zorg_1
+        ontolex:isLexicalizedSenseOf  thor:Concept_de5f7207-40a5-4390-ab93-21e34d919304 .
+
+thor:ontolexLexicalSense_Zorginstituut_Nederland_1
+        ontolex:isLexicalizedSenseOf  thor:Concept_d731c3dc-e97e-4841-8278-0748749b46ba .
+
+thor:ontolexLexicalSense_2e82758f
+        ontolex:isLexicalizedSenseOf  thor:Concept_8a6babb0-0036-492a-8d84-b76d73e40c5a .
+
+thor:Concept_84a07fe9-9df4-459c-ba47-b0f5354fabcb
+        rdf:type            skos:Concept ;
+        skos:definition     "een rol van een persoon die i.h.k.v. de Wlz, Wmo of Jeugdwet zorg of ondersteuning ontvangt van een (zorg)aanbieder, of die recht heeft op het ontvangen daarvan."@nl ;
+        skos:prefLabel      "cliënt"@nl ;
+        ontolex:isEvokedBy  thor:ontolexLexicalEntry_client .
+
+thor:ontolexLexicalSense_aanbieder_1
+        ontolex:isLexicalizedSenseOf  thor:Concept_eba0201d-bfcb-4d84-b291-1b282a6d412e .
+
+thor:ontolexLexicalSense_organisatie_1
+        ontolex:isLexicalizedSenseOf  thor:Concept_2712d8ca-d8fa-432a-b0d1-2737a12c8b23 .
+
+thor:Concept_8a6babb0-0036-492a-8d84-b76d73e40c5a
+        rdf:type             skos:Concept ;
+        ontolex:isConceptOf  vph-g:LeavingAnOrganizationEvent2 , vph-g:LeavingAnOrganizationEvent .
+
+thor:ontolexLexicalSense_indicatiebesluitbericht_1
+        ontolex:isLexicalizedSenseOf  thor:Concept_e2a363d8-64b5-402b-bfd0-2b513912f542 .
+
+thor:Concept_9902bfd4-ea10-44e2-b17f-f3612ab3c91d
+        rdf:type            skos:Concept ;
+        skos:broader        thor:Concept_28736ebe-6462-43d2-abb0-1537a37da9da ;
+        skos:definition     "persoon die beroepsmatig zorg verleent aan een ander persoon"@nl ;
+        skos:prefLabel      "zorgverlener"@nl ;
+        ontolex:isEvokedBy  thor:ontolexLexicalEntry_zorgverlener.n .
+
+thor:Concept_f489aad5-2b1b-457b-8fee-a36677504259
+        rdf:type            skos:Concept ;
+        skos:definition     "een digitaal of fysiek document waarmee een zender informatie of een mededeling doorgeeft aan een ontvanger."@nl ;
+        skos:narrower       thor:Concept_5d8d44ec-cbc8-477f-9427-c90bbe150dd1 ;
+        skos:prefLabel      "bericht"@nl ;
+        ontolex:isEvokedBy  thor:ontolexLexicalEntry_bericht.n .
+
+thor:ontolexLexicalSense_indicatie_2
+        ontolex:isLexicalizedSenseOf  thor:Concept_20279004-99a3-4505-82f8-8689b038fbd3 .
+
+thor:Concept_0f074ae9-7712-4200-a78e-f711e15af01c
+        rdf:type            skos:Concept ;
+        skos:definition     "een toekenningsbeschikking is een beschikking van de gemeente of het zorgkantoor over het recht dat een budgethouder heeft op een persoonsgebonden budget"@nl ;
+        skos:editorialNote  "in TZW staat beschikkingen die mensen na goedkeuring van hun aanvraag voor een persoonsgebonden budget ontvangen van het zorgkantoor (in geval van Wlz-zorg) of van de gemeente (in geval van zorg of ondersteuning vanuit de Wmo of de Jeugdwet) en waarin staat welk bedrag zij ontvangen en welke rechten en plichten zij hebben"@nl ;
+        skos:prefLabel      "toekenningsbeschikking"@nl ;
+        ontolex:isEvokedBy  thor:ontolexLexicalEntry_toekenningsbeschikking.n .
+
+thor:ontolexLexicalSense_zender_1
+        ontolex:isLexicalizedSenseOf  thor:Concept_25021b28-a80a-4956-a042-d135c9f8a77b .
+
+thor:Concept_d731c3dc-e97e-4841-8278-0748749b46ba
+        rdf:type            skos:Concept ;
+        skos:altLabel       "ZIN"@nl ;
+        skos:broader        thor:Concept_2fb72d97-cdd9-4f88-bf6f-237ccc529d1e ;
+        skos:definition     "Het Zorginstituut Nederland is een Nederlands zelfstandig bestuursorgaan dat erop toeziet dat Nederlandse burgers verzekerd zijn en blijven volgens de Zorgverzekeringswet (Zvw) en de Wet langdurige zorg (Wlz). Daarmee wordt gewaarborgd dat iedereen die recht heeft op zorg het ook krijgt."@nl ;
+        skos:prefLabel      "Zorginstituut Nederland"@nl ;
+        ontolex:isEvokedBy  thor:ontolexLexicalEntry_Zorginstituut_Nederland.n .
+
+thor:ontolexLexicalSense_ontvanger_1
+        ontolex:isLexicalizedSenseOf  thor:Concept_3ccc2fb8-df28-4718-b21f-d5de0ebd57b8 .
+
+thor:ontolexLexicalSense_bericht_2
+        ontolex:isLexicalizedSenseOf  thor:Concept_f489aad5-2b1b-457b-8fee-a36677504259 .
+
+thor:Concept_6b52e8ac-6c2c-49dd-9c51-17ed02ef71c6
+        rdf:type             skos:Concept ;
+        skos:altLabel        "zzp"@nl , "zelfstandige zonder personeel"@nl , "zzp'er"@nl ;
+        skos:broader         thor:Concept_28736ebe-6462-43d2-abb0-1537a37da9da ;
+        skos:definition      "Zelfstandige zonder personeel is de rol van een persoon die voor verschillende opdrachtgevers werkt zonder dat er sprake is van een dienstverband met deze opdrachtgevers."@nl , "Een freelancer is een persoon die voor verschillende opdrachtgevers werkt zonder dat er sprake is van een dienstverband met deze opdrachtgevers."@nl ;
+        skos:prefLabel       "freelancer"@nl ;
+        ontolex:isConceptOf  vph-g:Freelancer ;
+        ontolex:isEvokedBy   thor:ontolexLexicalEntry_zelfstandige_zonder_personeel.mwu , thor:ontolexLexicalEntry_freelancer.n .
+
+thor:ontolexLexicalSense_8cb7b438
+        ontolex:isLexicalizedSenseOf  thor:Concept_c4328a02-00b2-4f03-9e75-8b616850a6ef .
+
+thor:ontolexLexicalSense_zelfstandig_bestuursorgaan_1
+        ontolex:isLexicalizedSenseOf  thor:Concept_2fb72d97-cdd9-4f88-bf6f-237ccc529d1e .
+
+thor:Concept_28736ebe-6462-43d2-abb0-1537a37da9da
+        rdf:type             skos:Concept ;
+        skos:altLabel        "persoon"@nl ;
+        skos:definition      "Een mens is een individueel wezen van de soort Homo Sapiens."@nl , "Een persoon is een menselijk individu."@nl ;
+        skos:editorialNote   "Voor alle hyponiemen (specifiekere termen), zie het synoniem 'persoon_1'."@nl ;
+        skos:narrower        thor:Concept_9902bfd4-ea10-44e2-b17f-f3612ab3c91d , thor:Concept_eba0201d-bfcb-4d84-b291-1b282a6d412e , thor:Concept_6b52e8ac-6c2c-49dd-9c51-17ed02ef71c6 , thor:Concept_ce834973-1b0a-4256-8241-61d13a160b3e , thor:Concept_c035bccb-3e1a-4c4d-8b5a-eb705095fc7e , thor:Concept_3ccc2fb8-df28-4718-b21f-d5de0ebd57b8 , thor:Concept_778a3c6d-7334-45ca-afcb-caa7b165aace , thor:Concept_25021b28-a80a-4956-a042-d135c9f8a77b ;
+        skos:prefLabel       "mens"@nl ;
+        ontolex:isConceptOf  vph-g:Human ;
+        ontolex:isEvokedBy   thor:ontolexLexicalEntry_mens.n , thor:ontolexLexicalEntry_persoon.n .
+
+thor:Concept_7cbc33f4-75dc-45c8-9c2d-fcd40ceac960
+        rdf:type             skos:Concept ;
+        skos:definition      "Een bestuursorgaan is een door het publiekrecht ingesteld rechtspersoon die overheidstaken uitvoert en daarbij onder ministriële verantwoordelijkheid valt."@nl ;
+        skos:prefLabel       "bestuursorgaan"@nl ;
+        ontolex:isConceptOf  vph-g:ServiceOrganization ;
+        ontolex:isEvokedBy   thor:ontolexLexicalEntry_bestuursorgaan_1 .
+
+thor:ontolexLexicalSense_indicatiebesluit_1
+        ontolex:isLexicalizedSenseOf  thor:Concept_20279004-99a3-4505-82f8-8689b038fbd3 .
+
+thor:ontolexLexicalSense_indicatie_1
+        ontolex:isLexicalizedSenseOf  thor:Concept_e2a363d8-64b5-402b-bfd0-2b513912f542 .
+
+thor:ontolexLexicalSense_client_2
+        ontolex:isLexicalizedSenseOf  thor:Concept_84a07fe9-9df4-459c-ba47-b0f5354fabcb .
+
+thor:Concept_c4328a02-00b2-4f03-9e75-8b616850a6ef
+        rdf:type             skos:Concept ;
+        ontolex:isConceptOf  <http://dummy.nl> .
+
+thor:ontolexLexicalSense_freelancer_1
+        ontolex:isLexicalizedSenseOf  thor:Concept_6b52e8ac-6c2c-49dd-9c51-17ed02ef71c6 .
+
+thor:ontolexLexicalSense_zorgverlener_1
+        ontolex:isLexicalizedSenseOf  thor:Concept_9902bfd4-ea10-44e2-b17f-f3612ab3c91d .
+
+thor:ontolexLexicalSense_bericht_1
+        ontolex:isLexicalizedSenseOf  thor:Concept_5d8d44ec-cbc8-477f-9427-c90bbe150dd1 .
+
+thor:Concept_e2a363d8-64b5-402b-bfd0-2b513912f542
+        rdf:type            skos:Concept ;
+        skos:altLabel       "indicatiebesluitbericht"@nl , "Indicatiebericht"@nl ;
+        skos:broader        thor:Concept_5d8d44ec-cbc8-477f-9427-c90bbe150dd1 ;
+        skos:definition     "[nl] een iStandaarden bericht dat het CIZ verstuurt naar een zorgkantoor en dat het indicatiebesluit bevat."@nl , "een iStandaarden bericht dat het CIZ verstuurt naar een zorgkantoor en dat het indicatiebesluit bevat."@nl ;
+        skos:editorialNote  "EK: Ik geef nu aan dat 'bericht' (als in iStandaarden bericht) een hypernym is van indicatiebericht. Alternatief kan ik ook aangeven dat 'heenbericht' een hypernym is (die moet nog opgenomen worden)."@nl , "@EK: kan, maar dan alleen als berichten OF altijd een heenbericht zijn OF een retourbericht. Anders zou ik deze informatie als literal bij 'usage' zetten en de kennis uitmodelleren in het CM (dus als Rol: Heenbericht equivalentTo inheresIn only Bericht / kortom: Heenbericht is een rol die gedragen kan, maar niet hoeft te worden door Berichten, maar als iets de rol Heenbericht draagt, dan moet het een Bericht zijn of een subklasse daarvan)."@nl ;
+        skos:prefLabel      "indicatie"@nl ;
+        ontolex:isEvokedBy  thor:ontolexLexicalEntry_indicatiebesluitbericht.n , thor:ontolexLexicalEntry_indicatie.n , thor:ontolexLexicalEntry_indicatiebericht.n .
+
+thor:ontolexLexicalSense_11fa41cf
+        ontolex:isLexicalizedSenseOf  thor:Concept_da0b019e-c623-4aae-8572-bc595a12aee7 .
+
+thor:ontolexLexicalSense_ziekenhuis_1
+        ontolex:isLexicalizedSenseOf  thor:Concept_f00452ce-3847-4267-83f7-a30656909aab .
+
+thor:ontolexLexicalSense_zorgzwaartepakket_1
+        ontolex:isLexicalizedSenseOf  thor:Concept_137d1732-6bd4-43f9-87bd-2af51080955f .
+
+thor:ontolexLexicalSense_zorginstelling_1
+        ontolex:isLexicalizedSenseOf  thor:Concept_76097e17-4b85-4f7f-9d68-2f3da715ec82 .
+
+thor:Concept_96bfa7bc-cd00-4616-9479-479b0c0fe2c5
+        rdf:type             skos:Concept ;
+        skos:definition      "Een verpleeghuis is een gebouw of verblijfsobject dat is gebouwd of ingericht voor het verlenen van verpleeghuiszorg door een verpleeghuisorganisatie."@nl ;
+        skos:example         "'Het verpleeghuis wordt binnenkort gerenoveerd.'"@nl ;
+        skos:prefLabel       "verpleeghuis"@nl ;
+        ontolex:isConceptOf  vph-g:AccomodativeObject ;
+        ontolex:isEvokedBy   thor:ontolexLexicalEntry_verpleeghuis.n .
+
+thor:Concept_f00452ce-3847-4267-83f7-a30656909aab
+        rdf:type             skos:Concept ;
+        skos:broader         thor:Concept_76097e17-4b85-4f7f-9d68-2f3da715ec82 ;
+        skos:definition      "Een ziekenhuis is een instelling die personen opneemt voor het ondergaan van een genees-, heel- of verloskundig onderzoek of een genees-, heel- of verloskundige behandeling."@nl ;
+        skos:prefLabel       "ziekenhuis"@nl ;
+        ontolex:isConceptOf  vph-g:Hospital ;
+        ontolex:isEvokedBy   thor:ontolexLexicalEntry_ziekenhuis.n .
+
+thor:Concept_ce834973-1b0a-4256-8241-61d13a160b3e
+        rdf:type             skos:Concept ;
+        skos:broader         thor:Concept_28736ebe-6462-43d2-abb0-1537a37da9da ;
+        skos:definition      "Een contactpersoon is iemand die als vertegenwoordiger optreedt van iemand anders en, indien nodig, persoonlijke informatie ontvangt en/of verstrekt over deze persoon."@nl ;
+        skos:prefLabel       "contactpersoon"@nl ;
+        ontolex:isConceptOf  vph-g:ContactPerson ;
+        ontolex:isEvokedBy   thor:ontolexLexicalEntry_contactpersoon.n .
+
+thor:ontolexLexicalSense_verpleeghuis_2
+        ontolex:isLexicalizedSenseOf  thor:Concept_96bfa7bc-cd00-4616-9479-479b0c0fe2c5 .
+
+thor:ontolexLexicalSense_verpleeghuisorganisatie_1
+        ontolex:isLexicalizedSenseOf  thor:Concept_b0edcd82-3094-4e9c-abe0-cc2f02d6ae2c .
+
+thor:Concept_137d1732-6bd4-43f9-87bd-2af51080955f
+        rdf:type             skos:Concept ;
+        skos:altLabel        "zzp"@nl , "zorgzwaartepakket"@nl ;
+        skos:definition      "Zorgzwaartepakket was een door het Centrum Indicatiestelling Zorg (CIZ) afgegeven beoordelingdocument waarmee een patiënt recht kreeg op opname in een verpleeghuis, verzorgingshuis, ggz-instelling (geestelijke gezondheidszorg) of gz-instelling (gehandicaptenzorg)."@nl , "Een Zorgprofiel is een overeenkomst die wordt afgegeven door het Centrum Indicatiestelling Zorg (CIZ)  waarin de hoeveelheid langdurige zorg en begeleiding staat beschreven die een Persoon nodig heeft met een somatische of psychogeriatrische aandoening of een verstandelijke, lichamelijke of zintuiglijke handicap."@nl ;
+        skos:prefLabel       "zorgprofiel"@nl ;
+        ontolex:isConceptOf  vph-g:RequiredCareAgreement ;
+        ontolex:isEvokedBy   thor:ontolexLexicalEntry_zorgprofiel.n , thor:ontolexLexicalEntry_zorgzwaartepakket.n .
+
+thor:Concept_5d8d44ec-cbc8-477f-9427-c90bbe150dd1
+        rdf:type            skos:Concept ;
+        skos:broader        thor:Concept_f489aad5-2b1b-457b-8fee-a36677504259 ;
+        skos:definition     "verzameling gegevens die samen een logisch geheel en daarmee een mededeling vormt; een bericht bevat gecodeerde gegevens over een cliënt in het zorgproces, bijvoorbeeld over zorgtoewijzing of declaratie."@nl ;
+        skos:narrower       thor:Concept_e2a363d8-64b5-402b-bfd0-2b513912f542 ;
+        skos:prefLabel      "bericht"@nl ;
+        ontolex:isEvokedBy  thor:ontolexLexicalEntry_bericht.n .
+
+thor:ontolexLexicalSense_client_1
+        ontolex:isLexicalizedSenseOf  thor:Concept_c035bccb-3e1a-4c4d-8b5a-eb705095fc7e .
+
+thor:Concept_da0b019e-c623-4aae-8572-bc595a12aee7
+        rdf:type  skos:Concept .
+
+thor:ontolexLexicalSense_uitstroom_3
+        ontolex:isLexicalizedSenseOf  thor:Concept_3d288c45-9a97-47b9-8988-8d3231493321 .
+
+thor:Concept_25021b28-a80a-4956-a042-d135c9f8a77b
+        rdf:type            skos:Concept ;
+        skos:altLabel       "zender"@nl ;
+        skos:broader        thor:Concept_28736ebe-6462-43d2-abb0-1537a37da9da ;
+        skos:definition     "een rol van een persoon of organisatie die een document of bericht verstuurt aan een ontvanger."@nl , "Verzender is een rol van een persoon of organisatie die een document of bericht verstuurt aan een ontvanger."@nl ;
+        skos:prefLabel      "verzender"@nl ;
+        ontolex:isEvokedBy  thor:ontolexLexicalEntry_verzender.n , thor:ontolexLexicalEntry_zender.n .
+
+thor:Concept_3d288c45-9a97-47b9-8988-8d3231493321
+        rdf:type             skos:Concept ;
+        skos:broader         thor:Concept_5b2e5819-9421-43f6-81c9-2db5b618748d ;
+        skos:definition      "Uitstroom is het aantal zorgverleners met een arbeids- en of oproepovereenkomst dat tussen twee meetmomenten ontslag heeft genomen of gekregen bij een zorgorganisatie, en die zorg verleenden aan cliënten met een zorgprofiel 4 tot en met 10."@nl ;
+        skos:editorialNote   "\"permutable\""@en ;
+        skos:prefLabel       "uitstroom"@nl ;
+        ontolex:isConceptOf  vph-g:LeavingAnOrganizationEvent2 , vph-g:LeavingAnOrganizationEvent ;
+        ontolex:isEvokedBy   thor:ontolexLexicalEntry_uitstroom.n .
+
+thor:Concept_2fb72d97-cdd9-4f88-bf6f-237ccc529d1e
+        rdf:type             skos:Concept ;
+        skos:definition      "Een zelfstandig bestuursorgaan is een organisatie die bij wet is aangewezen om  bepaalde overheidstaken uit te voeren maar daarbij niet onder ministeriële verantwoordelijkheid valt."@nl ;
+        skos:narrower        thor:Concept_d731c3dc-e97e-4841-8278-0748749b46ba , thor:Concept_de5f7207-40a5-4390-ab93-21e34d919304 ;
+        skos:prefLabel       "zelfstandig bestuursorgaan"@nl ;
+        ontolex:isConceptOf  vph-g:ServiceOrganization ;
+        ontolex:isEvokedBy   thor:ontolexLexicalEntry_zelfstandig_bestuursorgaan.n .
+
+thor:Concept_3ccc2fb8-df28-4718-b21f-d5de0ebd57b8
+        rdf:type            skos:Concept ;
+        skos:broader        thor:Concept_28736ebe-6462-43d2-abb0-1537a37da9da ;
+        skos:definition     "een rol van een persoon of organisatie die een document of bericht ontvangt van een zender."@nl ;
+        skos:prefLabel      "ontvanger"@nl ;
+        ontolex:isEvokedBy  thor:ontolexLexicalEntry_ontvanger.n .
+
+thor:ontolexLexicalSense_zorgprofiel_1
+        ontolex:isLexicalizedSenseOf  thor:Concept_137d1732-6bd4-43f9-87bd-2af51080955f .
