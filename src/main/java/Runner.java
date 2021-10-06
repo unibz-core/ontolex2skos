@@ -1,8 +1,13 @@
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.ontology.OntModelSpec;
+import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class Runner {
 
@@ -18,6 +23,7 @@ public class Runner {
     generated.setNsPrefix(PREFIX, NAMESPACE);
     generated.setNsPrefix("ontolex", "http://www.w3.org/ns/lemon/ontolex#");
     generated.setNsPrefix("skos", "http://www.w3.org/2004/02/skos/core#");
+    generated.setNsPrefix("vph-g", "http://purl.org/ozo/vph-g#");
 
     final String path = SkosGenerator.class
             .getClassLoader()
@@ -28,9 +34,34 @@ public class Runner {
     System.out.println("Loading the thor graph...");
     RDFDataMgr.read(thorGraph, path);
 
+//    String queryString = "PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#> " +
+//            "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>  " +
+//            "SELECT DISTINCT ?sense (GROUP_CONCAT(?entity; separator=\",\") AS ?references) " +
+//            "WHERE { " +
+//            "   ?sense rdf:type ontolex:LexicalSense . " +
+//            "   ?sense ontolex:reference ?entity " +
+//            "} " +
+//            "GROUP BY ?sense";
+//
+//    Query query = QueryFactory.create(queryString);
+//
+//    try (QueryExecution qexec = QueryExecutionFactory.create(query, thorGraph)) {
+//      ResultSet results = qexec.execSelect();
+//
+//      while (results.hasNext()) {
+//        QuerySolution soln = results.nextSolution();
+//        String sense = soln.getResource("sense").getURI();
+//        String[] references = soln.getLiteral("references").getString().split(",");
+//        Arrays.asList(references);
+//
+//        System.out.println(sense);
+//        System.out.println(Arrays.toString(references));
+//      }
+//    }
+
     SkosGenerator gen = new SkosGenerator(thorGraph, generated);
     gen.generateSkosData();
-
+//
 //    RDFDataMgr.write(System.out, thorGraph, Lang.TURTLE);
     RDFDataMgr.write(System.out, generated, Lang.TURTLE);
   }

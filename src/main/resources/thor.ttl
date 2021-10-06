@@ -878,7 +878,8 @@ In de thesaurus Zorg & Welzijn voor iStandaarden staat: officiële opdracht van 
   skos:definition "Uitstroom is het aantal zorgverleners met een arbeids- en of oproepovereenkomst dat tussen twee meetmomenten ontslag heeft genomen of gekregen bij een zorgorganisatie, en die zorg verleenden aan cliënten met een zorgprofiel 4 tot en met 10."@nl;
   skos:editorialNote "\"permutable\""@en;
   ontolex:isSenseOf :ontolexLexicalEntry_uitstroom.n;
-  ontolex:reference <http://purl.org/ozo/vph-g#LeavingAnOrganizationEvent> .
+  ontolex:reference <http://purl.org/ozo/vph-g#LeavingAnOrganizationEvent> ;
+  ontolex:reference <http://purl.org/ozo/vph-g#LeavingAnOrganizationEvent2> .
 
 :definitionSource a rdf:Property;
   rdfs:subPropertyOf dct:source .

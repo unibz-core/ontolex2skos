@@ -1,15 +1,16 @@
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.Literal;
-import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.update.UpdateAction;
 import org.apache.jena.update.UpdateFactory;
 import org.apache.jena.update.UpdateRequest;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.joining;
 
 public class Ontolex {
   public static final String IRI = "http://www.w3.org/ns/lemon/ontolex#";
@@ -36,6 +37,12 @@ public class Ontolex {
     RDFDataMgr.read(model, ontologyPath);
   }
 
+  private void execute(String sparql) {
+    UpdateRequest request = UpdateFactory.create(sparql);
+    UpdateAction.execute(request, model);
+    UpdateAction.execute(request, target);
+  }
+
   public void createLexicalSense(String uri) {
     String sparql = "PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#> " +
             "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> " +
@@ -49,7 +56,10 @@ public class Ontolex {
   public List<Resource> getLexicalSenses() {
     String queryString = "PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#> " +
             "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>  " +
-            "SELECT ?sense WHERE { ?sense rdf:type ontolex:LexicalSense } ";
+            "SELECT ?sense " +
+            "WHERE { " +
+            "   ?sense rdf:type ontolex:LexicalSense " +
+            "} ";
 
     Query query = QueryFactory.create(queryString);
 
@@ -94,7 +104,7 @@ public class Ontolex {
   }
 
 
-  public void setIsLexicalizedSenseOf(String senseUri, String conceptUri) {
+  public void addIsLexicalizedSenseOf(String senseUri, String conceptUri) {
     String sparql = "PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#> " +
             "INSERT DATA { " +
             "   <" + senseUri + "> ontolex:isLexicalizedSenseOf <" + conceptUri + ">" +
@@ -103,11 +113,53 @@ public class Ontolex {
     execute(sparql);
   }
 
-  private void execute(String sparql) {
-    UpdateRequest request = UpdateFactory.create(sparql);
-    UpdateAction.execute(request, model);
-    UpdateAction.execute(request, target);
+
+  public Map<String, List<String>> getReferenceUriMap() {
+    String queryString = "PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#> " +
+            "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>  " +
+            "SELECT DISTINCT ?sense (GROUP_CONCAT(?entity; separator=\",\") AS ?references) " +
+            "WHERE { " +
+            "   ?sense rdf:type ontolex:LexicalSense . " +
+            "   ?sense ontolex:reference ?entity " +
+            "} " +
+            "GROUP BY ?sense";
+
+    Query query = QueryFactory.create(queryString);
+
+    try (QueryExecution qexec = QueryExecutionFactory.create(query, model)) {
+      ResultSet results = qexec.execSelect();
+
+      Map<String, List<String>> referenceMap = new HashMap<>();
+
+      while (results.hasNext()) {
+        QuerySolution soln = results.nextSolution();
+
+        List<String> referenceList = new ArrayList<>();
+        final Literal references = soln.getLiteral("references");
+        if (references != null)
+          referenceList = Arrays.asList(references.getString().split(","));
+
+        String sense = soln.getResource("sense").getURI();
+        referenceMap.put(sense, referenceList);
+      }
+
+      return referenceMap;
+    }
   }
 
+  public void addIsConceptOf(String conceptUri, List<String> entityUris) {
+    if (entityUris == null || entityUris.isEmpty())
+      return;
+
+    String sparql = "PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#> " +
+            "INSERT DATA { " +
+            "";
+
+    sparql = entityUris.stream()
+            .map(uri -> "<" + conceptUri + "> ontolex:isConceptOf <" + uri + "> .")
+            .collect(joining(" ", sparql, "}"));
+
+    execute(sparql);
+  }
 
 }
