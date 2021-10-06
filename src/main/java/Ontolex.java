@@ -1,13 +1,19 @@
-import org.apache.jena.ontology.*;
+import org.apache.jena.ontology.OntModel;
+import org.apache.jena.query.*;
+import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.riot.RDFDataMgr;
+import org.apache.jena.update.UpdateAction;
+import org.apache.jena.update.UpdateFactory;
+import org.apache.jena.update.UpdateRequest;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Ontolex {
   public static final String IRI = "http://www.w3.org/ns/lemon/ontolex#";
+  public static final String PREFIX = "ontolex";
 
   public static final String LEXICAL_ENTRY_URI = IRI + "LexicalEntry";
   public static final String LEXICAL_SENSE_URI = IRI + "LexicalSense";
@@ -20,94 +26,88 @@ public class Ontolex {
   public static final String IS_LEXICALIZED_SENSE_OF_URI = IRI + "isLexicalizedSenseOf";
 
   private OntModel model;
+  private OntModel target;
 
-  public Ontolex(OntModel model) {
+  public Ontolex(OntModel model, OntModel target) {
     this.model = model;
+    this.target = target;
+
     String ontologyPath = Ontolex.class.getClassLoader().getResource("ontolex.ttl").getFile();
     RDFDataMgr.read(model, ontologyPath);
   }
 
-  public OntClass getLexicalSenseClass() {
-    return model.getOntClass(LEXICAL_SENSE_URI);
+  public void createLexicalSense(String uri) {
+    String sparql = "PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#> " +
+            "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> " +
+            "INSERT DATA { " +
+            "   <" + uri + "> rdf:type ontolex:LexicalSense  " +
+            "} ";
+
+    execute(sparql);
   }
 
-  public OntClass getLexicalEntryClass() {
-    return model.getOntClass(LEXICAL_ENTRY_URI);
-  }
+  public List<Resource> getLexicalSenses() {
+    String queryString = "PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#> " +
+            "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>  " +
+            "SELECT ?sense WHERE { ?sense rdf:type ontolex:LexicalSense } ";
 
-  public OntClass getLexicalConceptClass() {
-    return model.getOntClass(LEXICAL_CONCEPT_URI);
-  }
+    Query query = QueryFactory.create(queryString);
 
-  public OntClass getFormClass() {
-    return model.getOntClass(FORM_URI);
-  }
+    try (QueryExecution qexec = QueryExecutionFactory.create(query, model)) {
+      ResultSet results = qexec.execSelect();
 
-  public OntProperty getIsSenseOfProperty() {
-    return model.getOntProperty(IS_SENSE_OF_URI);
-  }
+      List<Resource> senses = new ArrayList<>();
 
-  public OntProperty getCanonicalFormProperty() {
-    return model.getOntProperty(CANONICAL_FORM_URI);
-  }
+      while (results.hasNext()) {
+        QuerySolution soln = results.nextSolution();
+        Resource sense = soln.getResource("sense");
+        senses.add(sense);
+      }
 
-  public OntProperty getWrittenRepProperty() {
-    return model.getOntProperty(WRITTEN_REP_URI);
-  }
-
-  public OntProperty getIsLexicalizedSenseOfProperty() {
-    return model.getOntProperty(IS_LEXICALIZED_SENSE_OF_URI);
-  }
-
-  public List<Individual> getLexicalSenseInstances() {
-    System.out.println("Retrieving instances of ontolex:LexicalSense");
-
-    return getLexicalSenseClass()
-            .listInstances()
-            .filterKeep(OntResource::isIndividual)
-            .mapWith(resource -> (Individual) resource)
-            .toList();
-  }
-
-  public RDFNode getLabel(Individual sense) {
-    Resource lexicalEntry = getLexicalEntry(sense);
-
-    if (lexicalEntry == null)
-      return null;
-
-    Resource form = getCanonicalFormProperty(lexicalEntry);
-
-    if (form == null)
-      return null;
-
-    Statement textStatement = getWrittenRep(form);
-
-    if(textStatement == null) {
-      return null;
+      return senses;
     }
 
-    return textStatement.getObject();
   }
 
-  private Statement getWrittenRep(Resource form) {
-    return form.getProperty(getWrittenRepProperty());
+  public Literal getLabel(String senseUri) {
+    String queryString = "PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#> " +
+            "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>  " +
+            "SELECT ?label " +
+            "WHERE { " +
+            "   <" + senseUri + "> ontolex:isSenseOf ?entry ." +
+            "   ?entry ontolex:canonicalForm ?form ." +
+            "   ?form  ontolex:writtenRep ?label" +
+            "} ";
+
+    Query query = QueryFactory.create(queryString);
+
+    try (QueryExecution qexec = QueryExecutionFactory.create(query, model)) {
+      ResultSet results = qexec.execSelect();
+
+      while (results.hasNext()) {
+        QuerySolution soln = results.nextSolution();
+        return soln.getLiteral("label");
+      }
+
+      return null;
+    }
   }
 
-  private Resource getCanonicalFormProperty(Resource lexicalEntry) {
-    return lexicalEntry.getPropertyResourceValue(getCanonicalFormProperty());
+
+  public void setIsLexicalizedSenseOf(String senseUri, String conceptUri) {
+    String sparql = "PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#> " +
+            "INSERT DATA { " +
+            "   <" + senseUri + "> ontolex:isLexicalizedSenseOf <" + conceptUri + ">" +
+            "} ";
+
+    execute(sparql);
   }
 
-  public Resource getLexicalEntry(Individual sense) {
-    return sense.getPropertyResourceValue(getIsSenseOfProperty());
+  private void execute(String sparql) {
+    UpdateRequest request = UpdateFactory.create(sparql);
+    UpdateAction.execute(request, model);
+    UpdateAction.execute(request, target);
   }
 
-  public Individual createLexicalSenseInstance(String uri) {
-    return getLexicalSenseClass().createIndividual(uri);
-  }
-
-  public void setIsLexicalizedSenseOf(Individual sense, Individual concept) {
-    OntProperty isLexicalizedSenseOf = getIsLexicalizedSenseOfProperty();
-    sense.addProperty(isLexicalizedSenseOf, concept);
-  }
 
 }

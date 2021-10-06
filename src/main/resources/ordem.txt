@@ -1,0 +1,56 @@
+1) Run the reasoner to:
+- set all inverse relations
+- set all properties of the existing relations (transitive, reflexive, etc.)
+
+2) Every synset (composed of Lexical Senses) must generate a single concept. A synset is the set of all Lexical Senses that have a lexinfo:synonym relation between themselves.
+
+3) All Lexical Senses that are part of the synset that originates the Lexical Concept must have an ontolex:isLexicalizedSenseOf relation with it.
+
+5) The concept must be classified as ontolex:LexicalConcept and as skos:Concept.
+
+6)
+
+a) If the synset is composed of only one Lexical Sense: the resulting concept must have a skos:prefLabel, which is the canonical form of its respective Lexical Entry.
+
+b) If the synset is composed of more than one Lexical Sense: the resulting concept must have a single skos:prefLabel, which is the canonical form of one of its respective Lexical Entry - this selection is done arbitrarily. The canonical form of the other Lexical Senses of the synset must be used as skos:altLabel for the generated concept.
+
+7) The following attributes must be copied from all Lexical Senses that compose a synsem to its corresponding generated Lexical Concept.
+•	skos:definition
+•	skos:scopeNote => never used
+•	skos:historyNote => never used
+•	skos:example
+•	skos:changeNote => never used
+•	skos:editorialNote
+
+8) The generated Lexical Concept must have an ontolex:isConceptOf relation with all Ontology Entities that have an ontolex:isReferencedBy relation with the Lexical Senses that originates it.
+
+9) The generated Lexical Concept must have an ontolex:isEvokedBy relation with all Lexical Entries that have an ontolex:sense relation with the Lexical Senses that originates it.
+
+10) If a Lexical Sense ls1 has a lexinfo:hypernym relation with a Lexical Sense ls2, all Lexical Senses that are synonyms of ls1 also have a lexinfo:hypernym relation with ls2.
+
+11) If a Lexical Sense ls1 that is part of a synset that generates a Lexical Concept lc1 has a lexinfo:hypernym relation with a Lexical Sense ls2 related to a Lexical Concept lc2, then lc1 must have a skos:broader relation with lc2.
+
+12) If a Lexical Sense ls1 that is part of a synset that generates a Lexical Concept lc1 has one of the following relations with a Lexical Sense ls2 related to a Lexical Concept lc2, then ls1 and all Lexical Senses that are part of the same synset must have a skos:related relation with lc2:
+•	lexinfo:relatedTerm
+•	lexinfo:causallyRelatedConcept
+•	lexinfo:translation
+•	lexinfo:exact
+•	lexinfo:approximate
+
+13) If a Lexical Sense is associated with a Lexical Entry x that has a lexinfo:fullFormFor relation with another Lexical Entry y, then the canonical form of the y must be set as skos:altLabel of the generated Lexical Concept.
+
+14) Treat homograph case 1: Two Lexical Senses are related to the same Lexical Entry and if both Lexical Senses do not have any lexinfo:synonym relation.
+
+For cases 1 and 2, a complementary information must be appended between parentheses to the canonical form of the Lexical Entry associated with the Lexical Sense to generate the Lexical Concept skos:prefLabel. The complementary information are ordered numbers beginning in 1 and increasing in 1 for each homograph. Example: “client (1)”, “client (2)”, “client (3)”, etc.
+
+15) Treat homograph case 2: For Lexical Entries related with lexinfo:homograph, in the case that both synsets related with the Lexical Entries only have one Lexical Sense.
+
+16) Treat homograph case 3: In the case where there are two or more Lexical Senses at one or on both of the synsets related to the Lexical Entry with the lexinfo:homograph relation, the canonical form of the homographs must be used as skos:altLabels.
+
+
+
+
+This is a consequence. We are working with just lexical senses and lexical entries.
+
+4) If different Lexical Senses have an ontolex:isLexicalizedSense relation to the same Lexical Concept, than they must have a lexinfo:synonym relation between themselves.
+

@@ -1,4 +1,3 @@
-import org.apache.jena.ontology.Individual;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.ontology.OntModelSpec;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -10,47 +9,50 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class LexinfoTest {
-
+  static final String PREFIX = "http://example.com/";
   static OntModel ontology;
+  static OntModel target;
   static Ontolex ontolex;
   static Lexinfo lexinfo;
 
   @BeforeAll
   static void setUp() {
-    ontology = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM, null);
-    ontolex = new Ontolex(ontology);
+    ontology = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM_RULE_INF, null);
+    target = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM_RULE_INF, null);
+    ontolex = new Ontolex(ontology, target);
     lexinfo = new Lexinfo(ontology);
   }
 
   @Test
   void shouldReturnNoSynonym() {
-    Individual sense = ontolex.createLexicalSenseInstance("clientSense1");
-    List<Individual> synonyms = lexinfo.getSynonyms(sense);
+    final String senseUri = PREFIX + "clientSense1";
+    ontolex.createLexicalSense(senseUri);
+    List<String> synonyms = lexinfo.getSynonymUris(senseUri);
     assertThat(synonyms).isEmpty();
   }
 
   @Test
   void shouldReturnOneSynonym() {
-    Individual sense1 = ontolex.createLexicalSenseInstance("messageSense1");
-    Individual sense2 = ontolex.createLexicalSenseInstance("messageSense2");
-    lexinfo.setAsSynonyms(sense1, sense2);
+    ontolex.createLexicalSense(PREFIX + "messageSense1");
+    ontolex.createLexicalSense(PREFIX + "messageSense2");
+    lexinfo.setAsSynonyms(PREFIX + "messageSense1", PREFIX + "messageSense2");
 
-    List<Individual> synonyms1 = lexinfo.getSynonyms(sense1);
-    assertThat(synonyms1).containsExactly(sense2);
+    List<String> synonyms1 = lexinfo.getSynonymUris(PREFIX + "messageSense1");
+    assertThat(synonyms1).containsExactly(PREFIX + "messageSense2");
 
-    List<Individual> synonyms2 = lexinfo.getSynonyms(sense2);
-    assertThat(synonyms2).containsExactly(sense1);
+    List<String> synonyms2 = lexinfo.getSynonymUris(PREFIX + "messageSense2");
+    assertThat(synonyms2).containsExactly(PREFIX + "messageSense1");
   }
 
   @Test
   void shouldReturnTwoSynonyms() {
-    Individual sense1 = ontolex.createLexicalSenseInstance("batSense1");
-    Individual sense2 = ontolex.createLexicalSenseInstance("batSense2");
-    Individual sense3 = ontolex.createLexicalSenseInstance("batSense3");
-    lexinfo.setAsSynonyms(sense1, sense2);
-    lexinfo.setAsSynonyms(sense1, sense3);
+    ontolex.createLexicalSense(PREFIX + "batSense1");
+    ontolex.createLexicalSense(PREFIX + "batSense2");
+    ontolex.createLexicalSense(PREFIX + "batSense3");
+    lexinfo.setAsSynonyms(PREFIX + "batSense1", PREFIX + "batSense2");
+    lexinfo.setAsSynonyms(PREFIX + "batSense1", PREFIX + "batSense3");
 
-    List<Individual> synonyms1 = lexinfo.getSynonyms(sense1);
-    assertThat(synonyms1).containsExactlyInAnyOrder(sense2, sense3);
+    List<String> synonyms1 = lexinfo.getSynonymUris(PREFIX + "batSense1");
+    assertThat(synonyms1).containsExactlyInAnyOrder(PREFIX + "batSense2", PREFIX + "batSense3");
   }
 }

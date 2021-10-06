@@ -1,8 +1,6 @@
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.ontology.OntModelSpec;
-import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
 
@@ -11,41 +9,30 @@ public class Runner {
   public static void main(String[] args) {
 
     OntModel thorGraph = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM_RULE_INF);
+    OntModel generated = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
+
     final String NAMESPACE = "http://purl.org/ZIN-Thor/";
     final String PREFIX = "thor";
     thorGraph.setNsPrefix(PREFIX, NAMESPACE);
 
+    generated.setNsPrefix(PREFIX, NAMESPACE);
+    generated.setNsPrefix("ontolex", "http://www.w3.org/ns/lemon/ontolex#");
+    generated.setNsPrefix("skos", "http://www.w3.org/2004/02/skos/core#");
+
     final String path = SkosGenerator.class
             .getClassLoader()
-            .getResource("test.ttl")
+//            .getResource("test.ttl")
+            .getResource("thor.ttl")
             .toString();
 
     System.out.println("Loading the thor graph...");
     RDFDataMgr.read(thorGraph, path);
 
-    SkosGenerator gen = new SkosGenerator(thorGraph);
+    SkosGenerator gen = new SkosGenerator(thorGraph, generated);
     gen.generateSkosData();
 
-    String queryString =
-            "PREFIX lexinfo: <http://www.lexinfo.net/ontology/3.0/lexinfo#> " +
-            "SELECT ?x ?y WHERE { ?x lexinfo:synonym ?y } ";
-
-    Query query = QueryFactory.create(queryString);
-
-    try (QueryExecution qexec = QueryExecutionFactory.create(query, thorGraph)) {
-      ResultSet results = qexec.execSelect();
-      while (results.hasNext()) {
-        QuerySolution soln = results.nextSolution();
-        RDFNode x = soln.get("x");
-        RDFNode y = soln.get("y");
-
-        System.out.println(x + " lexinfo:synonym " + y);
-      }
-    }
-
-
-
 //    RDFDataMgr.write(System.out, thorGraph, Lang.TURTLE);
+    RDFDataMgr.write(System.out, generated, Lang.TURTLE);
   }
 
   // some definitions

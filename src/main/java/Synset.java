@@ -1,4 +1,4 @@
-import org.apache.jena.ontology.Individual;
+import org.apache.jena.rdf.model.Resource;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -9,21 +9,21 @@ import java.util.stream.Stream;
 import static java.util.stream.Collectors.toSet;
 
 public class Synset {
-  private TreeSet<Individual> senses = new TreeSet<>((o1, o2) -> o1.getURI().compareToIgnoreCase(o2.getURI()));
+  private TreeSet<Resource> senses = new TreeSet<>((o1, o2) -> o1.getURI().compareToIgnoreCase(o2.getURI()));
 
-  public Synset(Individual... senses) {
+  public Synset(Resource... senses) {
     this.senses.addAll(Arrays.asList(senses));
   }
 
-  public void add(Individual sense) {
+  public void add(Resource sense) {
     this.senses.add(sense);
   }
 
-  public void addAll(Collection<? extends Individual> senses) {
+  public void addAll(Collection<? extends Resource> senses) {
     this.senses.addAll(senses);
   }
 
-  public void remove(Individual sense) {
+  public void remove(Resource sense) {
     this.senses.remove(sense);
   }
 
@@ -35,19 +35,19 @@ public class Synset {
     return this.size() == 0;
   }
 
-  public SortedSet<Individual> getSenses() {
+  public SortedSet<Resource> getSenses() {
     return new TreeSet<>(senses);
   }
 
-  public Stream<Individual> stream() {
+  public Stream<Resource> stream() {
     return senses.stream();
   }
 
-  public Individual first() {
+  public Resource first() {
     return senses.first();
   }
 
-  public SortedSet<Individual> tailSet() {
+  public SortedSet<Resource> tailSet() {
     return senses.tailSet(senses.first(), false);
   }
 
@@ -69,7 +69,7 @@ public class Synset {
   @Override
   public String toString() {
     return senses.stream()
-            .map(Individual::getURI)
+            .map(Resource::getURI)
             .collect(toSet())
             .toString();
   }

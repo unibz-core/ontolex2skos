@@ -1,6 +1,6 @@
-import org.apache.jena.ontology.Individual;
 import org.apache.jena.ontology.OntModel;
-import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.rdf.model.Literal;
+import org.apache.jena.rdf.model.Resource;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,40 +9,37 @@ import java.util.Map;
 
 public class SkosGenerator {
   OntModel model;
+  OntModel target;
   final Ontolex ontolex;
   final Lexinfo lexinfo;
   final Skos skos;
 
-  public SkosGenerator(OntModel model) {
+  public SkosGenerator(OntModel model, OntModel target) {
     this.model = model;
+    this.target = target;
+
     System.out.println("Loading ontolex...");
-    ontolex = new Ontolex(model);
+    ontolex = new Ontolex(model, target);
     System.out.println("Loading lexinfo...");
     lexinfo = new Lexinfo(model);
     System.out.println("Loading skos...");
-    skos = new Skos(model);
+    skos = new Skos(model, target);
   }
 
   public void generateSkosData() {
     final List<Synset> synsets = getSynsets();
-    System.out.println("Hello!");
     synsets.forEach(System.out::println);
-
-//    synsets.stream()
-//            .map(this::mapToSkosConcept)
-//            .map(Individual::getURI)
-//            .forEach(System.out::println);
+    synsets.forEach(this::mapSynsetToConcept);
   }
 
   public List<Synset> getSynsets() {
-
-    List<Individual> allSenses = ontolex.getLexicalSenseInstances();
+    System.out.println("Retrieving synsets...");
+    List<Resource> allSenses = ontolex.getLexicalSenses();
 
     List<Synset> synsets = new ArrayList<>();
-    Map<Individual, Synset> map = new HashMap<>();
+    Map<Resource, Synset> map = new HashMap<>();
 
-    for (Individual sense : allSenses) {
-      System.out.println("Processing " + sense.getURI());
+    for (Resource sense : allSenses) {
       Synset synset = map.get(sense);
 
       if (synset == null) {
@@ -51,10 +48,10 @@ public class SkosGenerator {
         synsets.add(synset);
       }
 
-      List<Individual> synonyms = lexinfo.getSynonyms(sense);
+      List<Resource> synonyms = lexinfo.getSynonyms(sense.getURI());
       synset.addAll(synonyms);
 
-      for (Individual synonym : synonyms) {
+      for (Resource synonym : synonyms) {
         map.put(synonym, synset);
       }
     }
@@ -62,48 +59,62 @@ public class SkosGenerator {
     return synsets;
   }
 
-  private Individual mapToSkosConcept(Synset synset) {
-    System.out.println("Creating concept for: " + synset);
-    Individual concept = skos.createConceptInstance();
-    System.out.println("Creating isLexicalizedSenseOf " + concept.getURI());
-    createIsLexicalizedSenseOfAssertions(concept, synset);
-    createLabels(concept, synset);
-    return concept;
+  private void mapSynsetToConcept(Synset synset) {
+    String conceptUri = skos.createConcept();
+    addIsLexicalizedSenseOf(conceptUri, synset);
+    addPrefLabel(conceptUri, synset);
+    addAltLabels(conceptUri, synset);
+    copySkosProperty("skos:definition", conceptUri, synset);
+    copySkosProperty("skos:editorialNote", conceptUri, synset);
+    copySkosProperty("skos:scopeNote", conceptUri, synset);
+    copySkosProperty("skos:historyNote", conceptUri, synset);
+    copySkosProperty("skos:example", conceptUri, synset);
+    copySkosProperty("skos:changeNote", conceptUri, synset);
   }
 
-  private void createIsLexicalizedSenseOfAssertions(Individual concept, Synset synset) {
+  private void copySkosProperty(String propertyUri, String conceptUri, Synset synset) {
+    synset.stream()
+            .forEach(sense -> this.addSkosProperty(propertyUri, sense, conceptUri));
+  }
+
+  private void addSkosProperty(String propertyUri, Resource source, String targetUri) {
+    String senseUri = source.getURI();
+    List<Literal> literals = skos.getTextProperty(propertyUri, senseUri);
+
+    literals.stream()
+            .forEach(literal -> skos.addTextProperty(propertyUri, targetUri, literal));
+  }
+
+  private void addIsLexicalizedSenseOf(String conceptUri, Synset synset) {
     if (synset.isEmpty())
       throw new IllegalArgumentException("Empty synset!");
 
     synset.stream()
-            .forEach(sense -> ontolex.setIsLexicalizedSenseOf(sense, concept));
+            .map(Resource::getURI)
+            .forEach(senseUri -> ontolex.setIsLexicalizedSenseOf(senseUri, conceptUri));
   }
 
-  private void createLabels(Individual concept, Synset synset) {
-    if (synset.isEmpty())
-      throw new IllegalArgumentException("Empty synset!");
+  private void addPrefLabel(String conceptUri, Synset synset) {
+    String firstSenseUri = synset.first().getURI();
+    Literal label = ontolex.getLabel(firstSenseUri);
 
-    this.createPrefLabel(concept, synset.first());
+    if (label != null)
+      skos.addPrefLabel(conceptUri, label);
+  }
 
+  private void addAltLabels(String conceptUri, Synset synset) {
     synset.tailSet()
             .stream()
-            .forEach(sense -> this.createAltLabel(concept, sense));
+            .map(Resource::getURI)
+            .forEach(senseUri -> addAltLabel(conceptUri, senseUri));
   }
 
-  private void createPrefLabel(Individual concept, Individual sense) {
-    RDFNode label = ontolex.getLabel(sense);
+  private void addAltLabel(String conceptUri, String senseUri) {
+    Literal label = ontolex.getLabel(senseUri);
 
-    if (label == null)
-      return;
+    if (label != null)
+      skos.addAltLabel(conceptUri, label);
 
-    System.out.println("Creating prefLabel: " + label.toString());
-    skos.createPrefLabel(concept, label);
-  }
-
-  private void createAltLabel(Individual concept, Individual sense) {
-    RDFNode label = ontolex.getLabel(sense);
-    System.out.println("Creating altLabel: " + label.toString());
-    skos.createAltLabel(concept, label);
   }
 
 

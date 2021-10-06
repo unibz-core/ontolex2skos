@@ -1,11 +1,13 @@
-import org.apache.jena.ontology.Individual;
 import org.apache.jena.ontology.OntModel;
-import org.apache.jena.ontology.OntProperty;
+import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.riot.RDFDataMgr;
+import org.apache.jena.update.UpdateAction;
+import org.apache.jena.update.UpdateFactory;
+import org.apache.jena.update.UpdateRequest;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -19,45 +21,67 @@ public class Lexinfo {
 
   public Lexinfo(OntModel model) {
     this.model = model;
+
     String ontologyPath = Ontolex.class.getClassLoader().getResource("lexinfo-short.ttl").getFile();
     RDFDataMgr.read(model, ontologyPath);
   }
 
-  public OntProperty getSynonym() {
-    OntProperty synonym = model.getOntProperty(SYNONYM_URI);
-
-    if (synonym == null)
-      throw new NullPointerException("Cannot get lexinfo:synonym");
-
-    return synonym;
+  private void execute(String sparql) {
+    UpdateRequest request = UpdateFactory.create(sparql);
+    UpdateAction.execute(request, model);
   }
 
-  public void setAsSynonyms(Individual sense1, Individual sense2) {
-    OntProperty synonym = getSynonym();
-    sense1.addProperty(synonym, sense2);
-    sense2.addProperty(synonym, sense1);
+  public void setAsSynonyms(String sense1Uri, String sense2Uri) {
+    String sparql = "PREFIX lexinfo: <http://www.lexinfo.net/ontology/3.0/lexinfo#> " +
+            "INSERT DATA { " +
+            "   <" + sense1Uri + "> lexinfo:synonym <" + sense2Uri + "> . " +
+            "} ";
+
+    execute(sparql);
   }
 
-  public boolean areSynonyms(Individual sense1, Individual sense2) {
-    return isSynonymOf(sense1, sense2) ||
-            isSynonymOf(sense2, sense1);
+  public boolean areSynonyms(String sense1Uri, String sense2Uri) {
+    String queryString = "PREFIX lexinfo: <http://www.lexinfo.net/ontology/3.0/lexinfo#> " +
+            "SELECT * " +
+            "WHERE { <" + sense1Uri + "> lexinfo:synonym <" + sense2Uri + "> } ";
+
+    Query query = QueryFactory.create(queryString);
+    QueryExecution qexec = QueryExecutionFactory.create(query, model);
+    boolean result = qexec.execAsk();
+    qexec.close();
+
+    return result;
   }
 
-  public boolean isSynonymOf(Individual sense1, Individual sense2) {
-    return getSynonyms(sense1).contains(sense2);
-  }
-
-  public List<Individual> getSynonyms(Individual sense) {
-    final OntProperty synonym = getSynonym();
-
-    return sense
-            .listProperties(synonym)
-            .toList()
+  public List<String> getSynonymUris(String senseUri) {
+    return getSynonyms(senseUri)
             .stream()
-            .map(Statement::getObject)
-            .map(RDFNode::asResource)
             .map(Resource::getURI)
-            .map(uri -> model.getIndividual(uri))
             .collect(toList());
+  }
+
+  public List<Resource> getSynonyms(String senseUri) {
+    String queryString = "PREFIX lexinfo: <http://www.lexinfo.net/ontology/3.0/lexinfo#> " +
+            "SELECT ?synonym " +
+            "WHERE { <" + senseUri + "> lexinfo:synonym ?synonym } ";
+
+    Query query = QueryFactory.create(queryString);
+
+    try (QueryExecution qexec = QueryExecutionFactory.create(query, model)) {
+      List<Resource> synonyms = new ArrayList<>();
+
+      ResultSet results = qexec.execSelect();
+      while (results.hasNext()) {
+        QuerySolution soln = results.nextSolution();
+        final RDFNode synonym1 = soln.get("synonym");
+        Resource synonym = soln.getResource("synonym");
+
+        if (!senseUri.equals(synonym.getURI()))
+          synonyms.add(synonym);
+      }
+
+      return synonyms;
+    }
+
   }
 }

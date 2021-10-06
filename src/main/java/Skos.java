@@ -1,11 +1,13 @@
-import org.apache.jena.ontology.Individual;
-import org.apache.jena.ontology.OntClass;
 import org.apache.jena.ontology.OntModel;
-import org.apache.jena.ontology.OntProperty;
-import org.apache.jena.rdf.model.Property;
-import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.query.*;
+import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.riot.RDFDataMgr;
+import org.apache.jena.update.UpdateAction;
+import org.apache.jena.update.UpdateFactory;
+import org.apache.jena.update.UpdateRequest;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class Skos {
@@ -16,43 +18,102 @@ public class Skos {
   public final static String ALT_LABEL_URI = IRI + "altLabel";
 
   private OntModel model;
+  private OntModel target;
 
-  public Skos(OntModel model) {
+  public Skos(OntModel model, OntModel target) {
     this.model = model;
+    this.target = target;
     String ontologyPath = Ontolex.class.getClassLoader().getResource("skos.rdf").getFile();
     RDFDataMgr.read(model, ontologyPath);
   }
 
-  public OntClass getConceptClass() {
-    return model.getOntClass(CONCEPT_URI);
+  private void execute(String sparql) {
+    UpdateRequest request = UpdateFactory.create(sparql);
+    UpdateAction.execute(request, model);
+    UpdateAction.execute(request, target);
   }
 
-  public OntProperty getPrefLabelProperty() {
-    return model.getOntProperty(PREF_LABEL_URI);
+  public String createConcept(String uri) {
+    String sparql = "PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#> " +
+            "PREFIX skos: <http://www.w3.org/2004/02/skos/core#> " +
+            "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> " +
+            "INSERT DATA { " +
+            "   <" + uri + "> rdf:type skos:Concept . " +
+            "   <" + uri + "> rdf:type ontolex:LexicalConcept . " +
+            "} ";
+
+    execute(sparql);
+    return uri;
   }
 
-  public OntProperty getAltLabelProperty() {
-    return model.getOntProperty(ALT_LABEL_URI);
+  public String createConcept() {
+    return createConcept("http://purl.org/ZIN-Thor/Concept_" + UUID.randomUUID());
   }
 
-  public Individual createConceptInstance(String uri) {
-    if (uri == null)
-      throw new NullPointerException("URI cannot be null!");
+  public void addPrefLabel(String uri, Literal label) {
+    String sanitizedLabel = getSanitizedText(label);
 
-    return getConceptClass().createIndividual(uri);
+    String sparql = "PREFIX skos: <http://www.w3.org/2004/02/skos/core#> " +
+            "INSERT DATA { " +
+            "   <" + uri + "> skos:prefLabel " + sanitizedLabel +
+            "} ";
+
+    execute(sparql);
   }
 
-  public Individual createConceptInstance() {
-    return createConceptInstance("http://purl.org/ZIN-Thor/Concept" + UUID.randomUUID());
+  public void addAltLabel(String uri, Literal label) {
+    String sanitizedLabel = getSanitizedText(label);
+
+    String sparql = "PREFIX skos: <http://www.w3.org/2004/02/skos/core#> " +
+            "INSERT DATA { " +
+            "   <" + uri + "> skos:altLabel " + sanitizedLabel + " . " +
+            "} ";
+
+    execute(sparql);
   }
 
-  public void createPrefLabel(Individual concept, RDFNode label) {
-    final Property prop = getPrefLabelProperty();
-    concept.addProperty(prop, label);
+  public List<Literal> getTextProperty(String propertyUri, String uri) {
+    String queryString =
+            "PREFIX skos: <http://www.w3.org/2004/02/skos/core#> " +
+                    "SELECT ?literal " +
+                    "WHERE { " +
+                    "   <" + uri + "> " + propertyUri + " ?literal ." +
+                    "} ";
+
+    Query query = QueryFactory.create(queryString);
+
+    try (QueryExecution qexec = QueryExecutionFactory.create(query, model)) {
+      ResultSet results = qexec.execSelect();
+      List<Literal> literals = new ArrayList<Literal>();
+
+      while (results.hasNext()) {
+        Literal l = results.nextSolution().getLiteral("literal");
+        literals.add(l);
+      }
+
+      return literals;
+    }
   }
 
-  public void createAltLabel(Individual concept, RDFNode label) {
-    final Property prop = getAltLabelProperty();
-    concept.addProperty(prop, label);
+  public void addTextProperty(String propertyUri, String uri, Literal definition) {
+    String sanitizedDefinition = getSanitizedText(definition);
+
+    String sparql = "PREFIX skos: <http://www.w3.org/2004/02/skos/core#> " +
+            "INSERT DATA { " +
+            "   <" + uri + "> " + propertyUri + " " + sanitizedDefinition +
+            "} ";
+
+    execute(sparql);
+  }
+
+  private String getSanitizedText(Literal literal) {
+    String language = literal.getLanguage();
+    String text = literal.getString()
+            .replaceAll("\n", " ")
+            .replaceAll("\r", "")
+            .replaceAll("\"", "\\\\\"")
+            .trim();
+
+    return "\"\"\"" + text + "\"\"\"@" + language;
   }
 }

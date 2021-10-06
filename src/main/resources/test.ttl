@@ -27,4 +27,7 @@
 
 :x a ontolex:LexicalSense .
 :y a ontolex:LexicalSense .
+:z a ontolex:LexicalSense .
+
 :x lexinfo:synonym :y .
+:y lexinfo:synonym :z .
