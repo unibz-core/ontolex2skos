@@ -1,5 +1,6 @@
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.ontology.OntModelSpec;
+import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
@@ -32,7 +33,7 @@ public class Runner {
     SkosGenerator gen = new SkosGenerator(sourceGraph, generatedGraph);
     gen.generateSkosData();
 
-    writeTurtleFile("complete-graph-" + filename, sourceGraph);
+//    writeTurtleFile("complete-graph-" + filename, sourceGraph);
     writeTurtleFile("skos-graph-" + filename, generatedGraph);
 
 //    String sparql = Domains.SPARQL_PREFIXES +
@@ -41,23 +42,29 @@ public class Runner {
 //            "   ?concept ontolex:isEvokedBy ?lexicalEntry . " +
 //            "   ?lexicon lime:entry ?lexicalEntry . " +
 //            "}";
-//
-//    System.out.println(sparql);
-//
-//    Query query = QueryFactory.create(sparql);
-//
-//    try (QueryExecution qexec = QueryExecutionFactory.create(query, sourceGraph)) {
-//
-//      ResultSet results = qexec.execSelect();
-//      while (results.hasNext()) {
-//        QuerySolution solution = results.nextSolution();
-//        System.out.println(solution);
-////        String conceptUri = solution.getResource("concept").getURI();
-////        String lexicalEntryUri = solution.getResource("lexicalEntry").getURI();
-////        String lexiconUri = solution.getResource("lexicon").getURI();
-//      }
+    System.out.println("\n");
+    String sparql = Domains.SPARQL_PREFIXES +
+            "SELECT ?x ?domain " +
+            "WHERE { " +
+            "   ?x lexinfo:domain ?domain . " +
+            "}";
 
-//    }
+//    System.out.println(sparql);
+
+    Query query = QueryFactory.create(sparql);
+
+    try (QueryExecution qexec = QueryExecutionFactory.create(query, sourceGraph)) {
+
+      ResultSet results = qexec.execSelect();
+      while (results.hasNext()) {
+        QuerySolution solution = results.nextSolution();
+        System.out.println(solution);
+//        String conceptUri = solution.getResource("concept").getURI();
+//        String lexicalEntryUri = solution.getResource("lexicalEntry").getURI();
+//        String lexiconUri = solution.getResource("lexicon").getURI();
+      }
+
+    }
 
   }
 

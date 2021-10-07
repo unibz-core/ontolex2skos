@@ -59,6 +59,7 @@ public class SkosGenerator {
 
     System.out.println("Attempting to resolve name conflicts...");
     resolveConflictsOnPrefLabels();
+
   }
 
   private static void loadModule(OntModel graph, String filename) {
@@ -106,7 +107,7 @@ public class SkosGenerator {
           }
 
           final String oldPrefLabelValue = getLanguageString(prefLabel);
-          final String newPrefLabelValue = buildLanguageString(candidateLabel);
+          final String newPrefLabelValue = buildLanguageString(candidateLabel, prefLabel.getLanguage());
 
           System.out.println("Renaming it to " + newPrefLabelValue);
 
@@ -130,8 +131,8 @@ public class SkosGenerator {
     return "\"" + literal.getString() + "\"@" + literal.getLanguage();
   }
 
-  private static String buildLanguageString(String string) {
-    return "\"" + string + "\"@nl";
+  private static String buildLanguageString(String string, String language) {
+    return "\"" + string + "\"@" + language;
   }
 
   private Set<String> getAllPrefLabels() {
@@ -160,7 +161,7 @@ public class SkosGenerator {
 
   private Map<String, List<String>> getAltLabelMap() {
     String sparql = Domains.SPARQL_PREFIXES +
-            "SELECT DISTINCT ?concept (GROUP_CONCAT(?label) as ?labels) " +
+            "SELECT DISTINCT ?concept (GROUP_CONCAT(?label;SEPARATOR=\",\") as ?labels) " +
             "WHERE { " +
             "   ?concept rdf:type skos:Concept . " +
             "   ?concept skos:altLabel ?label . " +
@@ -178,7 +179,7 @@ public class SkosGenerator {
 
         String conceptUri = solution.getResource("concept").getURI();
         String joinedLabels = solution.getLiteral("labels").getString();
-        List<String> labels = asList(joinedLabels.split(" "));
+        List<String> labels = asList(joinedLabels.split(","));
 
         labelsPerConcept.put(conceptUri, labels);
       }
