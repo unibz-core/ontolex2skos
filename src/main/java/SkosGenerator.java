@@ -14,18 +14,12 @@ import static java.util.Arrays.asList;
 import static java.util.stream.Collectors.toList;
 
 public class SkosGenerator {
-
   OntModel sourceGraph;
   OntModel generatedGraph;
 
   public SkosGenerator(OntModel sourceGraph, OntModel generatedGraph) {
     this.sourceGraph = sourceGraph;
     this.generatedGraph = generatedGraph;
-  }
-
-  private static void loadModule(OntModel graph, String filename) {
-    String ontologyPath = SkosGenerator.class.getClassLoader().getResource(filename).getFile();
-    RDFDataMgr.read(graph, ontologyPath);
   }
 
   public void generateSkosData() {
@@ -46,22 +40,30 @@ public class SkosGenerator {
     loadPropertyLabels();
 
     System.out.println("Finding synsets...");
-    final List<Synset> synsets = getSynsets();
+    List<Synset> synsets = getSynsets();
 
     System.out.println("Mapping synsets to concepts...");
     synsets.forEach(this::mapSynsetToConcept);
 
     System.out.println("Deriving skos:altLabel from acronyms...");
     deriveAltLabelFromAcronyms();
+
     System.out.println("Deriving ontolex:isConceptof...");
     deriveIsConceptOf();
+
     System.out.println("Deriving ontolex:isEvokedBy...");
     deriveIsEvokedBy();
+
     System.out.println("Deriving skos:broader and skos:narrower...");
     deriveBroaderNarrower();
 
     System.out.println("Attempting to resolve name conflicts...");
     resolveConflictsOnPrefLabels();
+  }
+
+  private static void loadModule(OntModel graph, String filename) {
+    String ontologyPath = SkosGenerator.class.getClassLoader().getResource(filename).getFile();
+    RDFDataMgr.read(graph, ontologyPath);
   }
 
   private void loadPropertyLabels() {
@@ -72,19 +74,95 @@ public class SkosGenerator {
     insertData(statements);
   }
 
-
   private void resolveConflictsOnPrefLabels() {
-    Map<Literal, List<String>> conflicts = findPrefLabelConflicts();
+    Map<Literal, List<String>> prefLabelConflicts = findPrefLabelConflicts();
+    Map<String, List<String>> altLabelsPerConcept = getAltLabelMap();
+    Set<String> prefLabels = getAllPrefLabels();
 
+    List<String> deleteStatements = new ArrayList<>();
+    List<String> insertStatements = new ArrayList<>();
 
+    for (Literal prefLabel : prefLabelConflicts.keySet()) {
+      List<String> conceptUris = prefLabelConflicts.get(prefLabel);
+      System.out.println("\nLabel '" + prefLabel + "' is used by " + conceptUris.size() + " concepts.");
+
+      int i = 1;
+      for (String conceptUri : conceptUris) {
+        List<String> altLabels = altLabelsPerConcept.get(conceptUri);
+
+        if (altLabels == null) {
+          System.out.println("No alternative label found for " + conceptUri);
+          //System.out.println("Setting preferred label to \"" + prefLabel.getString() + " (" + i + ")\"@" + prefLabel.getLanguage());
+          i++;
+          continue;
+        }
+
+        System.out.println("Alternative label(s) found for " + conceptUri + "!");
+
+        for (String candidateLabel : altLabels) {
+          if (prefLabels.contains(candidateLabel)) {
+            System.out.println("Skipping " + candidateLabel + ". The label is already in use!");
+            continue;
+          }
+
+          final String oldPrefLabelValue = getLanguageString(prefLabel);
+          final String newPrefLabelValue = buildLanguageString(candidateLabel);
+
+          System.out.println("Renaming it to " + newPrefLabelValue);
+
+          deleteStatements.add("<" + conceptUri + "> skos:prefLabel " + oldPrefLabelValue);
+          deleteStatements.add("<" + conceptUri + "> skos:altLabel " + newPrefLabelValue);
+
+          insertStatements.add("<" + conceptUri + "> skos:altLabel " + oldPrefLabelValue);
+          insertStatements.add("<" + conceptUri + "> skos:prefLabel " + newPrefLabelValue);
+
+          break;
+        }
+
+      }
+    }
+//    System.out.println(deleteStatements);
+    deleteData(deleteStatements);
+    insertData(insertStatements);
   }
 
-  private Map<String, List<String>> getAltLabels() {
+  private static String getLanguageString(Literal literal) {
+    return "\"" + literal.getString() + "\"@" + literal.getLanguage();
+  }
 
+  private static String buildLanguageString(String string) {
+    return "\"" + string + "\"@nl";
+  }
+
+  private Set<String> getAllPrefLabels() {
+    String sparql = Domains.SPARQL_PREFIXES +
+            "SELECT DISTINCT ?label " +
+            "WHERE { " +
+            "   ?concept rdf:type skos:Concept . " +
+            "   ?concept skos:prefLabel ?label . " +
+            "}";
+
+    Query query = QueryFactory.create(sparql);
+
+    try (QueryExecution qexec = QueryExecutionFactory.create(query, sourceGraph)) {
+      Set<String> prefLabels = new HashSet<>();
+
+      ResultSet results = qexec.execSelect();
+      while (results.hasNext()) {
+        QuerySolution solution = results.nextSolution();
+        String prefLabel = solution.getLiteral("label").getString();
+        prefLabels.add(prefLabel);
+      }
+
+      return prefLabels;
+    }
+  }
+
+  private Map<String, List<String>> getAltLabelMap() {
     String sparql = Domains.SPARQL_PREFIXES +
             "SELECT DISTINCT ?concept (GROUP_CONCAT(?label) as ?labels) " +
             "WHERE { " +
-            "   ?concept rdf:tyoe skos:Concept . " +
+            "   ?concept rdf:type skos:Concept . " +
             "   ?concept skos:altLabel ?label . " +
             "}" +
             "GROUP BY ?concept ";
@@ -138,7 +216,6 @@ public class SkosGenerator {
       return conflicts;
     }
   }
-
 
   public List<Synset> getSynsets() {
     List<Resource> allSenses = getLexicalSenses();
@@ -197,12 +274,21 @@ public class SkosGenerator {
   }
 
   private void insertData(List<String> statements) {
-    String sparqlInsert = Domains.SPARQL_PREFIXES +
+    String sparql = Domains.SPARQL_PREFIXES +
             "INSERT DATA { " +
             String.join(" . ", statements) +
             "}";
 
-    execute(sparqlInsert);
+    execute(sparql);
+  }
+
+  private void deleteData(List<String> statements) {
+    String sparql = Domains.SPARQL_PREFIXES +
+            "DELETE DATA { " +
+            String.join(" . ", statements) +
+            "}";
+
+    execute(sparql);
   }
 
   private void execute(String sparql) {

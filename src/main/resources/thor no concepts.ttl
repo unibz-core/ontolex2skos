@@ -54,7 +54,7 @@
   <http://www.lexinfo.net/ontology/3.0/lexinfo#hypernym> :ontolexLexicalSense_uitstroom_2;
   skos:definition "Uitstroom is het aantal zorgverleners met een arbeids- en of oproepovereenkomst dat tussen twee meetmomenten ontslag heeft genomen of gekregen bij een zorgorganisatie, en die zorg verleenden aan cliënten met een zorgprofiel 4 tot en met 10."@nl;
   skos:editorialNote "\"permutable\""@en;
-  ontolex:reference <http://purl.org/ozo/vph-g#LeavingAnOrganizationEvent>, <http://purl.org/ozo/vph-g#LeavingAnOrganizationEvent2>;
+  ontolex:reference <http://purl.org/ozo/vph-g#LeavingAnOrganizationEvent>;
   ontolex:isSenseOf :ontolexLexicalEntry_uitstroom.n .
 
 :ontolexLexicalEntry_zorginstelling.n a <http://www.lexinfo.net/ontology/3.0/lexinfo#Noun>,
@@ -426,9 +426,6 @@ Binnen de context van iWlz wordt naast de term toewijzing ook de term zorgtoewij
 :ontolexForm_1e0252d5 a ontolex:Form;
   ontolex:writtenRep "verloop"@nl .
 
-:ontolexLexicalSense_2e82758f a ontolex:LexicalSense;
-  ontolex:reference <http://purl.org/ozo/vph-g#LeavingAnOrganizationEvent> .
-
 :ontolexLexicalEntry_Zorginstituut_Nederland.n a ontolex:MultiWordExpression, <http://www.lexinfo.net/ontology/3.0/lexinfo#ProperNoun>,
     ontolex:LexicalEntry;
   dct:created "2021-09-07"^^xsd:date;
@@ -758,9 +755,6 @@ een iStandaarden bericht dat het CIZ verstuurt naar een zorgkantoor en dat het i
 
 :ontolexForm_2d3017ba a ontolex:Form;
   ontolex:writtenRep "verzender"@nl .
-
-:ontolexLexicalSense_8cb7b438 a ontolex:LexicalSense;
-  ontolex:reference <http://dummy.nl> .
 
 :ontolexLexicalEntry_zender.n a <http://www.lexinfo.net/ontology/3.0/lexinfo#Noun>,
     ontolex:LexicalEntry;
