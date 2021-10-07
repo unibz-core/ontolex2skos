@@ -32,8 +32,8 @@ public class Runner {
     SkosGenerator gen = new SkosGenerator(sourceGraph, generatedGraph);
     gen.generateSkosData();
 
-//    writeTurtleFile("complete-graph-" + filename, sourceGraph);
-    writeTurtleFile("generated-thesaurus-" + filename, generatedGraph);
+    writeTurtleFile("complete-graph-" + filename, sourceGraph);
+    writeTurtleFile("skos-graph-" + filename, generatedGraph);
 
 //    String sparql = Domains.SPARQL_PREFIXES +
 //            "SELECT ?concept ?lexicalEntry ?lexicon " +
@@ -62,7 +62,9 @@ public class Runner {
   }
 
   private static void writeTurtleFile(String filename, OntModel model) {
+    filename = "output/" + filename;
     System.out.println("Writing output to '" + filename + "'");
+
     try (OutputStream out = new FileOutputStream(filename)) {
       RDFDataMgr.write(out, model, Lang.TURTLE);
     } catch (FileNotFoundException e) {

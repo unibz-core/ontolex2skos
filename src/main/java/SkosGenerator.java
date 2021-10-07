@@ -121,7 +121,7 @@ public class SkosGenerator {
 
       }
     }
-//    System.out.println(deleteStatements);
+
     deleteData(deleteStatements);
     insertData(insertStatements);
   }

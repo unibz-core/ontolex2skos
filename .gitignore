@@ -12,3 +12,4 @@ buildNumber.properties
 
 .idea
 output/
+.DS_Store
