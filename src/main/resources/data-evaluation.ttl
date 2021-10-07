@@ -1,0 +1,93 @@
+@prefix : <http://purl.org/ZIN-Thor/> .
+@prefix cc: <http://creativecommons.org/ns#> .
+@prefix grddl: <http://www.w3.org/2003/g/data-view#> .
+@prefix void: <http://rdfs.org/ns/void#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dcam: <http://purl.org/dc/dcam/> .
+@prefix vartrans: <http://www.w3.org/ns/lemon/vartrans#> .
+@prefix owl2xml: <http://www.w3.org/2006/12/owl2-xml#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix synsem: <http://www.w3.org/ns/lemon/synsem#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ontolex: <http://www.w3.org/ns/lemon/ontolex#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix semiotics: <http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix skosxl: <http://www.w3.org/2008/05/skos-xl#> .
+@prefix decomp: <http://www.w3.org/ns/lemon/decomp#> .
+@prefix lime: <http://www.w3.org/ns/lemon/lime#> .
+
+<http://purl.org/ZIN-Thor/> a owl:Ontology .
+
+:limeLexicon_d085114f a lime:Lexicon;
+  dct:title "inference set"@en;
+  lime:language "en"^^xsd:language;
+  lime:entry :ontolexLexicalEntry_kidnapper, :ontolexLexicalEntry_kidney_stone, :ontolexLexicalEntry_kitchen .
+
+:ontolexForm_ab2def88 a ontolex:Form;
+  ontolex:writtenRep "kidnapper"@en .
+
+:ontolexForm_01f07522 a ontolex:Form;
+  ontolex:writtenRep "kidney stone"@en .
+
+:ontolexLexicalEntry_kidnapper a ontolex:LexicalEntry;
+  ontolex:canonicalForm :ontolexForm_82021574;
+  lime:language "en"^^xsd:language;
+  ontolex:denotes <http://purl.org/ozo/vph-g#class_1>, <http://purl.org/ozo/vph-g#class_2>,
+    <http://purl.org/ozo/vph-g#class_3>;
+  ontolex:sense :ontolexLexicalSense_kidnapper_1, :ontolexLexicalSense_kidnapper_2,
+    :ontolexLexicalSense_kidnapper_3 .
+
+:ontolexForm_82021574 a ontolex:Form;
+  ontolex:writtenRep "kidnapper"@en .
+
+:ontolexLexicalSense_kidnapper_1 a ontolex:LexicalSense;
+  ontolex:isSenseOf :ontolexLexicalEntry_kidnapper;
+  ontolex:reference <http://purl.org/ozo/vph-g#class_1> .
+
+:ontolexLexicalSense_kidnapper_2 a ontolex:LexicalSense;
+  ontolex:isSenseOf :ontolexLexicalEntry_kidnapper;
+  ontolex:reference <http://purl.org/ozo/vph-g#class_2>;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#hypernym> :ontolexLexicalSense_kidney_stone_1 .
+
+:ontolexLexicalSense_kidnapper_3 a ontolex:LexicalSense;
+  ontolex:isSenseOf :ontolexLexicalEntry_kidnapper;
+  ontolex:reference <http://purl.org/ozo/vph-g#class_3>;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#hypernym> :ontolexLexicalSense_kidnapper_2 .
+
+:ontolexLexicalEntry_kidney_stone a ontolex:LexicalEntry;
+  ontolex:canonicalForm :ontolexForm_47a9182a;
+  lime:language "en"^^xsd:language;
+  ontolex:denotes <http://purl.org/ozo/vph-g#class_1>, <http://purl.org/ozo/vph-g#class_2>;
+  ontolex:sense :ontolexLexicalSense_kidney_stone_1, :ontolexLexicalSense_kidney_stone_2 .
+
+:ontolexForm_47a9182a a ontolex:Form;
+  ontolex:writtenRep "kidney stone"@en .
+
+:ontolexLexicalSense_kidney_stone_1 a ontolex:LexicalSense;
+  ontolex:isSenseOf :ontolexLexicalEntry_kidney_stone;
+  ontolex:reference <http://purl.org/ozo/vph-g#class_1>;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#synonym> :ontolexLexicalSense_kidnapper_1,
+    :ontolexLexicalSense_kitchen_1 .
+
+:ontolexLexicalSense_kidney_stone_2 a ontolex:LexicalSense;
+  ontolex:isSenseOf :ontolexLexicalEntry_kidney_stone;
+  ontolex:reference <http://purl.org/ozo/vph-g#class_2>;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#synonym> :ontolexLexicalSense_kidnapper_2 .
+
+:ontolexLexicalEntry_kitchen a ontolex:LexicalEntry;
+  ontolex:canonicalForm :ontolexForm_18eac06b;
+  lime:language "en"^^xsd:language;
+  ontolex:denotes <http://purl.org/ozo/vph-g#Class_1>;
+  ontolex:sense :ontolexLexicalSense_kitchen_1 .
+
+:ontolexForm_18eac06b a ontolex:Form;
+  ontolex:writtenRep "kitchen"@en .
+
+:ontolexLexicalSense_kitchen_1 a ontolex:LexicalSense;
+  ontolex:isSenseOf :ontolexLexicalEntry_kitchen;
+  ontolex:reference <http://purl.org/ozo/vph-g#Class_1> .

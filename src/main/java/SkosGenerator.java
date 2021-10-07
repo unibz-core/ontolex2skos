@@ -1,40 +1,51 @@
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.Literal;
+import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.update.UpdateAction;
 import org.apache.jena.update.UpdateFactory;
 import org.apache.jena.update.UpdateRequest;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+import static java.util.Arrays.asList;
 import static java.util.stream.Collectors.toList;
 
 public class SkosGenerator {
-  OntModel model;
-  OntModel target;
 
-  final Ontolex ontolex;
-  final Lexinfo lexinfo;
-  final Skos skos;
+  OntModel sourceGraph;
+  OntModel generatedGraph;
 
-  public SkosGenerator(OntModel model, OntModel target) {
-    this.model = model;
-    this.target = target;
+  public SkosGenerator(OntModel sourceGraph, OntModel generatedGraph) {
+    this.sourceGraph = sourceGraph;
+    this.generatedGraph = generatedGraph;
+  }
 
-    System.out.println("Loading ontolex...");
-    ontolex = new Ontolex(model, target);
-    System.out.println("Loading lexinfo...");
-    lexinfo = new Lexinfo(model);
-    System.out.println("Loading skos...");
-    skos = new Skos(model, target);
+  private static void loadModule(OntModel graph, String filename) {
+    String ontologyPath = SkosGenerator.class.getClassLoader().getResource(filename).getFile();
+    RDFDataMgr.read(graph, ontologyPath);
   }
 
   public void generateSkosData() {
-    System.out.println("Retrieving synsets...");
+    System.out.println("Adding namespaces");
+    Domains.addNamespaces(sourceGraph);
+    Domains.addNamespaces(generatedGraph);
+
+    System.out.println("Loading ontolex module..");
+    loadModule(sourceGraph, "ontolex.ttl");
+
+    System.out.println("Loading lexinfo module...");
+    loadModule(sourceGraph, "lexinfo-short.ttl");
+
+    System.out.println("Loading skos module..");
+    loadModule(sourceGraph, "skos.rdf");
+
+    System.out.println("Loading property labels...");
+    loadPropertyLabels();
+
+    System.out.println("Finding synsets...");
     final List<Synset> synsets = getSynsets();
 
     System.out.println("Mapping synsets to concepts...");
@@ -43,18 +54,94 @@ public class SkosGenerator {
     System.out.println("Deriving skos:altLabel from acronyms...");
     deriveAltLabelFromAcronyms();
     System.out.println("Deriving ontolex:isConceptof...");
-    ontolex.deriveIsConceptOf();
+    deriveIsConceptOf();
     System.out.println("Deriving ontolex:isEvokedBy...");
-    ontolex.deriveIsEvokedBy();
+    deriveIsEvokedBy();
     System.out.println("Deriving skos:broader and skos:narrower...");
-    skos.deriveBroaderNarrower();
+    deriveBroaderNarrower();
 
-    //TODO: DERIVE alt label from acronym (ZIN/CIZ should be alt label of the concept that points to Zoorginstituut Nederland)
-    //TODO: name conflict resolution (aambieder and zorgambieder)
+    System.out.println("Attempting to resolve name conflicts...");
+    resolveConflictsOnPrefLabels();
   }
 
+  private void loadPropertyLabels() {
+    List<String> statements = List.of("ontolex:isConceptOf rdf:type owl:ObjectProperty",
+            "ontolex:isConceptOf rdfs:label \"is concept of\"@en ",
+            "ontolex:isConceptOf rdfs:label \"is concept van\"@nl ");
+
+    insertData(statements);
+  }
+
+
+  private void resolveConflictsOnPrefLabels() {
+    Map<Literal, List<String>> conflicts = findPrefLabelConflicts();
+
+
+  }
+
+  private Map<String, List<String>> getAltLabels() {
+
+    String sparql = Domains.SPARQL_PREFIXES +
+            "SELECT DISTINCT ?concept (GROUP_CONCAT(?label) as ?labels) " +
+            "WHERE { " +
+            "   ?concept rdf:tyoe skos:Concept . " +
+            "   ?concept skos:altLabel ?label . " +
+            "}" +
+            "GROUP BY ?concept ";
+
+    Query query = QueryFactory.create(sparql);
+
+    try (QueryExecution qexec = QueryExecutionFactory.create(query, sourceGraph)) {
+      Map<String, List<String>> labelsPerConcept = new HashMap<>();
+
+      ResultSet results = qexec.execSelect();
+      while (results.hasNext()) {
+        QuerySolution solution = results.nextSolution();
+
+        String conceptUri = solution.getResource("concept").getURI();
+        String joinedLabels = solution.getLiteral("labels").getString();
+        List<String> labels = asList(joinedLabels.split(" "));
+
+        labelsPerConcept.put(conceptUri, labels);
+      }
+
+      return labelsPerConcept;
+    }
+
+  }
+
+  private Map<Literal, List<String>> findPrefLabelConflicts() {
+    String sparql = Domains.SPARQL_PREFIXES +
+            "SELECT DISTINCT ?label (GROUP_CONCAT(?concept) as ?concepts) " +
+            "WHERE { " +
+            "   ?concept skos:prefLabel ?label . " +
+            "}" +
+            "GROUP BY ?label " +
+            "HAVING (COUNT(*) > 1)";
+
+    Query query = QueryFactory.create(sparql);
+
+    try (QueryExecution qexec = QueryExecutionFactory.create(query, sourceGraph)) {
+      Map<Literal, List<String>> conflicts = new HashMap<>();
+
+      ResultSet results = qexec.execSelect();
+      while (results.hasNext()) {
+        QuerySolution solution = results.nextSolution();
+
+        Literal label = solution.getLiteral("label");
+        String joinedUris = solution.getLiteral("concepts").getString();
+        List<String> conceptUris = asList(joinedUris.split(" "));
+
+        conflicts.put(label, conceptUris);
+      }
+
+      return conflicts;
+    }
+  }
+
+
   public List<Synset> getSynsets() {
-    List<Resource> allSenses = ontolex.getLexicalSenses();
+    List<Resource> allSenses = getLexicalSenses();
 
     List<Synset> synsets = new ArrayList<>();
     Map<Resource, Synset> map = new HashMap<>();
@@ -68,7 +155,7 @@ public class SkosGenerator {
         synsets.add(synset);
       }
 
-      List<Resource> synonyms = lexinfo.getSynonyms(sense.getURI());
+      List<Resource> synonyms = getSynonyms(sense.getURI());
       synset.addAll(synonyms);
 
       for (Resource synonym : synonyms) {
@@ -80,24 +167,24 @@ public class SkosGenerator {
   }
 
   private void mapSynsetToConcept(Synset synset) {
-    String conceptUri = skos.createConcept();
+    String conceptUri = createSkosConcept();
     addIsLexicalizedSenseOf(conceptUri, synset);
 
     addPrefLabel(conceptUri, synset);
     addAltLabels(conceptUri, synset);
 
     copySkosTextProperty("skos:definition", conceptUri, synset);
-    copySkosTextProperty("skos:editorialNote", conceptUri, synset);
     copySkosTextProperty("skos:scopeNote", conceptUri, synset);
     copySkosTextProperty("skos:historyNote", conceptUri, synset);
     copySkosTextProperty("skos:example", conceptUri, synset);
-    copySkosTextProperty("skos:changeNote", conceptUri, synset);
+//    copySkosTextProperty("skos:editorialNote", conceptUri, synset);
+//    copySkosTextProperty("skos:changeNote", conceptUri, synset);
   }
 
   private void addIsLexicalizedSenseOf1(String conceptUri, Synset synset) {
     synset.stream()
             .map(Resource::getURI)
-            .forEach(senseUri -> ontolex.addIsLexicalizedSenseOf(senseUri, conceptUri));
+            .forEach(senseUri -> addIsLexicalizedSenseOf(senseUri, conceptUri));
   }
 
   public void addIsLexicalizedSenseOf(String conceptUri, Synset synset) {
@@ -110,9 +197,7 @@ public class SkosGenerator {
   }
 
   private void insertData(List<String> statements) {
-    String sparqlInsert = "PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#> " +
-            "PREFIX skos: <http://www.w3.org/2004/02/skos/core#> " +
-            "PREFIX lexinfo: <http://www.lexinfo.net/ontology/3.0/lexinfo#> " +
+    String sparqlInsert = Domains.SPARQL_PREFIXES +
             "INSERT DATA { " +
             String.join(" . ", statements) +
             "}";
@@ -122,8 +207,8 @@ public class SkosGenerator {
 
   private void execute(String sparql) {
     UpdateRequest request = UpdateFactory.create(sparql);
-    UpdateAction.execute(request, model);
-    UpdateAction.execute(request, target);
+    UpdateAction.execute(request, sourceGraph);
+    UpdateAction.execute(request, generatedGraph);
   }
 
   private void copySkosTextProperty(String propertyUri, String conceptUri, Synset synset) {
@@ -133,18 +218,18 @@ public class SkosGenerator {
 
   private void addSkosProperty(String propertyUri, Resource source, String targetUri) {
     String senseUri = source.getURI();
-    List<Literal> literals = skos.getTextProperty(propertyUri, senseUri);
+    List<Literal> literals = getTextProperty(propertyUri, senseUri);
 
     literals.stream()
-            .forEach(literal -> skos.addTextProperty(propertyUri, targetUri, literal));
+            .forEach(literal -> addTextProperty(propertyUri, targetUri, literal));
   }
 
   private void addPrefLabel(String conceptUri, Synset synset) {
     String firstSenseUri = synset.first().getURI();
-    Literal label = ontolex.getLabel(firstSenseUri);
+    Literal label = getLabel(firstSenseUri);
 
     if (label != null)
-      skos.addPrefLabel(conceptUri, label);
+      addPrefLabel(conceptUri, label);
   }
 
   private void addAltLabels(String conceptUri, Synset synset) {
@@ -155,17 +240,15 @@ public class SkosGenerator {
   }
 
   private void addAltLabel(String conceptUri, String senseUri) {
-    Literal label = ontolex.getLabel(senseUri);
+    Literal label = getLabel(senseUri);
 
     if (label != null)
-      skos.addAltLabel(conceptUri, label);
+      addAltLabel(conceptUri, label);
 
   }
 
   private void deriveAltLabelFromAcronyms() {
-    String sparqlQuery = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>  " +
-            "PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#> " +
-            "PREFIX lexinfo: <http://www.lexinfo.net/ontology/3.0/lexinfo#> " +
+    String sparqlQuery = Domains.SPARQL_PREFIXES +
             "SELECT ?concept ?label " +
             "WHERE { " +
             "   ?concept ontolex:lexicalizedSense ?sense . " +
@@ -179,7 +262,7 @@ public class SkosGenerator {
 
     List<String> statements = new ArrayList<>();
 
-    try (QueryExecution qexec = QueryExecutionFactory.create(query, model)) {
+    try (QueryExecution qexec = QueryExecutionFactory.create(query, sourceGraph)) {
       ResultSet results = qexec.execSelect();
 
       while (results.hasNext()) {
@@ -194,6 +277,257 @@ public class SkosGenerator {
     insertData(statements);
   }
 
+  public String createInstance(String typeUri, String individualUri) {
+    String sparql = Domains.SPARQL_PREFIXES +
+            "INSERT DATA { " +
+            "   <" + individualUri + "> rdf:type " + typeUri + "  " +
+            "} ";
+
+    execute(sparql);
+
+    return individualUri;
+  }
+
+  public String createLexicalSense(String individualUri) {
+    return createInstance("ontolex:LexicalSense", individualUri);
+  }
+
+  public String createSkosConcept(String individualUri) {
+    return createInstance("skos:Concept", individualUri);
+  }
+
+  public String createSkosConcept() {
+    return createSkosConcept(Domains.THOR_URI + "Concept_" + UUID.randomUUID());
+  }
+
+  public List<Resource> getLexicalSenses() {
+    String queryString = Domains.SPARQL_PREFIXES +
+            "SELECT ?sense " +
+            "WHERE { " +
+            "   ?sense rdf:type ontolex:LexicalSense " +
+            "} ";
+
+    Query query = QueryFactory.create(queryString);
+
+    try (QueryExecution qexec = QueryExecutionFactory.create(query, sourceGraph)) {
+      ResultSet results = qexec.execSelect();
+
+      List<Resource> senses = new ArrayList<>();
+
+      while (results.hasNext()) {
+        QuerySolution soln = results.nextSolution();
+        Resource sense = soln.getResource("sense");
+        senses.add(sense);
+      }
+
+      return senses;
+    }
+
+  }
+
+  public Literal getLabel(String senseUri) {
+    String queryString = Domains.SPARQL_PREFIXES +
+            "SELECT ?label " +
+            "WHERE { " +
+            "   <" + senseUri + "> ontolex:isSenseOf ?entry ." +
+            "   ?entry ontolex:canonicalForm ?form ." +
+            "   ?form  ontolex:writtenRep ?label" +
+            "} ";
+
+    Query query = QueryFactory.create(queryString);
+
+    try (QueryExecution qexec = QueryExecutionFactory.create(query, sourceGraph)) {
+      ResultSet results = qexec.execSelect();
+
+      while (results.hasNext()) {
+        QuerySolution soln = results.nextSolution();
+        return soln.getLiteral("label");
+      }
+
+      return null;
+    }
+  }
+
+
+  public void addIsLexicalizedSenseOf(String senseUri, String conceptUri) {
+    String sparql = Domains.SPARQL_PREFIXES +
+            "INSERT DATA { " +
+            "   <" + senseUri + "> ontolex:isLexicalizedSenseOf <" + conceptUri + ">" +
+            "} ";
+
+    execute(sparql);
+  }
+
+  public void deriveIsConceptOf() {
+    String sparqlQuery = Domains.SPARQL_PREFIXES +
+            "SELECT ?concept ?entity " +
+            "WHERE { " +
+            "   ?concept rdf:type skos:Concept . " +
+            "   ?concept ontolex:lexicalizedSense ?sense . " +
+            "   ?sense ontolex:reference ?entity " +
+            "} ";
+
+    Query query = QueryFactory.create(sparqlQuery);
+
+    List<String> statements = new ArrayList<>();
+
+    try (QueryExecution qexec = QueryExecutionFactory.create(query, sourceGraph)) {
+      ResultSet results = qexec.execSelect();
+
+      while (results.hasNext()) {
+        QuerySolution soln = results.nextSolution();
+        Resource concept = soln.getResource("?concept");
+        RDFNode entity = soln.get("?entity");
+
+        if (entity.isURIResource() && entity.asResource().getURI() != null)
+          statements.add("<" + concept + ">" + " ontolex:isConceptOf " + "<" + entity + ">");
+      }
+
+    }
+
+    insertData(statements);
+  }
+
+
+  public void deriveIsEvokedBy() {
+    String sparqlQuery = Domains.SPARQL_PREFIXES +
+            "SELECT ?concept ?entry " +
+            "WHERE { " +
+            "   ?concept rdf:type skos:Concept . " +
+            "   ?concept ontolex:lexicalizedSense ?sense . " +
+            "   ?sense ontolex:isSenseOf ?entry . " +
+            "} ";
+
+    Query query = QueryFactory.create(sparqlQuery);
+
+    List<String> statements = new ArrayList<>();
+
+    try (QueryExecution qexec = QueryExecutionFactory.create(query, sourceGraph)) {
+      ResultSet results = qexec.execSelect();
+
+      while (results.hasNext()) {
+        QuerySolution soln = results.nextSolution();
+        Resource concept = soln.getResource("concept");
+        Resource entry = soln.getResource("entry");
+        statements.add("<" + concept + ">" + " ontolex:isEvokedBy " + "<" + entry + ">");
+      }
+    }
+
+    insertData(statements);
+  }
+
+
+  public void setAsSynonyms(String sense1Uri, String sense2Uri) {
+    String sparql = Domains.SPARQL_PREFIXES +
+            "INSERT DATA { " +
+            "   <" + sense1Uri + "> lexinfo:synonym <" + sense2Uri + "> . " +
+            "} ";
+
+    execute(sparql);
+  }
+
+  public boolean areSynonyms(String sense1Uri, String sense2Uri) {
+    String queryString = Domains.SPARQL_PREFIXES +
+            "SELECT * " +
+            "WHERE { <" + sense1Uri + "> lexinfo:synonym <" + sense2Uri + "> } ";
+
+    Query query = QueryFactory.create(queryString);
+    QueryExecution qexec = QueryExecutionFactory.create(query, sourceGraph);
+    boolean result = qexec.execAsk();
+    qexec.close();
+
+    return result;
+  }
+
+  public List<String> getSynonymUris(String senseUri) {
+    return getSynonyms(senseUri)
+            .stream()
+            .map(Resource::getURI)
+            .collect(toList());
+  }
+
+  public List<Resource> getSynonyms(String senseUri) {
+    String queryString = Domains.SPARQL_PREFIXES +
+            "SELECT ?synonym " +
+            "WHERE { <" + senseUri + "> lexinfo:synonym ?synonym } ";
+
+    Query query = QueryFactory.create(queryString);
+
+    try (QueryExecution qexec = QueryExecutionFactory.create(query, sourceGraph)) {
+      List<Resource> synonyms = new ArrayList<>();
+
+      ResultSet results = qexec.execSelect();
+      while (results.hasNext()) {
+        QuerySolution soln = results.nextSolution();
+        final RDFNode synonym1 = soln.get("synonym");
+        Resource synonym = soln.getResource("synonym");
+
+        if (!senseUri.equals(synonym.getURI()))
+          synonyms.add(synonym);
+      }
+
+      return synonyms;
+    }
+
+  }
+
+  public void addPrefLabel(String uri, Literal label) {
+    String sanitizedLabel = getSanitizedText(label);
+
+    String sparql = Domains.SPARQL_PREFIXES +
+            "INSERT DATA { " +
+            "   <" + uri + "> skos:prefLabel " + sanitizedLabel + " ." +
+            "   <" + uri + "> rdfs:label " + sanitizedLabel +
+            "} ";
+
+    execute(sparql);
+  }
+
+  public void addAltLabel(String uri, Literal label) {
+    String sanitizedLabel = getSanitizedText(label);
+
+    String sparql = Domains.SPARQL_PREFIXES +
+            "INSERT DATA { " +
+            "   <" + uri + "> skos:altLabel " + sanitizedLabel + " . " +
+            "   <" + uri + "> rdfs:label " + sanitizedLabel +
+            "} ";
+
+    execute(sparql);
+  }
+
+  public List<Literal> getTextProperty(String propertyUri, String uri) {
+    String queryString = Domains.SPARQL_PREFIXES +
+            "SELECT ?literal " +
+            "WHERE { " +
+            "   <" + uri + "> " + propertyUri + " ?literal ." +
+            "} ";
+
+    Query query = QueryFactory.create(queryString);
+
+    try (QueryExecution qexec = QueryExecutionFactory.create(query, sourceGraph)) {
+      ResultSet results = qexec.execSelect();
+      List<Literal> literals = new ArrayList<Literal>();
+
+      while (results.hasNext()) {
+        Literal l = results.nextSolution().getLiteral("literal");
+        literals.add(l);
+      }
+
+      return literals;
+    }
+  }
+
+  public void addTextProperty(String propertyUri, String uri, Literal definition) {
+    String sanitizedDefinition = getSanitizedText(definition);
+
+    String sparql = Domains.SPARQL_PREFIXES +
+            "INSERT DATA { " +
+            "   <" + uri + "> " + propertyUri + " " + sanitizedDefinition +
+            "} ";
+
+    execute(sparql);
+  }
+
   private String getSanitizedText(Literal literal) {
     String language = literal.getLanguage();
     String text = literal.getString()
@@ -203,6 +537,38 @@ public class SkosGenerator {
             .trim();
 
     return "\"\"\"" + text + "\"\"\"@" + language;
+  }
+
+  public void deriveBroaderNarrower() {
+    String sparqlQuery = Domains.SPARQL_PREFIXES +
+            "SELECT DISTINCT ?narrower ?broader " +
+            "WHERE { " +
+            "   ?narrower rdf:type skos:Concept . " +
+            "   ?hyponym ontolex:isLexicalizedSenseOf ?narrower . " +
+            "   ?hypernym ontolex:isLexicalizedSenseOf ?broader . " +
+            "   ?broader rdf:type skos:Concept  . " +
+            "   { ?hyponym lexinfo:hypernym ?hypernym } " +
+            "   UNION " +
+            "   { ?hypernym lexinfo:hyponym ?hyponym }" +
+            "} ";
+
+    Query query = QueryFactory.create(sparqlQuery);
+
+    List<String> statements = new ArrayList<>();
+
+    try (QueryExecution qexec = QueryExecutionFactory.create(query, sourceGraph)) {
+      ResultSet results = qexec.execSelect();
+
+      while (results.hasNext()) {
+        QuerySolution soln = results.nextSolution();
+        Resource narrower = soln.getResource("narrower");
+        Resource broader = soln.getResource("broader");
+        statements.add("<" + narrower + ">" + " skos:broader " + "<" + broader + ">");
+        statements.add("<" + broader + ">" + " skos:narrower " + "<" + narrower + ">");
+      }
+    }
+
+    insertData(statements);
   }
 
 

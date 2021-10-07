@@ -13,81 +13,67 @@ import java.io.OutputStream;
 public class Runner {
 
   public static void main(String[] args) {
+    generateThesaurus("data-evaluation.ttl");
+    generateThesaurus("thor no concepts.ttl");
+  }
 
-    OntModel thorGraph = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM_RULE_INF);
-    OntModel generated = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
-
-    final String NAMESPACE = "http://purl.org/ZIN-Thor/";
-    final String PREFIX = "thor";
-    thorGraph.setNsPrefix(PREFIX, NAMESPACE);
-
-    generated.setNsPrefix(PREFIX, NAMESPACE);
-    generated.setNsPrefix("ontolex", "http://www.w3.org/ns/lemon/ontolex#");
-    generated.setNsPrefix("skos", "http://www.w3.org/2004/02/skos/core#");
-    generated.setNsPrefix("vph-g", "http://purl.org/ozo/vph-g#");
+  private static void generateThesaurus(String filename) {
+    OntModel sourceGraph = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM_RULE_INF);
+    OntModel generatedGraph = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
 
     final String path = SkosGenerator.class
             .getClassLoader()
-            .getResource("thor no concepts.ttl")
+            .getResource(filename)
             .toString();
 
-    System.out.println("Loading the thor graph...");
-    RDFDataMgr.read(thorGraph, path);
+    System.out.println("Loading the triples from '" + filename + "'...");
+    RDFDataMgr.read(sourceGraph, path);
 
-    SkosGenerator gen = new SkosGenerator(thorGraph, generated);
+    SkosGenerator gen = new SkosGenerator(sourceGraph, generatedGraph);
     gen.generateSkosData();
 
-//    System.out.println("Writing output to 'thor-all.ttl'");
-//    try(OutputStream out = new FileOutputStream("thor-all.ttl")) {
-//      RDFDataMgr.write(out, thorGraph, Lang.TURTLE);
-//    } catch (FileNotFoundException e) {
-//      e.printStackTrace();
-//    } catch (IOException e) {
-//      e.printStackTrace();
-//    }
+//    writeTurtleFile("complete-graph-" + filename, sourceGraph);
+    writeTurtleFile("generated-thesaurus-" + filename, generatedGraph);
 
-    System.out.println("Writing output to 'thor-generated-thesaurus.ttl'");
-    try(OutputStream out = new FileOutputStream("thor-generated-thesaurus.ttl")) {
-      RDFDataMgr.write(out, generated, Lang.TURTLE);
+    String sparql = Domains.SPARQL_PREFIXES +
+            "SELECT ?concept ?lexicalEntry ?lexicon " +
+            "WHERE { " +
+            "   ?concept ontolex:isEvokedBy ?lexicalEntry . " +
+            "   ?lexicon lime:entry ?lexicalEntry . " +
+            "}";
+
+    System.out.println(sparql);
+
+    Query query = QueryFactory.create(sparql);
+
+    try (QueryExecution qexec = QueryExecutionFactory.create(query, sourceGraph)) {
+
+      ResultSet results = qexec.execSelect();
+      while (results.hasNext()) {
+        QuerySolution solution = results.nextSolution();
+        System.out.println(solution);
+//        String conceptUri = solution.getResource("concept").getURI();
+//        String lexicalEntryUri = solution.getResource("lexicalEntry").getURI();
+//        String lexiconUri = solution.getResource("lexicon").getURI();
+      }
+
+    }
+
+  }
+
+  private static void writeTurtleFile(String filename, OntModel model) {
+    System.out.println("Writing output to '" + filename + "'");
+    try (OutputStream out = new FileOutputStream(filename)) {
+      RDFDataMgr.write(out, model, Lang.TURTLE);
     } catch (FileNotFoundException e) {
       e.printStackTrace();
     } catch (IOException e) {
       e.printStackTrace();
     }
-
-    String queryString = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>  " +
-            "PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#> " +
-            "PREFIX skos: <http://www.w3.org/2004/02/skos/core#> " +
-            "PREFIX lexinfo: <http://www.lexinfo.net/ontology/3.0/lexinfo#> " +
-            "SELECT ?concept ?label " +
-            "WHERE { " +
-            "   ?concept ontolex:lexicalizedSense ?sense . " +
-            "   ?sense ontolex:isSenseOf ?entry . " +
-            "   ?entry lexinfo:fullFormFor ?acronym . " +
-            "   ?acronym ontolex:canonicalForm ?form . " +
-            "   ?form ontolex:writtenRep ?label . " +
-            "} ";
-
-    Query query = QueryFactory.create(queryString);
-
-    try (QueryExecution qexec = QueryExecutionFactory.create(query, thorGraph)) {
-      ResultSet results = qexec.execSelect();
-
-      while (results.hasNext()) {
-        QuerySolution soln = results.nextSolution();
-
-        System.out.println(soln);
-        System.out.println();
-//        System.out.println(soln.getResource("narrower"));
-//        System.out.println(soln.getLiteral("label1"));
-//        System.out.println(soln.getResource("broader"));
-//        System.out.println(soln.getLiteral("label2"));
-//        System.out.println("\n\n");
-      }
-    }
-
-//
-//    RDFDataMgr.write(System.out, thorGraph, Lang.TURTLE);
   }
+
+
+
+
 
 }
