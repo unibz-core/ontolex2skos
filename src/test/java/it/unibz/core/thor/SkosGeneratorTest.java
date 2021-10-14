@@ -1,3 +1,5 @@
+package it.unibz.core.thor;
+
 import org.apache.jena.ontology.Individual;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.ontology.OntModelSpec;
@@ -15,12 +17,12 @@ class SkosGeneratorTest {
 //  static OntModel model;
 //  static Ontolex ontolex;
 //  static Lexinfo lexinfo;
-//  static SkosGenerator skosGenerator;
+//  static it.unibz.core.SkosGenerator skosGenerator;
 //
 //  @BeforeAll
 //  static void setUp() {
 //    model = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM, null);
-//    skosGenerator = new SkosGenerator(model);
+//    skosGenerator = new it.unibz.core.SkosGenerator(model);
 //    ontolex = skosGenerator.ontolex;
 //    lexinfo = skosGenerator.lexinfo;
 //  }
@@ -31,8 +33,8 @@ class SkosGeneratorTest {
 //    Individual sense1 = ontolex.createLexicalSenseInstance("lexicalSense#Message1");
 //    Individual sense2 = ontolex.createLexicalSenseInstance("lexicalSense#Message2");
 //
-//    Synset ss1 = new Synset(sense1, sense2);
-//    Synset ss2 = new Synset(sense1, sense2);
+//    it.unibz.core.thor.Synset ss1 = new it.unibz.core.thor.Synset(sense1, sense2);
+//    it.unibz.core.thor.Synset ss2 = new it.unibz.core.thor.Synset(sense1, sense2);
 //
 //    assertThat(ss1).isEqualTo(ss2);
 //  }
@@ -43,8 +45,8 @@ class SkosGeneratorTest {
 //    Individual sense1 = ontolex.createLexicalSenseInstance("lexicalSense#Message1");
 //    Individual sense2 = ontolex.createLexicalSenseInstance("lexicalSense#Message2");
 //
-//    Synset ss1 = new Synset(sense1, sense2);
-//    Synset ss2 = new Synset(sense2, sense1);
+//    it.unibz.core.thor.Synset ss1 = new it.unibz.core.thor.Synset(sense1, sense2);
+//    it.unibz.core.thor.Synset ss2 = new it.unibz.core.thor.Synset(sense2, sense1);
 //
 //    assertThat(ss1).isEqualTo(ss2);
 //  }
@@ -55,8 +57,8 @@ class SkosGeneratorTest {
 //    Individual sense1 = ontolex.createLexicalSenseInstance("lexicalSense#Message1");
 //    Individual sense2 = ontolex.createLexicalSenseInstance("lexicalSense#Message2");
 //
-//    Synset ss1 = new Synset(sense1);
-//    Synset ss2 = new Synset(sense2);
+//    it.unibz.core.thor.Synset ss1 = new it.unibz.core.thor.Synset(sense1);
+//    it.unibz.core.thor.Synset ss2 = new it.unibz.core.thor.Synset(sense2);
 //
 //    assertThat(ss1).isNotEqualTo(ss2);
 //  }
@@ -66,8 +68,8 @@ class SkosGeneratorTest {
 //  void noSynonyms() {
 //    Individual sense = ontolex.createLexicalSenseInstance("lexicalSense#Client");
 //
-//    List<Synset> synsets = skosGenerator.getSynsets();
-//    Synset synset = new Synset(sense);
+//    List<it.unibz.core.thor.Synset> synsets = skosGenerator.getSynsets();
+//    it.unibz.core.thor.Synset synset = new it.unibz.core.thor.Synset(sense);
 //
 //    assertThat(synsets).contains(synset);
 //  }
@@ -79,8 +81,8 @@ class SkosGeneratorTest {
 //    Individual sense2 = ontolex.createLexicalSenseInstance("lexicalSense#Message2");
 //    lexinfo.setAsSynonyms(sense1, sense2);
 //
-//    List<Synset> synsets = skosGenerator.getSynsets();
-//    Synset synset = new Synset(sense1, sense2);
+//    List<it.unibz.core.thor.Synset> synsets = skosGenerator.getSynsets();
+//    it.unibz.core.thor.Synset synset = new it.unibz.core.thor.Synset(sense1, sense2);
 //
 //    assertThat(synsets).contains(synset);
 //  }
@@ -96,8 +98,8 @@ class SkosGeneratorTest {
 //    lexinfo.setAsSynonyms(sense1, sense3);
 //    lexinfo.setAsSynonyms(sense2, sense3);
 //
-//    List<Synset> synSets = skosGenerator.getSynsets();
-//    Synset synset = new Synset(sense1, sense2, sense3);
+//    List<it.unibz.core.thor.Synset> synSets = skosGenerator.getSynsets();
+//    it.unibz.core.thor.Synset synset = new it.unibz.core.thor.Synset(sense1, sense2, sense3);
 //
 //    assertThat(synSets).contains(synset);
 //  }

@@ -23,7 +23,7 @@
     
    -->
   <owl:Ontology rdf:about="http://www.w3.org/2004/02/skos/core">
-    <dct:title xml:lang="en">SKOS Vocabulary</dct:title>
+    <dct:title xml:lang="en">SKOS it.unibz.core.thor.Vocabulary</dct:title>
     <dct:contributor>Dave Beckett</dct:contributor>
     <dct:contributor>Nikki Rogers</dct:contributor>
     <dct:contributor>Participants in W3C's Semantic Web Deployment Working Group.</dct:contributor>

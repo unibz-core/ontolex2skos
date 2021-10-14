@@ -1,4 +1,4 @@
-import org.apache.jena.rdf.model.Resource;
+package it.unibz.core.thor;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -6,24 +6,22 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.stream.Stream;
 
-import static java.util.stream.Collectors.toSet;
-
 public class Synset {
-  private TreeSet<Resource> senses = new TreeSet<>((o1, o2) -> o1.getURI().compareToIgnoreCase(o2.getURI()));
+  private TreeSet<String> senses = new TreeSet<>();
 
-  public Synset(Resource... senses) {
+  public Synset(String... senses) {
     this.senses.addAll(Arrays.asList(senses));
   }
 
-  public void add(Resource sense) {
+  public void add(String sense) {
     this.senses.add(sense);
   }
 
-  public void addAll(Collection<? extends Resource> senses) {
+  public void addAll(Collection<? extends String> senses) {
     this.senses.addAll(senses);
   }
 
-  public void remove(Resource sense) {
+  public void remove(String sense) {
     this.senses.remove(sense);
   }
 
@@ -35,19 +33,19 @@ public class Synset {
     return this.size() == 0;
   }
 
-  public SortedSet<Resource> getSenses() {
+  public SortedSet<String> getSenses() {
     return new TreeSet<>(senses);
   }
 
-  public Stream<Resource> stream() {
+  public Stream<String> stream() {
     return senses.stream();
   }
 
-  public Resource first() {
+  public String first() {
     return senses.first();
   }
 
-  public SortedSet<Resource> tailSet() {
+  public SortedSet<String> tailSet() {
     return senses.tailSet(senses.first(), false);
   }
 
@@ -68,10 +66,7 @@ public class Synset {
 
   @Override
   public String toString() {
-    return senses.stream()
-            .map(Resource::getURI)
-            .collect(toSet())
-            .toString();
+    return senses.toString();
   }
 
 }

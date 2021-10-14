@@ -1,0 +1,15 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix ontolex: <http://www.w3.org/ns/lemon/ontolex#> .
+@prefix thor: <http://purl.org/thor/>
+
+thor:hasContext rdf:type owl:ObjectProperty ;
+                rdfs:domain ontolex:LexicalConcept ;
+                rdfs:range thor:Context ;
+                rdfs:label "context"@en ;
+                rdfs:label "context"@nl .
+
+ontolex:isConceptOf rdf:type owl:ObjectProperty ;
+                    rdfs:label "is concept of"@en ;
+                    rdfs:label "is concept van"@nl .
