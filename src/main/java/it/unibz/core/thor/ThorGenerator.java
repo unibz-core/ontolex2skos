@@ -1,5 +1,7 @@
 package it.unibz.core.thor;
 
+import java.util.Objects;
+
 import static it.unibz.core.thor.Vocabulary.*;
 
 public class ThorGenerator {
@@ -27,30 +29,26 @@ public class ThorGenerator {
     System.out.println("Loading skos module..");
     graph.loadModule(SKOS);
 
-    // TODO: Create one thesaurus per lexicon
     System.out.println("Deriving skos:Scheme from lime:Lexicon...");
     graph.deriveScheme();
 
-    // TODO: Derive concept title
     System.out.println("Deriving dct:title for concept schemes...");
     graph.deriveSchemeLabel();
 
     System.out.println("Deriving concepts from synsets...");
     graph.deriveConcepts();
 
-    // TODO: Derive skos:inScheme for every concept
     System.out.println("Deriving skos:inScheme from lime:entry...");
     graph.deriveInScheme();
 
-    // TODO: Fix preferential label generation
     System.out.println("Deriving skos:prefLabel from preferred senses...");
     graph.derivePreferredLabels();
 
     System.out.println("Deriving skos:altLabel from non-preferred senses...");
     graph.deriveAlternativeLabels();
 
-    System.out.println("Deriving SKOS data properties from lexical senses...");
-    graph.deriveSkosDataProperties();
+    System.out.println("Copying properties from lexical senses...");
+    graph.copyPropertiesFromSenses();
 
     System.out.println("Deriving skos:altLabel from acronyms...");
     graph.deriveAlternativeLabelsFromAcronyms();
@@ -58,38 +56,40 @@ public class ThorGenerator {
     System.out.println("Deriving ontolex:isConceptof from ontolex:reference...");
     graph.deriveIsConceptOf();
 
+    // TODO: Gerated skos:related from ontolex:relatedTerm
+
     System.out.println("Deriving skos:broader and skos:narrower from lexinfo:hypernym and lexinfo:hyponym...");
     graph.deriveBroaderNarrower();
 
-    // TODO: Derive skos:topConceptOf (concept that has no broader)
     System.out.println("Deriving skos:topConceptOf...");
     graph.deriveTopConceptOf();
 
-    // TODO: Derive thor:hasContext from lexinfo:domain
     System.out.println("Deriving thor:hasContext from lexinfo:domain...");
     graph.deriveHasContext();
 
-    // TODO: Derive skos:scopeNote from ontolex:usage
     System.out.println("Deriving skos:scopeNote from ontolex:usage...");
     graph.deriveScopeNote();
 
     System.out.println("Deriving ontolex:isEvokedBy...");
     graph.deriveIsEvokedBy();
 
-    // TODO: Add domains as qualifiers when necessary
     System.out.println("Attempting to resolve name conflicts...");
     graph.resolveConflictsOnPrefLabels();
   }
 
+  private void requireGraph() {
+    if(graph==null)
+      throw new IllegalStateException("Cannot get Skos subgraph before running the generator.");
+  }
+
   public KnowledgeGraph getSkosSubgraph() {
+    requireGraph();
+
     System.out.println("Extracting subgraph with SKOS data...");
     SkosTargetGraph thesaurus = new SkosTargetGraph(graph);
 
     System.out.println("Loading custom properties...");
     thesaurus.loadCustomProperties();
-
-//    System.out.println("Loading external mappings...");
-//    targetGraph.loadExternalMappings();
 
     System.out.println("Saving schemes...");
     thesaurus.copySchemes();
@@ -113,6 +113,8 @@ public class ThorGenerator {
   }
 
   public KnowledgeGraph getOntolexSubgraph() {
+    requireGraph();
+
     OntolexTargetGraph lexicon = new OntolexTargetGraph(graph);
 
     System.out.println("Saving lexicons...");
@@ -121,11 +123,12 @@ public class ThorGenerator {
     System.out.println("Saving lexicons' properties...");
     lexicon.copyLexiconData();
 
-
     return lexicon;
   }
 
   public KnowledgeGraph getCompleteGraph() {
+    requireGraph();
+
     return graph;
   }
 

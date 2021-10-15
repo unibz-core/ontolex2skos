@@ -26,10 +26,6 @@ public class SkosTargetGraph extends KnowledgeGraph {
     loadResource("custom-properties.ttl");
   }
 
-  public void loadExternalMappings() {
-    loadResource("external-mappings.ttl");
-  }
-
   public void copySchemes() {
     String sparql = Vocabulary.getPrefixDeclarations() +
             "SELECT ?scheme " +
@@ -129,6 +125,7 @@ public class SkosTargetGraph extends KnowledgeGraph {
             "skos:example",
             "ontolex:isConceptOf",
             "thor:hasContext",
+            "foaf:homepage",
             "rdfs:label"
     };
 

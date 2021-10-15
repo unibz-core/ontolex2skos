@@ -2,7 +2,8 @@
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix ontolex: <http://www.w3.org/ns/lemon/ontolex#> .
-@prefix thor: <http://purl.org/thor/>
+@prefix thor: <http://purl.org/thor/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
 
 thor:hasContext rdf:type owl:ObjectProperty ;
                 rdfs:domain ontolex:LexicalConcept ;
@@ -13,3 +14,7 @@ thor:hasContext rdf:type owl:ObjectProperty ;
 ontolex:isConceptOf rdf:type owl:ObjectProperty ;
                     rdfs:label "is concept of"@en ;
                     rdfs:label "is concept van"@nl .
+
+foaf:homepage rdf:type owl:ObjectProperty ;
+              rdfs:label "homepage"@en ;
+              rdfs:label "is concept van"@nl .

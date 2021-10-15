@@ -426,12 +426,13 @@ public class WorkingGraph extends KnowledgeGraph {
     }
   }
 
-  void deriveSkosDataProperties() {
+  void copyPropertiesFromSenses() {
     String[] properties = {
             "skos:definition",
             "skos:scopeNote",
             "skos:historyNote",
             "skos:example",
+            "foaf:homepage",
     };
 
     String sparql = Vocabulary.getPrefixDeclarations() +
@@ -599,4 +600,5 @@ public class WorkingGraph extends KnowledgeGraph {
       insertStatements(statements);
     }
   }
+
 }

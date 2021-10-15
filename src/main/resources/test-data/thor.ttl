@@ -645,6 +645,7 @@ In de thesaurus Zorg & Welzijn voor iStandaarden staat: officiële opdracht van 
   ontolex:isSenseOf :ontolexLexicalEntry_client .
 
 :ontolexLexicalSense_client_2 a ontolex:LexicalSense;
+  lexinfo:hypernym :ontolexLexicalSense_persoon_1;
   skos:definition "een rol van een persoon die i.h.k.v. de Wlz, Wmo of Jeugdwet zorg of ondersteuning ontvangt van een (zorg)aanbieder, of die recht heeft op het ontvangen daarvan."@nl;
   ontolex:isSenseOf :ontolexLexicalEntry_client .
 
@@ -720,7 +721,7 @@ In de thesaurus Zorg & Welzijn voor iStandaarden staat: officiële opdracht van 
 :ontolexLexicalEntry_zorgprofiel.n ontolex:denotes <http://purl.org/ozo/vph-g#RequiredCareAgreement>;
   ontolex:sense :ontolexLexicalSense_zorgprofiel_1 .
 
-:ontolexLexicalSense_zorgprofiel_1 a ontolex:LexicalSense;
+:ontolexLexicalSense_zorgprofiel_1 a thor:PreferredSense, ontolex:LexicalSense;
   lexinfo:synonym :ontolexLexicalSense_zorgzwaartepakket_1;
   ontolex:isSenseOf :ontolexLexicalEntry_zorgprofiel.n;
   ontolex:reference <http://purl.org/ozo/vph-g#RequiredCareAgreement> .
@@ -746,7 +747,7 @@ In de thesaurus Zorg & Welzijn voor iStandaarden staat: officiële opdracht van 
   skos:inScheme :conceptScheme_442ec41b .
 
 :ontolexLexicalSense_uitstroom_3 a ontolex:LexicalSense;
-  :definitionSource "https://github.com/kik-v/use-cases/wiki/14.-Indicator-2.4.2-%E2%80%93-Percentage-uitstroom"@nl;
+  dct:source <https://github.com/kik-v/use-cases/wiki/14.-Indicator-2.4.2-%E2%80%93-Percentage-uitstroom>;
   lexinfo:domain :KIK;
   lexinfo:hypernym :ontolexLexicalSense_uitstroom_2;
   skos:definition "Uitstroom is het aantal zorgverleners met een arbeids- en of oproepovereenkomst dat tussen twee meetmomenten ontslag heeft genomen of gekregen bij een zorgorganisatie, en die zorg verleenden aan cliënten met een zorgprofiel 4 tot en met 10."@nl;
@@ -755,9 +756,6 @@ In de thesaurus Zorg & Welzijn voor iStandaarden staat: officiële opdracht van 
   ontolex:reference <http://purl.org/ozo/vph-g#LeavingAnOrganizationEvent> .
 
 :ontolexLexicalEntry_uitstroom.n ontolex:sense :ontolexLexicalSense_uitstroom_3 .
-
-:definitionSource a rdf:Property;
-  rdfs:subPropertyOf dct:source .
 
 :ontolexLexicalSense_uitstroom_1 lexinfo:hyponym :ontolexLexicalSense_uitstroom_2 .
 
@@ -878,7 +876,7 @@ In de thesaurus Zorg & Welzijn voor iStandaarden staat: officiële opdracht van 
   skos:topConceptOf :conceptScheme_442ec41b .
 
 :ontolexLexicalSense_Zorginstituut_Nederland_1 a ontolex:LexicalSense;
-  :definitionSource <https://nl.wikipedia.org/wiki/Zorginstituut_Nederland>;
+  dct:source <https://nl.wikipedia.org/wiki/Zorginstituut_Nederland>;
   skos:definition "Het Zorginstituut Nederland is een Nederlands zelfstandig bestuursorgaan dat erop toeziet dat Nederlandse burgers verzekerd zijn en blijven volgens de Zorgverzekeringswet (Zvw) en de Wet langdurige zorg (Wlz). Daarmee wordt gewaarborgd dat iedereen die recht heeft op zorg het ook krijgt. "@nl;
   ontolex:reference <http://purl.org/ozo/vph-g#ServiceOrganization>;
   ontolex:usage """De taken van het Zorginstituut Nederland zijn:
@@ -888,7 +886,12 @@ In de thesaurus Zorg & Welzijn voor iStandaarden staat: officiële opdracht van 
 4. Adviseren over toekomstige beroepen- en opleidingenstructuur in de zorg."""@nl;
   foaf:homepage <https://www.zorginstituutnederland.nl> .
 
-<http://purl.org//ZIN-Thor/http://xmlns.com/foaf/0.1/homepage> a rdf:Property .
+:ontolexLexicalSense_Centrum_Indicatiestelling_Zorg_1 a thor:PreferredSense, ontolex:LexicalSense;
+  dct:source <https://nl.wikipedia.org/wiki/Centrum_Indicatiestelling_Zorg>;
+  skos:definition "Het Centrum Indicatiestelling Zorg (CIZ) is een zelfstandig bestuursorgaan van het ministerie van Volksgezondheid, Welzijn en Sport (VWS) dat beoordeelt of iemand in aanmerking komt voor zorg uit de Wet langdurige zorg (Wlz)."@nl;
+  ontolex:isSenseOf :ontolexLexicalEntry_Centrum_Indicatiestelling_Zorg.mwu;
+  ontolex:reference <http://purl.org/ozo/vph-g#ServiceOrganization>;
+  foaf:homepage <https://www.ciz.nl/> .
 
 :ontolexLexicalEntry_Zorginstituut_Nederland.n ontolex:denotes <http://purl.org/ozo/vph-g#ServiceOrganization> .
 
@@ -951,7 +954,7 @@ In de thesaurus Zorg & Welzijn voor iStandaarden staat: officiële opdracht van 
   ontolex:sense :ontolexLexicalSense_organisatie_1 .
 
 :ontolexLexicalSense_organisatie_1 a ontolex:LexicalSense;
-  :definitionSource "https://nl.wikipedia.org/wiki/Organisatie"@nl;
+  dct:source <https://nl.wikipedia.org/wiki/Organisatie>;
   lexinfo:domain :algemeen;
   lexinfo:hyponym :ontolexLexicalSense_zorgorganisatie_1;
   skos:definition "\"Een organisatie is een doelgerichte samenbundeling van kennis, vaardigheden en kracht tussen meerdere personen die primair middelen en activiteiten aanwendt om te voorzien in de behoefte aan producten en/of diensten in haar omgeving.\""@nl;
@@ -978,13 +981,6 @@ In de thesaurus Zorg & Welzijn voor iStandaarden staat: officiële opdracht van 
   ontolex:canonicalForm :ontolexForm_fd1dff18;
   ontolex:denotes <http://purl.org/ozo/vph-g#ServiceOrganization>;
   ontolex:sense :ontolexLexicalSense_Centrum_Indicatiestelling_Zorg_1 .
-
-:ontolexLexicalSense_Centrum_Indicatiestelling_Zorg_1 a ontolex:LexicalSense;
-  <http://purl.org//ZIN-Thor/http://xmlns.com/foaf/0.1/homepage> "https://www.ciz.nl/"@nl;
-  :definitionSource "https://nl.wikipedia.org/wiki/Centrum_Indicatiestelling_Zorg"@nl;
-  skos:definition "Het Centrum Indicatiestelling Zorg (CIZ) is een zelfstandig bestuursorgaan van het ministerie van Volksgezondheid, Welzijn en Sport (VWS) dat beoordeelt of iemand in aanmerking komt voor zorg uit de Wet langdurige zorg (Wlz)."@nl;
-  ontolex:isSenseOf :ontolexLexicalEntry_Centrum_Indicatiestelling_Zorg.mwu;
-  ontolex:reference <http://purl.org/ozo/vph-g#ServiceOrganization> .
 
 :ontolexLexicalSense_mens_1 skos:definition "Een mens is een individueel wezen van de soort Homo Sapiens."@nl;
   ontolex:isLexicalizedSenseOf :c_9f500d3c .
@@ -1095,14 +1091,12 @@ In de thesaurus Zorg & Welzijn voor iStandaarden staat: officiële opdracht van 
 :ontolexForm_84a396e7 a ontolex:Form;
   ontolex:writtenRep "ziekenhuis"@nl .
 
-:ontolexLexicalSense_zorgorganisatie_1 :definitionSource "Wet kwaliteit, klachten en geschillen zorg (Wkkgz)"@nl,
-    "https://zoek.officielebekendmakingen.nl/stb-2015-407.html"@nl;
+:ontolexLexicalSense_zorgorganisatie_1 dct:source "Wet kwaliteit, klachten en geschillen zorg (Wkkgz)"@nl,
+    <https://zoek.officielebekendmakingen.nl/stb-2015-407.html>;
   lexinfo:hypernym :ontolexLexicalSense_organisatie_1;
   skos:definition "Een zorginstelling is \"een rechtspersoon die bedrijfsmatig zorg verleent, een organisatorisch verband van natuurlijke personen die bedrijfsmatig zorg verlenen of doen verlenen, alsmede een natuurlijke persoon die bedrijfsmatig zorg doet verlenen\"."@nl;
   ontolex:isLexicalizedSenseOf :c_44957a12;
-  ontolex:usage """Zorgorganisaties die zorg willen verlenen die op grond van de \"Zorgverzekeringswet\" of de \"Wet langdurige zorg\" voor vergoeding in aanmerking komt, moeten voldoen aan de eisen, voorwaarden en regelgeving beschreven in de \"Wet toelating zorginstellingen\" (WTZi).
-
-"""@nl .
+  ontolex:usage "Zorgorganisaties die zorg willen verlenen die op grond van de \"Zorgverzekeringswet\" of de \"Wet langdurige zorg\" voor vergoeding in aanmerking komt, moeten voldoen aan de eisen, voorwaarden en regelgeving beschreven in de \"Wet toelating zorginstellingen\" (WTZi)."@nl .
 
 :c_dd21993d skos:exactMatch <http://www.ontologyportal.org/translations/SUMO.owl.txt#Organization> .
 
@@ -1460,8 +1454,7 @@ From an ontological point of view, one should NOT translate this hierarchical re
   skos:inScheme :conceptScheme_442ec41b;
   ontolex:lexicalizedSense :ontolexLexicalSense_Zorginstituut_Nederland_1 .
 
-:ontolexLexicalSense_Centrum_Indicatiestelling_Zorg_1 a thor:PreferredSense;
-  :instanceOf "http://purl.org/ozo/vph-g#ServiceOrganization"@nl;
+:ontolexLexicalSense_Centrum_Indicatiestelling_Zorg_1 :instanceOf "http://purl.org/ozo/vph-g#ServiceOrganization"@nl;
   lexinfo:hypernym :ontolexLexicalSense_zelfstandig_bestuursorgaan_1;
   ontolex:isLexicalizedSenseOf :c_371f418d .
 
@@ -1495,8 +1488,7 @@ From an ontological point of view, one should NOT translate this hierarchical re
 
 :ontolexLexicalSense_client_1 a thor:PreferredSense .
 
-:ontolexLexicalSense_client_2 a thor:PreferredSense;
-  lexinfo:hypernym :ontolexLexicalSense_persoon_1 .
+:ontolexLexicalSense_client_2 a thor:PreferredSense .
 
 :ontolexLexicalSense_indicatiebesluit_1 a thor:PreferredSense;
   lexinfo:synonym :ontolexLexicalSense_indicatie_2 .
@@ -1536,5 +1528,3 @@ From an ontological point of view, one should NOT translate this hierarchical re
 :ontolexLexicalSense_uitstroom_3 a thor:PreferredSense .
 
 :ontolexLexicalSense_verpleeghuis_2 a thor:PreferredSense .
-
-:ontolexLexicalSense_zorgprofiel_1 a thor:PreferredSense .
