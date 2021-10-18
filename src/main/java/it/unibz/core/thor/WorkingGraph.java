@@ -3,11 +3,10 @@ package it.unibz.core.thor;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.ontology.OntModelSpec;
 import org.apache.jena.query.*;
-import org.apache.jena.rdf.model.Literal;
-import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.rdf.model.RDFNode;
-import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.*;
 
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Stream;
 
@@ -17,14 +16,27 @@ import static java.util.Arrays.asList;
 import static java.util.stream.Collectors.toList;
 
 public class WorkingGraph extends KnowledgeGraph {
+  OntModel model;
 
   public WorkingGraph() {
-    super();
+    this.model = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM_RULE_INF);
+    addDefaultNamespaces();
+  }
+
+  public WorkingGraph(Path file) throws IOException {
+    this.model = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM_RULE_INF);
+    addDefaultNamespaces();
+    readFromFile(file);
+  }
+
+  public WorkingGraph(OntModel model) {
+    this.model = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM_RULE_INF, model);
+    addDefaultNamespaces();
   }
 
   @Override
-  protected OntModel createGraph() {
-    return ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM_RULE_INF);
+  public Model getModel() {
+    return model;
   }
 
   public String createSkosConcept() {
@@ -197,7 +209,7 @@ public class WorkingGraph extends KnowledgeGraph {
 
   public void deriveIsConceptOf() {
     String sparqlQuery = getPrefixDeclarations() +
-            "SELECT ?concept ?entity " +
+            "SELECT distinct ?concept ?entity " +
             "WHERE { " +
             "   ?concept rdf:type skos:Concept . " +
             "   ?concept ontolex:lexicalizedSense ?sense . " +
@@ -207,6 +219,7 @@ public class WorkingGraph extends KnowledgeGraph {
     Query query = QueryFactory.create(sparqlQuery);
 
     try (QueryExecution qexec = QueryExecutionFactory.create(query, model)) {
+
       List<Statement> results = new ArrayList<>();
       ResultSet resultSet = qexec.execSelect();
 

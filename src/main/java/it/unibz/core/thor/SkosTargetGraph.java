@@ -3,6 +3,7 @@ package it.unibz.core.thor;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.ontology.OntModelSpec;
 import org.apache.jena.query.*;
+import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.RDFNode;
 
@@ -11,16 +12,18 @@ import java.util.List;
 
 public class SkosTargetGraph extends KnowledgeGraph {
   WorkingGraph source;
+  OntModel model;
 
   public SkosTargetGraph(WorkingGraph source) {
-    super();
+    this.model = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
     this.source = source;
     this.loadCustomProperties();
+    addDefaultNamespaces();
   }
 
   @Override
-  protected OntModel createGraph() {
-    return ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
+  public Model getModel() {
+    return model;
   }
 
   public void loadCustomProperties() {
@@ -36,7 +39,7 @@ public class SkosTargetGraph extends KnowledgeGraph {
             "}";
 
     Query query = QueryFactory.create(sparql);
-    try (QueryExecution qexec = QueryExecutionFactory.create(query, source.model)) {
+    try (QueryExecution qexec = QueryExecutionFactory.create(query, source.getModel())) {
       List<Statement> statements = new ArrayList<>();
       ResultSet resultSet = qexec.execSelect();
 
@@ -68,7 +71,7 @@ public class SkosTargetGraph extends KnowledgeGraph {
             "}";
 
     Query query = QueryFactory.create(sparql);
-    try (QueryExecution qexec = QueryExecutionFactory.create(query, source.model)) {
+    try (QueryExecution qexec = QueryExecutionFactory.create(query, source.getModel())) {
       List<Statement> statements = new ArrayList<>();
       ResultSet resultSet = qexec.execSelect();
 
@@ -98,7 +101,7 @@ public class SkosTargetGraph extends KnowledgeGraph {
             "}";
 
     Query query = QueryFactory.create(sparql);
-    try (QueryExecution qexec = QueryExecutionFactory.create(query, source.model)) {
+    try (QueryExecution qexec = QueryExecutionFactory.create(query, source.getModel())) {
       List<Statement> statements = new ArrayList<>();
       ResultSet resultSet = qexec.execSelect();
 
@@ -139,7 +142,7 @@ public class SkosTargetGraph extends KnowledgeGraph {
             "}";
 
     Query query = QueryFactory.create(sparql);
-    try (QueryExecution qexec = QueryExecutionFactory.create(query, source.model)) {
+    try (QueryExecution qexec = QueryExecutionFactory.create(query, source.getModel())) {
       List<Statement> statements = new ArrayList<>();
       ResultSet resultSet = qexec.execSelect();
 
@@ -177,7 +180,7 @@ public class SkosTargetGraph extends KnowledgeGraph {
             "}";
 
     Query query = QueryFactory.create(sparql);
-    try (QueryExecution qexec = QueryExecutionFactory.create(query, source.model)) {
+    try (QueryExecution qexec = QueryExecutionFactory.create(query, source.getModel())) {
       List<Statement> statements = new ArrayList<>();
       ResultSet resultSet = qexec.execSelect();
 
@@ -204,7 +207,7 @@ public class SkosTargetGraph extends KnowledgeGraph {
             "}";
 
     Query query = QueryFactory.create(sparql);
-    try (QueryExecution qexec = QueryExecutionFactory.create(query, source.model)) {
+    try (QueryExecution qexec = QueryExecutionFactory.create(query, source.getModel())) {
       List<Statement> statements = new ArrayList<>();
       ResultSet resultSet = qexec.execSelect();
 

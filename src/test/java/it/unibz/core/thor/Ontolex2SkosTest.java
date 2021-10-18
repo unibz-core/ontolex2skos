@@ -1,23 +1,40 @@
 package it.unibz.core.thor;
 
-import org.apache.jena.ontology.OntModel;
-import org.apache.jena.ontology.OntModelSpec;
-import org.apache.jena.rdf.model.ModelFactory;
-import org.junit.jupiter.api.BeforeAll;
+import org.apache.jena.riot.Lang;
+import org.apache.jena.riot.RDFDataMgr;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-
+import static it.unibz.core.thor.Vocabulary.getPrefixDeclarations;
 import static org.assertj.core.api.Assertions.assertThat;
 
-class LexinfoTest {
-//  static final String PREFIX = "http://example.com/";
-//  static OntModel ontology;
-//  static OntModel target;
-//  static Ontolex ontolex;
-//  static Lexinfo lexinfo;
-//
-//  @BeforeAll
+class Ontolex2SkosTest {
+
+  private TestGraph testGraph;
+
+  @BeforeEach
+  void setUp() {
+    testGraph = new TestGraph();
+  }
+
+  @Test
+  void senseShouldGenerateConcept() {
+    testGraph.createLexicalSense("http://example.com/sense1");
+    testGraph.transform();
+
+    String sparql = getPrefixDeclarations() +
+            "ASK " +
+            "WHERE {" +
+            "   ?x rdf:type skos:Concept . " +
+            "   ?x ontolex:lexicalizedSense <http://example.com/sense1>" +
+            "}";
+
+    boolean exists = testGraph.askWorkingGraph(sparql);
+    assertThat(exists).isTrue();
+  }
+
+
+  //  @BeforeAll
 //  static void setUp() {
 //    ontology = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM_RULE_INF, null);
 //    target = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM_RULE_INF, null);

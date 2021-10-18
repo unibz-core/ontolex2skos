@@ -142,5 +142,11 @@ public class QueryBuilder {
     return b.build();
   }
 
+  public static Query build(Statement... statements) {
+    QueryBuilder b = new QueryBuilder();
+    b.addStatements(statements);
+    return b.build();
+  }
+
 
 }
