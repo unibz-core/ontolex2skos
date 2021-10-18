@@ -11,12 +11,12 @@ public class Ontolex2Skos {
   Path sourceOntolexFile;
   WorkingGraph graph;
 
-  private Ontolex2Skos(Path sourceOntolexFile) {
+  public Ontolex2Skos(Path sourceOntolexFile) {
     Objects.requireNonNull(sourceOntolexFile);
     this.sourceOntolexFile = sourceOntolexFile;
   }
 
-  private void run() throws IOException {
+  public void run() throws IOException {
     System.out.println("Creating knowledge graph...");
     graph = new WorkingGraph();
 
@@ -85,7 +85,7 @@ public class Ontolex2Skos {
       throw new IllegalStateException("Cannot get Skos subgraph before running the generator.");
   }
 
-  private KnowledgeGraph getSkosSubgraph() {
+  public KnowledgeGraph getSkosSubgraph() {
     requireGraph();
 
     SkosTargetGraph thesaurus = new SkosTargetGraph(graph);
@@ -111,7 +111,7 @@ public class Ontolex2Skos {
     return thesaurus;
   }
 
-  private KnowledgeGraph getOntolexSubgraph() {
+  public KnowledgeGraph getOntolexSubgraph() {
     requireGraph();
 
     OntolexTargetGraph lexicon = new OntolexTargetGraph(graph);
