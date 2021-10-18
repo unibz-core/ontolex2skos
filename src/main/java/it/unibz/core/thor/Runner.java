@@ -10,6 +10,13 @@ public class Runner {
     if (args.length == 0)
       throw new IllegalArgumentException("Please provide the path to the file containing ontolex data.");
 
+    Path sourceFile = parseSourceFileParameter(args);
+    Path targetDirectory = parseTargetDirectoryParameter(args);
+
+    Ontolex2Skos.generateAndSave(sourceFile, targetDirectory);
+  }
+
+  private static Path parseSourceFileParameter(String[] args) {
     String sourceFilePath = args[0];
     Path sourceFile = Path.of(sourceFilePath);
 
@@ -19,30 +26,15 @@ public class Runner {
     if (!Files.isRegularFile(sourceFile))
       throw new IllegalArgumentException("'" + sourceFile.toString() + "' is not a file!");
 
+    return sourceFile.toAbsolutePath();
+  }
+
+  private static Path parseTargetDirectoryParameter(String[] args) throws IOException {
     String targetDirectoryPath = (args.length >= 2) ? args[1] : "";
     Path targetDirectory = Path.of(targetDirectoryPath);
     Files.createDirectories(targetDirectory);
-
-    generateThesaurus(sourceFile, targetDirectory);
-
+    return targetDirectory;
   }
 
-  private static void generateThesaurus(Path sourceFilePath, Path targetDirectoryPath) throws IOException {
-    final String absoluteSourceFilePath = sourceFilePath.toAbsolutePath().toString();
-    System.out.println("\nGenerating a thesaurus for '" + absoluteSourceFilePath + "'");
-
-    ThorGenerator gen = new ThorGenerator(absoluteSourceFilePath);
-    gen.run();
-
-    KnowledgeGraph skosSubgraph = gen.getSkosSubgraph();
-    skosSubgraph.writeToFile(targetDirectoryPath.resolve("thesaurus.ttl").toString());
-
-    KnowledgeGraph ontolexSubgraph = gen.getOntolexSubgraph();
-    ontolexSubgraph.writeToFile(targetDirectoryPath.resolve("lexicon.ttl").toString());
-
-    KnowledgeGraph completeGraph = gen.getCompleteGraph();
-    completeGraph.writeToFile(targetDirectoryPath.resolve("kg.ttl").toString());
-
-  }
 
 }

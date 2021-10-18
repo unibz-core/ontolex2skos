@@ -17,3 +17,5 @@ output/
 kg.ttl
 lexicon.ttl
 thesaurus.ttl
+
+*.iml

@@ -15,6 +15,7 @@ public class SkosTargetGraph extends KnowledgeGraph {
   public SkosTargetGraph(WorkingGraph source) {
     super();
     this.source = source;
+    this.loadCustomProperties();
   }
 
   @Override

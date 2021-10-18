@@ -10,10 +10,9 @@ import org.apache.jena.update.UpdateAction;
 import org.apache.jena.update.UpdateFactory;
 import org.apache.jena.update.UpdateRequest;
 
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
@@ -25,46 +24,36 @@ public abstract class KnowledgeGraph {
   OntModel model;
 
   public KnowledgeGraph() {
-    System.out.println("Will create graph...");
     model = this.createGraph();
-    System.out.println("Will add default namespaces");
     addDefaultNamespaces();
   }
 
   abstract protected OntModel createGraph();
 
-  public void readFromFile(String filename) throws IOException {
-    Path path = Path.of(filename);
-    System.out.println(filename);
-    RDFDataMgr.read(model, Files.newInputStream(path), Lang.TURTLE);
+  public void readFromFile(Path file) throws IOException {
+    RDFDataMgr.read(model, Files.newInputStream(file), Lang.TURTLE);
   }
 
   public void loadModule(Vocabulary v) {
-    String filepath = v.getFilePath();
-    RDFDataMgr.read(model, filepath);
+    InputStream inputStream = v.getInputStream();
+    RDFDataMgr.read(model, inputStream, v.format);
   }
 
   public void loadResource(String filename) {
-    Objects.requireNonNull(filename, "Cannot load resource from null filename.");
+    Objects.requireNonNull(filename, "Cannot load inputStream from null filename.");
 
-    URL resource = KnowledgeGraph.class.getClassLoader().getResource(filename);
-    Objects.requireNonNull(resource, "Cannot load resource from non-existing filename.");
+    InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(filename);
+    Objects.requireNonNull(inputStream, "Cannot load inputStream from non-existing filename.");
 
-    RDFDataMgr.read(model, resource.getFile());
+    RDFDataMgr.read(model, inputStream, Lang.TURTLE);
   }
 
-  public void writeToFile(String filename) {
-    System.out.println("Writing output to '" + filename + "'");
-
-    try (OutputStream out = new FileOutputStream(filename)) {
-      RDFDataMgr.write(out, model, Lang.TURTLE);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+  public void writeToFile(Path file) throws IOException {
+    OutputStream out = Files.newOutputStream(file);
+    RDFDataMgr.write(out, model, Lang.TURTLE);
   }
 
   public void addNamespace(Vocabulary vocabulary) {
-    System.out.println("Adding " + vocabulary.prefix + ": " + vocabulary.uri);
     model.setNsPrefix(vocabulary.prefix, vocabulary.uri);
   }
 
