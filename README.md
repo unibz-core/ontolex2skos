@@ -4,7 +4,7 @@ An automated model-driven transformation that generates thesauri from lexica.
 
 This Java application reads lexical data, structured using the [Ontolex](https://www.w3.org/2016/05/ontolex/) vocabulary, and yields thesauri data structured according to the [SKOS](https://www.w3.org/2004/02/skos/) vocabulary.
 
-`ontolex2thor` has been developed in the context of the **ThOR: Thesaurus and Ontological Representation in Healthcare**, a collaboration between the [Conceptual and Cognitive Modeling Research Group (CORE)](https://www.inf.unibz.it/krdb/core/) of the [Free University of Bozen-Bolzano (UNIBZ)](https://unibz.it) and the [iStandaarden](https://istandaarden.nl) unit of the [Zorginstituut Nederland (ZIN)](https://www.zorginstituutnederland.nl).
+`ontolex2thor` has been developed in the context of the project **ThOR: Thesaurus and Ontological Representation in Healthcare**, a collaboration between the [Conceptual and Cognitive Modeling Research Group (CORE)](https://www.inf.unibz.it/krdb/core/) of the [Free University of Bozen-Bolzano (UNIBZ)](https://unibz.it) and the [iStandaarden](https://istandaarden.nl) unit of the [Zorginstituut Nederland (ZIN)](https://www.zorginstituutnederland.nl).
 
 Contributors:
 
