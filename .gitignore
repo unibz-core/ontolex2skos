@@ -13,3 +13,7 @@ buildNumber.properties
 .idea
 output/
 .DS_Store
+
+kg.ttl
+lexicon.ttl
+thesaurus.ttl

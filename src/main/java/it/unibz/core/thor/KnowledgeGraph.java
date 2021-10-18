@@ -14,6 +14,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 
 import static java.util.stream.Collectors.joining;
@@ -23,14 +25,18 @@ public abstract class KnowledgeGraph {
   OntModel model;
 
   public KnowledgeGraph() {
+    System.out.println("Will create graph...");
     model = this.createGraph();
+    System.out.println("Will add default namespaces");
     addDefaultNamespaces();
   }
 
   abstract protected OntModel createGraph();
 
-  public void readFromFile(String filename) {
-    RDFDataMgr.read(model, filename);
+  public void readFromFile(String filename) throws IOException {
+    Path path = Path.of(filename);
+    System.out.println(filename);
+    RDFDataMgr.read(model, Files.newInputStream(path), Lang.TURTLE);
   }
 
   public void loadModule(Vocabulary v) {
@@ -48,7 +54,6 @@ public abstract class KnowledgeGraph {
   }
 
   public void writeToFile(String filename) {
-    filename = "output/" + filename;
     System.out.println("Writing output to '" + filename + "'");
 
     try (OutputStream out = new FileOutputStream(filename)) {
@@ -59,6 +64,7 @@ public abstract class KnowledgeGraph {
   }
 
   public void addNamespace(Vocabulary vocabulary) {
+    System.out.println("Adding " + vocabulary.prefix + ": " + vocabulary.uri);
     model.setNsPrefix(vocabulary.prefix, vocabulary.uri);
   }
 
