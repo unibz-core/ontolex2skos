@@ -48,6 +48,11 @@ public class TestGraph extends KnowledgeGraph {
     createInstace(uri, "ontolex:Lexicon");
   }
 
+  public void insert(String subjectUri, String predicateUri, String objectUri) {
+    Statement s = new Statement(subjectUri, predicateUri, objectUri);
+    insertStatements(s);
+  }
+
   @Override
   public Model getModel() {
     return model;
