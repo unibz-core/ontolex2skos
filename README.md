@@ -71,7 +71,9 @@ java -jar target/thor-1.0.jar sourceFile.ttl targetDir
 
 ## Transformation
 
-#### From lexical senses to concepts
+The transformation rules implemented in the `ontolex2skos` application are listed below.
+
+#### 1. From lexical senses to concepts
 
 A `ontolex:LexicalSense` gives rise to a `skos:Concept`, which is connected to the former via a `ontolex:lexicalizedSense`:
 
@@ -97,13 +99,13 @@ Input:
 :dogSense rdf:type ontolex:LexicalSense .         
 
 :canineSense rdf:type ontolex:LexicalSense ;
-             lexinfo:synonym :dogSense .        
+             lexinfo:synonym :dogSense 
 ```
 
 Output:
 
 ```
 :dogConcept rdf:type skos:Concept ;
-            ontolex:lexicalizedSense :dogSense, :canineSense .
+            ontolex:lexicalizedSense :dogSense, :canineSense 
 ```
 
