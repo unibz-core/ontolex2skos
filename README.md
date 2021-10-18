@@ -69,3 +69,41 @@ To do that, execute the command below, replacing `targetDir` with your custom ou
 java -jar target/thor-1.0.jar sourceFile.ttl targetDir
 ```
 
+## Transformation
+
+#### From lexical senses to concepts
+
+A `ontolex:LexicalSense` gives rise to a `skos:Concept`, which is connected to the former via a `ontolex:lexicalizedSense`:
+
+Input: 
+
+```
+:dogSense rdf:type ontolex:LexicalSense         
+```
+
+Output:
+
+```
+:dogConcept rdf:type skos:Concept ;
+            ontolex:lexicalizedSense :dogSense
+```
+
+When two or more `ontolex:LexicalSense` are synonyms they form a **synset**. Each synset is mapped into a `skos:Concept`:
+
+
+Input:
+
+```
+:dogSense rdf:type ontolex:LexicalSense .         
+
+:canineSense rdf:type ontolex:LexicalSense ;
+             lexinfo:synonym :dogSense .        
+```
+
+Output:
+
+```
+:dogConcept rdf:type skos:Concept ;
+            ontolex:lexicalizedSense :dogSense, :canineSense .
+```
+
