@@ -163,7 +163,53 @@ public class SkosTargetGraph extends KnowledgeGraph {
     }
   }
 
-  public void copySemanticRelations() {
+  public void copyReifiedPropertyValues() {
+
+    String[] properties = {
+            "skos:topConceptOf",
+            "skos:prefLabel",
+            "skos:altLabel",
+            "skos:definition",
+            "skos:scopeNote",
+            "skos:historyNote",
+            "skos:example",
+            "foaf:homepage",
+            "rdfs:label"
+    };
+
+    String sparql = Vocabulary.getPrefixDeclarations() +
+            "SELECT * " +
+            "WHERE { " +
+            "   ?subject ?property ?object . " +
+            "   ?concept ?baseProperty ?subject . " +
+            "   ?concept rdf:type thor:DerivedConcept . " +
+            "FILTER(?baseProperty IN (" + String.join(", ", properties) + ")) " +
+            "}";
+
+    Query query = QueryFactory.create(sparql);
+    try (QueryExecution qexec = QueryExecutionFactory.create(query, source.getModel())) {
+      List<Statement> statements = new ArrayList<>();
+      ResultSet resultSet = qexec.execSelect();
+
+      while (resultSet.hasNext()) {
+        QuerySolution solution = resultSet.nextSolution();
+        final RDFNode subject = solution.get("subject");
+        final RDFNode property = solution.get("property");
+        final RDFNode object = solution.get("object");
+
+        if (object.isAnon())
+          continue;
+
+        Statement s = new Statement(subject, property, object);
+        statements.add(s);
+      }
+
+      insertStatements(statements);
+    }
+
+  }
+
+  public void copySemanticProperties() {
     String[] properties = {
             "skos:broader",
             "skos:narrower",
@@ -176,6 +222,41 @@ public class SkosTargetGraph extends KnowledgeGraph {
             "   ?subject ?property ?object . " +
             "   ?subject rdf:type thor:DerivedConcept . " +
             "   ?object rdf:type thor:DerivedConcept . " +
+            "FILTER(?property IN (" + String.join(", ", properties) + ")) " +
+            "}";
+
+    Query query = QueryFactory.create(sparql);
+    try (QueryExecution qexec = QueryExecutionFactory.create(query, source.getModel())) {
+      List<Statement> statements = new ArrayList<>();
+      ResultSet resultSet = qexec.execSelect();
+
+      while (resultSet.hasNext()) {
+        QuerySolution solution = resultSet.nextSolution();
+        final RDFNode subject = solution.get("subject");
+        final RDFNode property = solution.get("property");
+        final RDFNode object = solution.get("object");
+
+        Statement s = new Statement(subject, property, object);
+        statements.add(s);
+      }
+
+      insertStatements(statements);
+    }
+  }
+
+  public void copyMappingProperties() {
+    String[] properties = {
+            "thor:exactMapping",
+            "thor:closeMapping",
+            "thor:broadMapping",
+            "thor:narrowMapping",
+    };
+
+    String sparql = Vocabulary.getPrefixDeclarations() +
+            "SELECT * " +
+            "WHERE { " +
+            "   ?subject ?property ?object . " +
+            "   ?subject rdf:type thor:DerivedConcept . " +
             "FILTER(?property IN (" + String.join(", ", properties) + ")) " +
             "}";
 

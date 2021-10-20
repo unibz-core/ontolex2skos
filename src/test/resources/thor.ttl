@@ -4,10 +4,8 @@
 @prefix dcam: <http://purl.org/dc/dcam/> .
 @prefix dct: <http://purl.org/dc/terms/> .
 @prefix decomp: <http://www.w3.org/ns/lemon/decomp#> .
-@prefix fn: <http://www.w3.org/2005/xpath-functions#> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix grddl: <http://www.w3.org/2003/g/data-view#> .
-@prefix lexinfo: <http://www.lexinfo.net/ontology/3.0/lexinfo#> .
 @prefix lime: <http://www.w3.org/ns/lemon/lime#> .
 @prefix ontolex: <http://www.w3.org/ns/lemon/ontolex#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
@@ -15,11 +13,9 @@
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix semiotics: <http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#> .
-@prefix sesame: <http://www.openrdf.org/schema/sesame#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix skosxl: <http://www.w3.org/2008/05/skos-xl#> .
 @prefix synsem: <http://www.w3.org/ns/lemon/synsem#> .
-@prefix thor: <http://purl.org/thor/> .
 @prefix vann: <http://purl.org/vocab/vann/> .
 @prefix vartrans: <http://www.w3.org/ns/lemon/vartrans#> .
 @prefix void: <http://rdfs.org/ns/void#> .
@@ -41,6 +37,22 @@
 :conceptScheme_442ec41b a ontolex:ConceptSet;
   rdfs:label "Thor Schema"@nl;
   skos:hasTopConcept :c_d19fb063 .
+
+:c_d19fb063 skos:topConceptOf :conceptScheme_442ec41b;
+  ontolex:isConceptOf <http://purl.org/ozo/vph-g#Freelancer>;
+  ontolex:isEvokedBy :ontolexLexicalEntry_freelancer.n, :ontolexLexicalEntry_zelfstandige_zonder_personeel.mwu;
+  ontolex:lexicalizedSense :ontolexLexicalSense_freelancer_1, :ontolexLexicalSense_zelfstandige_zonder_personeel_1 .
+
+:c_c4d7e81a ontolex:lexicalizedSense :ontolexLexicalSense_organisme .
+
+:c_172efd62 ontolex:lexicalizedSense :ontolexLexicalSense_artefact .
+
+:ontolexLexicalEntry_freelancer.n ontolex:evokes :c_d19fb063 .
+
+:ontolexLexicalEntry_zelfstandige_zonder_personeel.mwu a ontolex:MultiWordExpression;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#fullFormFor> <http://purl.org/ZIN-Thor/ontolexLexicalEntry_zzp'er.n>;
+  ontolex:denotes <http://purl.org/ozo/vph-g#Freelancer>;
+  ontolex:evokes :c_d19fb063 .
 
 :iEb rdfs:label "iEb"@nl .
 
@@ -73,7 +85,7 @@
   ontolex:sense :ontolexLexicalSense_bericht_1 .
 
 :ontolexLexicalSense_bericht_1 a ontolex:LexicalSense;
-  lexinfo:domain :iStandaarden;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#domain> :iStandaarden;
   ontolex:isSenseOf :ontolexLexicalEntry_bericht.n;
   ontolex:usage "Dit is een generiek begrip dat voor alle iStandaarden gebruikt wordt."@nl .
 
@@ -87,7 +99,7 @@
 :ontolexForm_9075df99 a ontolex:Form;
   ontolex:writtenRep "bericht"@nl .
 
-:ontolexLexicalEntry_zorgtoewijzing.n a lexinfo:Noun;
+:ontolexLexicalEntry_zorgtoewijzing.n a <http://www.lexinfo.net/ontology/3.0/lexinfo#Noun>;
   dct:created "2021-09-22"^^xsd:date;
   dct:creator :EK;
   lime:language "nl"^^xsd:language;
@@ -95,12 +107,15 @@
   ontolex:sense :ontolexLexicalSense_zorgtoewijzing_1 .
 
 :ontolexLexicalSense_zorgtoewijzing_1 a ontolex:LexicalSense;
-  lexinfo:domain :iWlz;
-  lexinfo:synonym :ontolexLexicalSense_toewijzing_1;
-  skos:definition "Een zorgtoewijzing is een opdracht van een zorgkantoor om zorg of ondersteuning te leveren aan een cliënt."@nl;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#domain> :iWlz;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#synonym> :ontolexLexicalSense_toewijzing_1;
+  skos:definition :def_ontolexLexicalSense_zorgtoewijzing_1;
   skos:editorialNote "Ik heb nu synoniemrelatie gemaakt met \"toewijzing\", maar strikt bekeken zou het misschien beter een hypernym relatie zijn; de term zorgtoewijzing wordt alleen gebruikt voor toewijzingen in Wlz. Ik zou eigenlijk alleen wel graag willen dat beide termen naar hetzelfde concept verwijzen. Iets vergelijkbaars geldt eigenlijk voor zorgaanbieder en aanbieder, die heb ik nu ook synoniem gemaakt (en kunnen ook wel synoniem gezien worden, in de TZW wordt dit nu ook als synoniem gedefinieerd)."@nl;
   ontolex:isSenseOf :ontolexLexicalEntry_zorgtoewijzing.n;
   ontolex:usage "Binnen de context van iWlz wordt naast de term toewijzing ook de term zorgtoewijzing gebruikt."@nl .
+
+:def_ontolexLexicalSense_zorgtoewijzing_1 a <http://purl.org/thor/Definition>;
+  rdf:value "Een zorgtoewijzing is een opdracht van een zorgkantoor om zorg of ondersteuning te leveren aan een cliënt."@nl .
 
 :ontolexForm_b09d5267 a ontolex:Form;
   ontolex:writtenRep "zorgtoewijzing"@nl .
@@ -108,7 +123,7 @@
 :ontolexForm_135d2f0c a ontolex:Form;
   ontolex:writtenRep "toewijzen"@nl .
 
-:ontolexLexicalEntry_toewijzen.v a lexinfo:Verb;
+:ontolexLexicalEntry_toewijzen.v a <http://www.lexinfo.net/ontology/3.0/lexinfo#Verb>;
   dct:creator :EK .
 
 :ontolexLexicalSense_client_1 ontolex:isLexicalizedSenseOf :c_4eb7f814 .
@@ -129,30 +144,15 @@
 :c_db994816 ontolex:isConceptOf <http://purl.org/ozo/vph-g#ContactPerson>;
   ontolex:isEvokedBy :ontolexLexicalEntry_contactpersoon.n .
 
-:ontolexLexicalEntry_freelancer.n ontolex:evokes :c_d19fb063 .
-
 :ontolexLexicalEntry_zorgverlener.n ontolex:evokes :c_3284ca3b .
-
-:c_d19fb063 skos:closeMatch <http://www.ontologyportal.org/translations/SUMO.owl.txt#Freelancer>;
-  skos:topConceptOf :conceptScheme_442ec41b;
-  ontolex:isConceptOf <http://purl.org/ozo/vph-g#Freelancer>;
-  ontolex:isEvokedBy :ontolexLexicalEntry_freelancer.n, :ontolexLexicalEntry_zelfstandige_zonder_personeel.mwu;
-  ontolex:lexicalizedSense :ontolexLexicalSense_freelancer_1, :ontolexLexicalSense_zelfstandige_zonder_personeel_1 .
-
-<http://www.ontologyportal.org/translations/SUMO.owl.txt#Freelancer> skos:closeMatch
-    :c_d19fb063 .
-
-:ontolexLexicalEntry_zelfstandige_zonder_personeel.mwu a ontolex:MultiWordExpression;
-  lexinfo:fullFormFor <http://purl.org/ZIN-Thor/ontolexLexicalEntry_zzp'er.n>;
-  ontolex:denotes <http://purl.org/ozo/vph-g#Freelancer>;
-  ontolex:evokes :c_d19fb063 .
 
 :ontolexLexicalEntry_mens.n ontolex:evokes :c_9f500d3c .
 
 :c_9f500d3c ontolex:isConceptOf <http://purl.org/ozo/vph-g#Human>;
   ontolex:isEvokedBy :ontolexLexicalEntry_mens.n .
 
-:ontolexLexicalEntry_uitstroom.n a lexinfo:Noun, ontolex:LexicalEntry;
+:ontolexLexicalEntry_uitstroom.n a <http://www.lexinfo.net/ontology/3.0/lexinfo#Noun>,
+    ontolex:LexicalEntry;
   dct:creator :RS;
   lime:language "nl"^^xsd:language;
   ontolex:canonicalForm :ontolexForm_ae6d21c5;
@@ -161,17 +161,23 @@
   ontolex:sense :ontolexLexicalSense_uitstroom_1, :ontolexLexicalSense_uitstroom_2 .
 
 :ontolexLexicalSense_uitstroom_1 a ontolex:LexicalSense;
-  lexinfo:domain :algemeen;
-  skos:definition "Uitstroom is het geheel van dingen dat iets verlaat."@nl;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#domain> :algemeen;
+  skos:definition :def_ontolexLexicalSense_uitstroom_1;
   skos:example "de uitstroom van kapitaal naar het buitenland"@nl;
   ontolex:isSenseOf :ontolexLexicalEntry_uitstroom.n;
   ontolex:reference <http://purl.org/ozo/vph-g#Translocation> .
 
 :ontolexLexicalSense_uitstroom_2 a ontolex:LexicalSense;
-  lexinfo:domain :algemeen;
-  skos:definition "Uitstroom is het geheel van personeelsleden dat gedurende een periode ontslag neemt of krijgt bij een werkgever."@nl;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#domain> :algemeen;
+  skos:definition :def_ontolexLexicalSense_uitstroom_2;
   ontolex:isSenseOf :ontolexLexicalEntry_uitstroom.n;
   ontolex:reference <http://purl.org/ozo/vph-g#LeavingAnOrganizationEvent> .
+
+:def_ontolexLexicalSense_uitstroom_1 a <http://purl.org/thor/Definition>;
+  rdf:value "Uitstroom is het geheel van dingen dat iets verlaat."@nl .
+
+:def_ontolexLexicalSense_uitstroom_2 a <http://purl.org/thor/Definition>;
+  rdf:value "Uitstroom is het geheel van personeelsleden dat gedurende een periode ontslag neemt of krijgt bij een werkgever."@nl .
 
 :ontolexForm_ae6d21c5 a ontolex:Form;
   ontolex:writtenRep "uitstroom"@nl .
@@ -183,15 +189,17 @@
   ontolex:isEvokedBy :ontolexLexicalEntry_organisatie.n;
   ontolex:lexicalizedSense :ontolexLexicalSense_organisatie_1 .
 
-:KIK_Lexicon lime:entry :ontolexLexicalEntry_ZIN.n, :ontolexLexicalEntry_Zorginstituut_Nederland.n,
-    :ontolexLexicalEntry_uitstroom.n, :ontolexLexicalEntry_zzp.n.2 .
-
 :c_f560d44f skos:broader :c_dd21993d;
   ontolex:isConceptOf <http://purl.org/ozo/vph-g#ServiceOrganization>;
   ontolex:isEvokedBy :ontolexLexicalEntry_zelfstandig_bestuursorgaan.n;
   ontolex:lexicalizedSense :ontolexLexicalSense_zelfstandig_bestuursorgaan_1 .
 
 :ontolexLexicalEntry_organisatie.n ontolex:evokes :c_dd21993d .
+
+:ontolexLexicalEntry_zelfstandig_bestuursorgaan.n ontolex:evokes :c_f560d44f .
+
+:KIK_Lexicon lime:entry :ontolexLexicalEntry_ZIN.n, :ontolexLexicalEntry_Zorginstituut_Nederland.n,
+    :ontolexLexicalEntry_uitstroom.n, :ontolexLexicalEntry_zzp.n.2 .
 
 :ontolexLexicalEntry_persoon.n ontolex:evokes :c_9f500d3c .
 
@@ -200,14 +208,14 @@
 
 :c_uitstroom_verloop a ontolex:LexicalConcept;
   rdfs:label "verloop"@nl;
-  skos:closeMatch <http://www.ontologyportal.org/translations/SUMO.owl.txt#LeavingAnOrganization>;
   skos:inScheme :conceptScheme_442ec41b;
   skos:topConceptOf :conceptScheme_442ec41b;
   ontolex:isConceptOf <http://purl.org/ozo/vph-g#LeavingAnOrganizationEvent>;
   ontolex:isEvokedBy :ontolexLexicalEntry_uitstroom.n, :ontolexLexicalEntry_verloop.n.1 .
 
-<http://www.ontologyportal.org/translations/SUMO.owl.txt#LeavingAnOrganization> skos:closeMatch
-    :c_uitstroom_verloop .
+:c_c12a4a64 ontolex:lexicalizedSense :ontolexLexicalSense_digitaal_document .
+
+:ontolexLexicalSense_verloop_2 <http://purl.org/thor/closeMapping> <http://www.ontologyportal.org/translations/SUMO.owl.txt#LeavingAnOrganization> .
 
 :conceptScheme_442ec41b skos:hasTopConcept :c_uitstroom_verloop .
 
@@ -225,17 +233,18 @@
 :c_3284ca3b dct:created "2021-09-28"^^xsd:date;
   dct:creator :RS .
 
-:ontolexLexicalEntry_zelfstandig_bestuursorgaan.n ontolex:evokes :c_f560d44f .
-
 :ontolexLexicalSense_zelfstandig_bestuursorgaan_1 ontolex:isLexicalizedSenseOf :c_f560d44f .
 
 :ontolexLexicalSense_zelfstandige_zonder_personeel_1 a ontolex:LexicalSense;
-  lexinfo:domain :generiek;
-  skos:definition "Zelfstandige zonder personeel is de rol van een persoon die voor verschillende opdrachtgevers werkt zonder dat er sprake is van een dienstverband met deze opdrachtgevers."@nl;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#domain> :generiek;
+  skos:definition :def_ontolexLexicalSense_zelfstandige_zonder_personeel_1;
   ontolex:isLexicalizedSenseOf :c_d19fb063;
   ontolex:isSenseOf :ontolexLexicalEntry_zelfstandige_zonder_personeel.mwu;
   ontolex:usage "'Zelfstandige zonder personeel' wordt met name in de bouw, metaal en zakelijke dienstverlening gebruikt; de synonieme term 'freelancer' wordt meestal gebruikt  in de journalistiek, communicatie en vormgeving."@nl,
     "Een zelfstandige zonder personeel verschilt van een 'werknemer' doordat er geen sprake is van vast of langdurig dienstverband/arbeidsovereenkomst, regelmatige loonbetaling, de verplichting tot persoonlijke uitvoering van de opdracht en een gezagsverhouding, waarbij de opdrachtgever, als de 'baas'/werkgever, bepaalt hoe het werk zou moeten worden verricht. "@nl .
+
+:def_ontolexLexicalSense_zelfstandige_zonder_personeel_1 a <http://purl.org/thor/Definition>;
+  rdf:value "Zelfstandige zonder personeel is de rol van een persoon die voor verschillende opdrachtgevers werkt zonder dat er sprake is van een dienstverband met deze opdrachtgevers."@nl .
 
 :ontolexLexicalSense_freelancer_1 ontolex:isLexicalizedSenseOf :c_d19fb063 .
 
@@ -254,16 +263,18 @@
 
 :ontolexLexicalSense_zorginstelling_1 ontolex:isLexicalizedSenseOf :c_44957a12 .
 
-:ontolexLexicalEntry_Zorginstituut_Nederland.n a lexinfo:ProperNoun, ontolex:LexicalEntry;
+:ontolexLexicalEntry_Zorginstituut_Nederland.n a <http://www.lexinfo.net/ontology/3.0/lexinfo#ProperNoun>,
+    ontolex:LexicalEntry;
   dct:created "2021-09-07"^^xsd:date;
   dct:creator :RS;
-  lexinfo:fullFormFor :ontolexLexicalEntry_ZIN.n;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#fullFormFor> :ontolexLexicalEntry_ZIN.n;
   lime:language "nl"^^xsd:language;
   ontolex:canonicalForm :ontolexForm_e5f7b66b;
   ontolex:evokes :c_384f79cf;
   ontolex:sense :ontolexLexicalSense_Zorginstituut_Nederland_1 .
 
-:ontolexLexicalSense_Zorginstituut_Nederland_1 lexinfo:domain :algemeen;
+:ontolexLexicalSense_Zorginstituut_Nederland_1 <http://www.lexinfo.net/ontology/3.0/lexinfo#domain>
+    :algemeen;
   ontolex:isSenseOf :ontolexLexicalEntry_Zorginstituut_Nederland.n .
 
 :c_384f79cf ontolex:isConceptOf <http://purl.org/ozo/vph-g#ServiceOrganization>;
@@ -291,10 +302,11 @@
 
 :ontolexLexicalEntry_indicatiebesluitbericht.n ontolex:evokes :c_7c28efb9 .
 
-:ontolexLexicalEntry_ZIN.n a lexinfo:ProperNoun, ontolex:LexicalEntry;
+:ontolexLexicalEntry_ZIN.n a <http://www.lexinfo.net/ontology/3.0/lexinfo#ProperNoun>,
+    ontolex:LexicalEntry;
   dct:created "2021-09-07"^^xsd:date;
   dct:creator :RS;
-  lexinfo:contractionFor :ontolexLexicalEntry_Zorginstituut_Nederland.n;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#contractionFor> :ontolexLexicalEntry_Zorginstituut_Nederland.n;
   lime:language "nl"^^xsd:language;
   ontolex:canonicalForm :ontolexForm_9a2acb21 .
 
@@ -309,21 +321,23 @@
 :ontolexForm_6eb50d26 a ontolex:Form;
   ontolex:writtenRep "zorgzwaartepakket"@nl .
 
-<http://purl.org/ZIN-Thor/ontolexLexicalEntry_zzp'er.n> a lexinfo:Noun, ontolex:LexicalEntry;
+<http://purl.org/ZIN-Thor/ontolexLexicalEntry_zzp'er.n> a <http://www.lexinfo.net/ontology/3.0/lexinfo#Noun>,
+    ontolex:LexicalEntry;
   dct:created "2021-09-07"^^xsd:date;
   dct:creator :RS;
-  lexinfo:contractionFor :ontolexLexicalEntry_zelfstandige_zonder_personeel.mwu;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#contractionFor> :ontolexLexicalEntry_zelfstandige_zonder_personeel.mwu;
   lime:language "nl"^^xsd:language;
   ontolex:canonicalForm :ontolexForm_e43d7df3 .
 
 :ontolexForm_e43d7df3 a ontolex:Form;
   ontolex:writtenRep "zzp'er"@nl .
 
-:ontolexLexicalEntry_zzp.n.1 a lexinfo:Noun, ontolex:LexicalEntry;
+:ontolexLexicalEntry_zzp.n.1 a <http://www.lexinfo.net/ontology/3.0/lexinfo#Noun>,
+    ontolex:LexicalEntry;
   dct:created "2021-09-07"^^xsd:date;
   dct:creator :RS;
-  lexinfo:contractionFor :ontolexLexicalEntry_zelfstandige_zonder_personeel.mwu;
-  lexinfo:homograph :ontolexLexicalEntry_zzp.n.2;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#contractionFor> :ontolexLexicalEntry_zelfstandige_zonder_personeel.mwu;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#homograph> :ontolexLexicalEntry_zzp.n.2;
   lime:language "nl"^^xsd:language;
   ontolex:canonicalForm :ontolexForm_3b54b398 .
 
@@ -331,36 +345,46 @@
 
 :EK a dct:Agent .
 
-:ontolexLexicalEntry_zzp.n.2 a lexinfo:Noun, ontolex:LexicalEntry;
+:ontolexLexicalEntry_zzp.n.2 a <http://www.lexinfo.net/ontology/3.0/lexinfo#Noun>,
+    ontolex:LexicalEntry;
   dct:created "2021-09-07"^^xsd:date;
   dct:creator :RS;
-  lexinfo:contractionFor :ontolexLexicalEntry_zorgzwaartepakket.n;
-  lexinfo:homograph :ontolexLexicalEntry_zzp.n.1;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#contractionFor> :ontolexLexicalEntry_zorgzwaartepakket.n;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#homograph> :ontolexLexicalEntry_zzp.n.1;
   lime:language "nl"^^xsd:language;
   ontolex:canonicalForm :ontolexForm_94061752 .
 
 :ontolexLexicalEntry_ontvanger.n ontolex:evokes :c_1b7dedc6 .
 
-:ontolexLexicalEntry_freelancer.n a lexinfo:Noun, ontolex:LexicalEntry;
+:ontolexLexicalEntry_freelancer.n a <http://www.lexinfo.net/ontology/3.0/lexinfo#Noun>,
+    ontolex:LexicalEntry;
   lime:language "nl"^^xsd:language;
   ontolex:canonicalForm :ontolexForm_5bfd3f3b .
 
 :ontolexForm_5bfd3f3b a ontolex:Form;
   ontolex:writtenRep "freelancer"@nl .
 
-:ontolexLexicalSense_zorgzwaartepakket_1 lexinfo:domain :algemeen;
-  lexinfo:normativeAuthorization lexinfo:supersededTerm;
-  skos:definition "Zorgzwaartepakket was een door het Centrum Indicatiestelling Zorg (CIZ) afgegeven beoordelingdocument waarmee een patiënt recht kreeg op opname in een verpleeghuis, verzorgingshuis, ggz-instelling (geestelijke gezondheidszorg) of gz-instelling (gehandicaptenzorg). "@nl;
+:ontolexLexicalSense_zorgzwaartepakket_1 <http://www.lexinfo.net/ontology/3.0/lexinfo#domain>
+    :algemeen;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#normativeAuthorization> <http://www.lexinfo.net/ontology/3.0/lexinfo#supersededTerm>;
+  skos:definition :def_ontolexLexicalSense_zorgzwaartepakket_1;
   ontolex:usage "De term 'zorgzwaartepakket' is met de invoering van de Wet Langdurige Zorg (WLZ) op 1 januari 2015 vervangen voor de term 'zorgprofiel'."@nl .
 
-:ontolexLexicalSense_zorgprofiel_1 lexinfo:domain :generiek;
-  skos:definition "Een Zorgprofiel is een overeenkomst die wordt afgegeven door het Centrum Indicatiestelling Zorg (CIZ)  waarin de hoeveelheid langdurige zorg en begeleiding staat beschreven die een Persoon nodig heeft met een somatische of psychogeriatrische aandoening of een verstandelijke, lichamelijke of zintuiglijke handicap."@nl;
+:def_ontolexLexicalSense_zorgzwaartepakket_1 a <http://purl.org/thor/Definition>;
+  rdf:value "Zorgzwaartepakket was een door het Centrum Indicatiestelling Zorg (CIZ) afgegeven beoordelingdocument waarmee een patiënt recht kreeg op opname in een verpleeghuis, verzorgingshuis, ggz-instelling (geestelijke gezondheidszorg) of gz-instelling (gehandicaptenzorg). "@nl .
+
+:ontolexLexicalSense_zorgprofiel_1 <http://www.lexinfo.net/ontology/3.0/lexinfo#domain>
+    :generiek;
+  skos:definition :def_ontolexLexicalSense_zorgprofiel_1;
   ontolex:usage "Er bestaan verschillende, gestandaardiseerde zorgprofielen voor het soort aandoening en de hoeveelheid zorg die nodig is afhankelijk van de zwaarte of ernst van deze aandoening."@nl .
+
+:def_ontolexLexicalSense_zorgprofiel_1 a <http://purl.org/thor/Definition>;
+  rdf:value "Een Zorgprofiel is een overeenkomst die wordt afgegeven door het Centrum Indicatiestelling Zorg (CIZ)  waarin de hoeveelheid langdurige zorg en begeleiding staat beschreven die een Persoon nodig heeft met een somatische of psychogeriatrische aandoening of een verstandelijke, lichamelijke of zintuiglijke handicap."@nl .
 
 :validFrom a rdf:Property;
   rdfs:subPropertyOf dct:valid .
 
-:informalRegister a lexinfo:Register .
+:informalRegister a <http://www.lexinfo.net/ontology/3.0/lexinfo#Register> .
 
 :validUntil a rdf:Property;
   rdfs:subPropertyOf dct:valid .
@@ -372,11 +396,12 @@
 :ontolexForm_3b54b398 a ontolex:Form;
   ontolex:writtenRep "zzp"@nl .
 
-:ontolexLexicalEntry_zorgzwaartepakket.n a lexinfo:Noun;
+:ontolexLexicalEntry_zorgzwaartepakket.n a <http://www.lexinfo.net/ontology/3.0/lexinfo#Noun>;
   dct:created "2021-09-07"^^xsd:date;
   dct:creator :RS .
 
-:ontolexLexicalEntry_zorgprofiel.n a lexinfo:Noun, ontolex:LexicalEntry;
+:ontolexLexicalEntry_zorgprofiel.n a <http://www.lexinfo.net/ontology/3.0/lexinfo#Noun>,
+    ontolex:LexicalEntry;
   dct:created "2021-09-07"^^xsd:date;
   dct:creator :RS;
   lime:language "nl"^^xsd:language;
@@ -405,7 +430,7 @@
 
 :c_172efd62 rdfs:label "artefact"@nl .
 
-:NamedEntity a lexinfo:ProperNoun .
+:NamedEntity a <http://www.lexinfo.net/ontology/3.0/lexinfo#ProperNoun> .
 
 :c_c12a4a64 skos:prefLabel "digitaal document"@nl .
 
@@ -436,11 +461,11 @@
 :c_4eb7f814 skos:altLabel "cliënt"@nl;
   skos:prefLabel "cliënt (klant)"@nl .
 
-:Adjective a lexinfo:Adjective .
+:Adjective a <http://www.lexinfo.net/ontology/3.0/lexinfo#Adjective> .
 
-:Noun a lexinfo:Noun .
+:Noun a <http://www.lexinfo.net/ontology/3.0/lexinfo#Noun> .
 
-:Verb a lexinfo:Verb .
+:Verb a <http://www.lexinfo.net/ontology/3.0/lexinfo#Verb> .
 
 :c_116342e9 skos:altLabel "cliënt"@nl;
   skos:prefLabel "cliënt (patient)"@nl .
@@ -455,7 +480,8 @@
   skos:prefLabel "verzender"@nl;
   ontolex:isEvokedBy :ontolexLexicalEntry_verzender.n .
 
-:ontolexLexicalEntry_verzender.n a lexinfo:Noun, ontolex:LexicalEntry;
+:ontolexLexicalEntry_verzender.n a <http://www.lexinfo.net/ontology/3.0/lexinfo#Noun>,
+    ontolex:LexicalEntry;
   dct:created "2021-09-02"^^xsd:date;
   dct:creator :EK;
   lime:language "nl"^^xsd:language;
@@ -463,18 +489,22 @@
   ontolex:evokes :c_61248933;
   ontolex:sense :ontolexLexicalSense_verzender_1 .
 
-:medicalRegister a lexinfo:Register .
+:ontolexLexicalSense_verzender_1 <http://www.lexinfo.net/ontology/3.0/lexinfo#domain>
+    :algemeen;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#synonym> :ontolexLexicalSense_zender_1;
+  skos:definition :def_ontolexLexicalSense_verzender_1;
+  ontolex:isSenseOf :ontolexLexicalEntry_verzender.n .
+
+:def_ontolexLexicalSense_verzender_1 a <http://purl.org/thor/Definition>;
+  rdf:value "Verzender is een rol van een persoon of organisatie die een document of bericht verstuurt aan een ontvanger."@nl .
+
+:medicalRegister a <http://www.lexinfo.net/ontology/3.0/lexinfo#Register> .
 
 :c_uitstroom_verloop skos:altLabel "uitstroom"@nl;
   skos:prefLabel "verloop"@nl .
 
 :c_2e63c75e skos:altLabel "verpleeghuis"@nl;
   skos:prefLabel "verpleeghuisorganisatie"@nl .
-
-:ontolexLexicalSense_verzender_1 lexinfo:domain :algemeen;
-  lexinfo:synonym :ontolexLexicalSense_zender_1;
-  skos:definition "Verzender is een rol van een persoon of organisatie die een document of bericht verstuurt aan een ontvanger."@nl;
-  ontolex:isSenseOf :ontolexLexicalEntry_verzender.n .
 
 :ontolexForm_2d3017ba a ontolex:Form;
   ontolex:writtenRep "verzender"@nl .
@@ -483,7 +513,8 @@
     :ontolexLexicalEntry_ontvanger.n, :ontolexLexicalEntry_toekenningsbeschikking.n, :ontolexLexicalEntry_toewijzing.n,
     :ontolexLexicalEntry_verzender.n, :ontolexLexicalEntry_zender.n, :ontolexLexicalEntry_zorgaanbieder.n .
 
-:ontolexLexicalEntry_zender.n a lexinfo:Noun, ontolex:LexicalEntry;
+:ontolexLexicalEntry_zender.n a <http://www.lexinfo.net/ontology/3.0/lexinfo#Noun>,
+    ontolex:LexicalEntry;
   dct:created "2021-09-03"^^xsd:date;
   dct:creator :FR;
   lime:language "nl"^^xsd:language;
@@ -491,10 +522,13 @@
   ontolex:sense :ontolexLexicalSense_zender_1 .
 
 :ontolexLexicalSense_zender_1 a ontolex:LexicalSense;
-  lexinfo:domain :algemeen;
-  skos:definition "een rol van een persoon of organisatie die een document of bericht verstuurt aan een ontvanger."@nl;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#domain> :algemeen;
+  skos:definition :def_ontolexLexicalSense_zender_1;
   ontolex:isLexicalizedSenseOf :c_61248933;
   ontolex:isSenseOf :ontolexLexicalEntry_zender.n .
+
+:def_ontolexLexicalSense_zender_1 a <http://purl.org/thor/Definition>;
+  rdf:value "een rol van een persoon of organisatie die een document of bericht verstuurt aan een ontvanger."@nl .
 
 :ontolexForm_348d39bd a ontolex:Form;
   ontolex:writtenRep "zender"@nl .
@@ -502,7 +536,8 @@
 :ontolexLexicalSense_zorgverlener_1 ontolex:isLexicalizedSenseOf :c_3284ca3b;
   ontolex:isSenseOf :ontolexLexicalEntry_zorgverlener.n .
 
-:ontolexLexicalEntry_ontvanger.n a lexinfo:Noun, ontolex:LexicalEntry;
+:ontolexLexicalEntry_ontvanger.n a <http://www.lexinfo.net/ontology/3.0/lexinfo#Noun>,
+    ontolex:LexicalEntry;
   dct:created "2021-09-03"^^xsd:date;
   dct:creator :EK;
   lime:language "nl"^^xsd:language;
@@ -510,17 +545,22 @@
   ontolex:sense :ontolexLexicalSense_ontvanger_1 .
 
 :ontolexLexicalSense_ontvanger_1 a ontolex:LexicalSense;
-  skos:definition "een rol van een persoon of organisatie die een document of bericht ontvangt van een zender."@nl;
+  skos:definition :def_ontolexLexicalSense_ontvanger_1;
   ontolex:isSenseOf :ontolexLexicalEntry_ontvanger.n .
+
+:def_ontolexLexicalSense_ontvanger_1 a <http://purl.org/thor/Definition>;
+  rdf:value "een rol van een persoon of organisatie die een document of bericht ontvangt van een zender."@nl .
 
 :ontolexForm_a5a4dd81 a ontolex:Form;
   ontolex:writtenRep "ontvanger"@nl .
 
-:ontolexLexicalSense_indicatie_2 lexinfo:domain :iWlz .
+:ontolexLexicalSense_indicatie_2 <http://www.lexinfo.net/ontology/3.0/lexinfo#domain>
+    :iWlz .
 
 :ontolexLexicalEntry_persoon.n dct:created "2021-09-21"^^xsd:date .
 
-:ontolexLexicalEntry_zorgaanbieder.n a lexinfo:Noun, ontolex:LexicalEntry;
+:ontolexLexicalEntry_zorgaanbieder.n a <http://www.lexinfo.net/ontology/3.0/lexinfo#Noun>,
+    ontolex:LexicalEntry;
   dct:created "2021-09-03"^^xsd:date;
   dct:creator :EK;
   lime:language "nl"^^xsd:language;
@@ -528,7 +568,7 @@
   ontolex:sense :ontolexLexicalSense_zorgaanbieder_1 .
 
 :ontolexLexicalSense_zorgaanbieder_1 a ontolex:LexicalSense;
-  skos:definition "een instelling of beroepskracht die zorg en/of hulpverlening levert."@nl;
+  skos:definition :def_ontolexLexicalSense_zorgaanbieder_1;
   skos:editorialNote """Definitie overgenomen zoals deze in Thesaurus zorg en welzijn staat (en ook op istandaarden.nl gepubliceerd is/wordt), maar dan wel in enkelvoud.
 
 Deze definitie sluit aan bij de definitie zoals opgenomen in de wettekst wlz.
@@ -536,10 +576,14 @@ Deze definitie sluit aan bij de definitie zoals opgenomen in de wettekst wlz.
 Nog n.t.b. of/hoe we dit met meer formele relaties kunnen verwijzen"""@nl;
   ontolex:isSenseOf :ontolexLexicalEntry_zorgaanbieder.n .
 
+:def_ontolexLexicalSense_zorgaanbieder_1 a <http://purl.org/thor/Definition>;
+  rdf:value "een instelling of beroepskracht die zorg en/of hulpverlening levert."@nl .
+
 :ontolexForm_15a8a81a a ontolex:Form;
   ontolex:writtenRep "zorgaanbieder"@nl .
 
-:ontolexLexicalEntry_toewijzing.n a lexinfo:Noun, ontolex:LexicalEntry;
+:ontolexLexicalEntry_toewijzing.n a <http://www.lexinfo.net/ontology/3.0/lexinfo#Noun>,
+    ontolex:LexicalEntry;
   dct:created "2021-09-03"^^xsd:date;
   dct:creator :FR;
   lime:language "nl"^^xsd:language;
@@ -547,18 +591,22 @@ Nog n.t.b. of/hoe we dit met meer formele relaties kunnen verwijzen"""@nl;
   ontolex:sense :ontolexLexicalSense_toewijzing_1 .
 
 :ontolexLexicalSense_toewijzing_1 a ontolex:LexicalSense;
-  lexinfo:domain :iStandaarden;
-  skos:definition "Een toewijzing is een opdracht van een zorgkantoor of gemeente om zorg of ondersteuning te leveren aan een cliënt."@nl;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#domain> :iStandaarden;
+  skos:definition :def_ontolexLexicalSense_toewijzing_1;
   skos:editorialNote """Kunnen we een link leggen naar de TZW?
 In de thesaurus Zorg & Welzijn voor iStandaarden staat: officiële opdracht van een zorgkantoor of gemeente aan een zorgaanbieder van zorg of ondersteuning om voor een bepaalde periode bepaalde zorg of ondersteuning te leveren aan een cliënt, het toegewezen product; binnen de Wmo en de Jeugdwet wordt dit een toewijzing genoemd, binnen de Wlz zorgtoewijzing; voor wat betreft de Wmo en Jeugdwet heeft de gemeente de mogelijkheid om specifiek (productcategorie en productcode gevuld) of aspecifiek (alleen productcategorie gevuld) toe te wijzen; bij het toewijzen van een budget is het tevens mogelijk om zowel productcategorie als productcode leeg te laten (generieke toewijzing)"""@nl;
   ontolex:isSenseOf :ontolexLexicalEntry_toewijzing.n .
+
+:def_ontolexLexicalSense_toewijzing_1 a <http://purl.org/thor/Definition>;
+  rdf:value "Een toewijzing is een opdracht van een zorgkantoor of gemeente om zorg of ondersteuning te leveren aan een cliënt."@nl .
 
 :ontolexForm_8e52ad1b a ontolex:Form;
   ontolex:writtenRep "toewijzing"@nl .
 
 :ontolexLexicalEntry_zorgverlener.n ontolex:sense :ontolexLexicalSense_zorgverlener_1 .
 
-:ontolexLexicalEntry_aanbieder.n a lexinfo:Noun, ontolex:LexicalEntry;
+:ontolexLexicalEntry_aanbieder.n a <http://www.lexinfo.net/ontology/3.0/lexinfo#Noun>,
+    ontolex:LexicalEntry;
   dct:created "2021-09-03"^^xsd:date;
   dct:creator :EK;
   lime:language "nl"^^xsd:language;
@@ -566,18 +614,22 @@ In de thesaurus Zorg & Welzijn voor iStandaarden staat: officiële opdracht van 
   ontolex:sense :ontolexLexicalSense_aanbieder_1 .
 
 :ontolexLexicalSense_aanbieder_1 a ontolex:LexicalSense;
-  lexinfo:normativeAuthorization lexinfo:preferredTerm;
-  lexinfo:synonym :ontolexLexicalSense_zorgaanbieder_1;
-  skos:definition "een instelling of beroepskracht die zorg en/of hulpverlening levert."@nl;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#normativeAuthorization> <http://www.lexinfo.net/ontology/3.0/lexinfo#preferredTerm>;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#synonym> :ontolexLexicalSense_zorgaanbieder_1;
+  skos:definition :def_ontolexLexicalSense_aanbieder_1;
   skos:editorialNote """1. Nu aangegeven dat deze synoniem is aan zorgaanbieder, ondanks dat dit ook bijv. een schoonmaakbedrijf kan zijn dat huishoudelijke hulp levert i.h.k.v. de Wmo. Een schoonmaakbedrijf wordt typisch niet als een zorgaanbieder gezien, en schoonmaken niet als \"zorg\", maar zo'n organisatie opereert dan wel in de rol van \"aanbieder\" i.h.k.v. Wmo-ondersteuning, die gelijk is aan de rol \"zorgaanbieder\" die bijv. een verpleeghuis kan hebben.
 2. De aanduiding 'preferred term' betekent dat \"aanbieder\" binnen de context van het sociaal domein de voorkeur heeft boven het gebruik van de term \"zorgaanbieder\"."""@nl;
   ontolex:isSenseOf :ontolexLexicalEntry_aanbieder.n;
   ontolex:usage "Binnen de context van de Wmo en de Jeugdwet wordt gesproken over \"aanbieders\" i.p.v. \"zorgaanbieders\". Dit omvat ook instellingen en beroepskrachten die dienstverlening leveren die niet direct als \"zorg\" aangemerkt wordt. Dit betreft bijvoorbeeld huishoudelijke hulp of de levering van hulpmiddelen, zoals rolstoelen."@nl .
 
+:def_ontolexLexicalSense_aanbieder_1 a <http://purl.org/thor/Definition>;
+  rdf:value "een instelling of beroepskracht die zorg en/of hulpverlening levert."@nl .
+
 :ontolexForm_a558dc05 a ontolex:Form;
   ontolex:writtenRep "aanbieder"@nl .
 
-:ontolexLexicalEntry_toekenningsbeschikking.n a lexinfo:Noun, ontolex:LexicalEntry;
+:ontolexLexicalEntry_toekenningsbeschikking.n a <http://www.lexinfo.net/ontology/3.0/lexinfo#Noun>,
+    ontolex:LexicalEntry;
   dct:created "2021-09-03"^^xsd:date;
   dct:creator :FR;
   lime:language "nl"^^xsd:language;
@@ -585,37 +637,48 @@ In de thesaurus Zorg & Welzijn voor iStandaarden staat: officiële opdracht van 
   ontolex:sense :ontolexLexicalSense_toekenningsbeschikking_1 .
 
 :ontolexLexicalSense_toekenningsbeschikking_1 a ontolex:LexicalSense;
-  lexinfo:domain :iPgb;
-  skos:definition "een toekenningsbeschikking is een beschikking van de gemeente of het zorgkantoor over het recht dat een budgethouder heeft op een persoonsgebonden budget"@nl;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#domain> :iPgb;
+  skos:definition :def_ontolexLexicalSense_toekenningsbeschikking_1;
   skos:editorialNote "in TZW staat beschikkingen die mensen na goedkeuring van hun aanvraag voor een persoonsgebonden budget ontvangen van het zorgkantoor (in geval van Wlz-zorg) of van de gemeente (in geval van zorg of ondersteuning vanuit de Wmo of de Jeugdwet) en waarin staat welk bedrag zij ontvangen en welke rechten en plichten zij hebben"@nl;
   ontolex:isSenseOf :ontolexLexicalEntry_toekenningsbeschikking.n .
+
+:def_ontolexLexicalSense_toekenningsbeschikking_1 a <http://purl.org/thor/Definition>;
+  rdf:value "een toekenningsbeschikking is een beschikking van de gemeente of het zorgkantoor over het recht dat een budgethouder heeft op een persoonsgebonden budget"@nl .
 
 :ontolexForm_68918428 a ontolex:Form;
   ontolex:writtenRep "toekenningsbeschikking"@nl .
 
-:ontolexLexicalSense_bericht_2 lexinfo:domain :algemeen .
+:ontolexLexicalSense_bericht_2 <http://www.lexinfo.net/ontology/3.0/lexinfo#domain>
+    :algemeen .
 
 :ontolexLexicalSense_freelancer_1 a ontolex:LexicalSense;
-  lexinfo:domain :algemeen;
-  lexinfo:hypernym :ontolexLexicalSense_persoon_1;
-  lexinfo:synonym :ontolexLexicalSense_zelfstandige_zonder_personeel_1;
-  skos:definition "Een freelancer is een persoon die voor verschillende opdrachtgevers werkt zonder dat er sprake is van een dienstverband met deze opdrachtgevers."@nl;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#domain> :algemeen;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#hypernym> :ontolexLexicalSense_persoon_1;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#synonym> :ontolexLexicalSense_zelfstandige_zonder_personeel_1;
+  skos:definition :def_ontolexLexicalSense_freelancer_1;
   ontolex:isSenseOf :ontolexLexicalEntry_freelancer.n;
   ontolex:reference <http://purl.org/ozo/vph-g#Freelancer>;
   ontolex:usage "De term 'freelancer' wordt vooral gebruikt voor zelfstandigen die werkzaam zijn binnen de vormgeving, communicatie en joournalistiek. Bij zakelijke dienstverlening en de bouw wordt doorgaans gesproken van 'zelfstandige zonder personeel'."@nl .
 
+:def_ontolexLexicalSense_freelancer_1 a <http://purl.org/thor/Definition>;
+  rdf:value "Een freelancer is een persoon die voor verschillende opdrachtgevers werkt zonder dat er sprake is van een dienstverband met deze opdrachtgevers."@nl .
+
 :ontolexLexicalSense_toewijzen_1 a ontolex:LexicalSense;
-  lexinfo:domain :iStandaarden;
-  skos:definition "deelproces in de uitvoering van de Wlz, Wmo en Jeugdwet dat ondersteund wordt door de iStandaarden; het proces heeft tot doel om een officiële opdracht te verstrekken aan een aanbieder om zorg of ondersteuning te leveren aan een cliënt"@nl .
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#domain> :iStandaarden;
+  skos:definition :def_ontolexLexicalSense_toewijzen_1 .
+
+:def_ontolexLexicalSense_toewijzen_1 a <http://purl.org/thor/Definition>;
+  rdf:value "deelproces in de uitvoering van de Wlz, Wmo en Jeugdwet dat ondersteund wordt door de iStandaarden; het proces heeft tot doel om een officiële opdracht te verstrekken aan een aanbieder om zorg of ondersteuning te leveren aan een cliënt"@nl .
 
 :ontolexLexicalEntry_toewijzen.v dct:created "2021-09-17"^^xsd:date;
   ontolex:sense :ontolexLexicalSense_toewijzen_1 .
 
-<http://purl.bioontology.org/ontology/SNOMEDCT/337915000> skos:closeMatch :c_9f500d3c .
+:c_c4d7e81a ontolex:isEvokedBy :ontolexLexicalEntry_organisme .
 
-:c_9f500d3c skos:closeMatch <http://purl.bioontology.org/ontology/SNOMEDCT/337915000> .
+:ontolexLexicalEntry_organisme ontolex:evokes :c_c4d7e81a .
 
-:ontolexLexicalEntry_indicatiebesluit.n a lexinfo:Noun, ontolex:LexicalEntry;
+:ontolexLexicalEntry_indicatiebesluit.n a <http://www.lexinfo.net/ontology/3.0/lexinfo#Noun>,
+    ontolex:LexicalEntry;
   dct:created "2021-09-03"^^xsd:date;
   dct:creator :FR;
   lime:language "nl"^^xsd:language;
@@ -629,10 +692,15 @@ In de thesaurus Zorg & Welzijn voor iStandaarden staat: officiële opdracht van 
 :ontolexForm_dde0679b a ontolex:Form;
   ontolex:writtenRep "indicatiebesluit"@nl .
 
-:ontolexLexicalSense_indicatiebesluitbericht_1 lexinfo:synonym :ontolexLexicalSense_indicatiebericht_1;
-  skos:definition "een iStandaarden bericht dat het CIZ verstuurt naar een zorgkantoor en dat het indicatiebesluit bevat."@nl .
+:ontolexLexicalSense_indicatiebesluitbericht_1 <http://www.lexinfo.net/ontology/3.0/lexinfo#synonym>
+    :ontolexLexicalSense_indicatiebericht_1;
+  skos:definition :def_ontolexLexicalSense_indicatiebesluitbericht_1 .
 
-:ontolexLexicalEntry_client a lexinfo:Noun, ontolex:LexicalEntry;
+:def_ontolexLexicalSense_indicatiebesluitbericht_1 a <http://purl.org/thor/Definition>;
+  rdf:value "een iStandaarden bericht dat het CIZ verstuurt naar een zorgkantoor en dat het indicatiebesluit bevat."@nl .
+
+:ontolexLexicalEntry_client a <http://www.lexinfo.net/ontology/3.0/lexinfo#Noun>,
+    ontolex:LexicalEntry;
   dct:created "2021-09-06"^^xsd:date;
   dct:creator :EK;
   lime:language "nl"^^xsd:language;
@@ -640,14 +708,20 @@ In de thesaurus Zorg & Welzijn voor iStandaarden staat: officiële opdracht van 
   ontolex:sense :ontolexLexicalSense_client_1, :ontolexLexicalSense_client_2 .
 
 :ontolexLexicalSense_client_1 a ontolex:LexicalSense;
-  lexinfo:domain :algemeen;
-  skos:definition "Rol van een persoon die van de diensten van een beroepskracht met een dienstverlenend beroep, zoals advocaat, notaris, therapeut of assurantieadviseur gebruikmaakt; in het bijzonder mensen die gebruikmaken van een vorm van zorg- of hulpverlening."@nl;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#domain> :algemeen;
+  skos:definition :def_ontolexLexicalSense_client_1;
   ontolex:isSenseOf :ontolexLexicalEntry_client .
 
 :ontolexLexicalSense_client_2 a ontolex:LexicalSense;
-  lexinfo:hypernym :ontolexLexicalSense_persoon_1;
-  skos:definition "een rol van een persoon die i.h.k.v. de Wlz, Wmo of Jeugdwet zorg of ondersteuning ontvangt van een (zorg)aanbieder, of die recht heeft op het ontvangen daarvan."@nl;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#hypernym> :ontolexLexicalSense_persoon_1;
+  skos:definition :def_ontolexLexicalSense_client_2;
   ontolex:isSenseOf :ontolexLexicalEntry_client .
+
+:def_ontolexLexicalSense_client_1 a <http://purl.org/thor/Definition>;
+  rdf:value "Rol van een persoon die van de diensten van een beroepskracht met een dienstverlenend beroep, zoals advocaat, notaris, therapeut of assurantieadviseur gebruikmaakt; in het bijzonder mensen die gebruikmaken van een vorm van zorg- of hulpverlening."@nl .
+
+:def_ontolexLexicalSense_client_2 a <http://purl.org/thor/Definition>;
+  rdf:value "een rol van een persoon die i.h.k.v. de Wlz, Wmo of Jeugdwet zorg of ondersteuning ontvangt van een (zorg)aanbieder, of die recht heeft op het ontvangen daarvan."@nl .
 
 :THOR_Lexicon lime:entry :ontolexLexicalEntry_client, :ontolexLexicalEntry_zorgverlener.n .
 
@@ -663,7 +737,7 @@ In de thesaurus Zorg & Welzijn voor iStandaarden staat: officiële opdracht van 
 :ontolexLexicalEntry_zelfstandige_zonder_personeel.mwu a ontolex:LexicalEntry;
   dct:created "2021-09-07"^^xsd:date;
   dct:creator :RS;
-  lexinfo:fullFormFor :ontolexLexicalEntry_zzp.n.1;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#fullFormFor> :ontolexLexicalEntry_zzp.n.1;
   lime:language "nl"^^xsd:language;
   ontolex:canonicalForm :ontolexForm_9b9675c0;
   ontolex:sense :ontolexLexicalSense_zelfstandige_zonder_personeel_1 .
@@ -671,13 +745,16 @@ In de thesaurus Zorg & Welzijn voor iStandaarden staat: officiële opdracht van 
 :ontolexForm_9b9675c0 a ontolex:Form;
   ontolex:writtenRep "zelfstandige zonder personeel"@nl .
 
-:ontolexLexicalSense_zender_1 lexinfo:synonym :ontolexLexicalSense_verzender_1 .
+:ontolexLexicalSense_zender_1 <http://www.lexinfo.net/ontology/3.0/lexinfo#synonym>
+    :ontolexLexicalSense_verzender_1 .
 
-:ontolexLexicalSense_zelfstandige_zonder_personeel_1 lexinfo:synonym :ontolexLexicalSense_freelancer_1;
+:ontolexLexicalSense_zelfstandige_zonder_personeel_1 <http://www.lexinfo.net/ontology/3.0/lexinfo#synonym>
+    :ontolexLexicalSense_freelancer_1;
   ontolex:reference <http://purl.org/ozo/vph-g#Freelancer> .
 
-:ontolexLexicalSense_uitstroom_2 lexinfo:hypernym :ontolexLexicalSense_uitstroom_1;
-  lexinfo:hyponym :ontolexLexicalSense_uitstroom_3;
+:ontolexLexicalSense_uitstroom_2 <http://www.lexinfo.net/ontology/3.0/lexinfo#hypernym>
+    :ontolexLexicalSense_uitstroom_1;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#hyponym> :ontolexLexicalSense_uitstroom_3;
   ontolex:isLexicalizedSenseOf :c_uitstroom_verloop .
 
 :c_uitstroom_verloop ontolex:lexicalizedSense :ontolexLexicalSense_uitstroom_2 .
@@ -690,7 +767,7 @@ In de thesaurus Zorg & Welzijn voor iStandaarden staat: officiële opdracht van 
   ontolex:writtenRep "zzp"@nl .
 
 :ontolexLexicalEntry_zorgzwaartepakket.n a ontolex:LexicalEntry;
-  lexinfo:fullFormFor :ontolexLexicalEntry_zzp.n.2;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#fullFormFor> :ontolexLexicalEntry_zzp.n.2;
   lime:language "nl"^^xsd:language;
   ontolex:canonicalForm :ontolexForm_6eb50d26;
   ontolex:denotes <http://purl.org/ozo/vph-g#RequiredCareAgreement>;
@@ -698,7 +775,7 @@ In de thesaurus Zorg & Welzijn voor iStandaarden staat: officiële opdracht van 
 
 :ontolexLexicalSense_zorgzwaartepakket_1 a ontolex:LexicalSense;
   :validUntil "2014-12-31"^^xsd:date;
-  lexinfo:synonym :ontolexLexicalSense_zorgprofiel_1;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#synonym> :ontolexLexicalSense_zorgprofiel_1;
   ontolex:isSenseOf :ontolexLexicalEntry_zorgzwaartepakket.n;
   ontolex:reference <http://purl.org/ozo/vph-g#RequiredCareAgreement> .
 
@@ -707,7 +784,8 @@ In de thesaurus Zorg & Welzijn voor iStandaarden staat: officiële opdracht van 
   ontolex:denotes <http://purl.org/ozo/vph-g#Freelancer>;
   ontolex:sense :ontolexLexicalSense_freelancer_1 .
 
-:ontolexLexicalEntry_zorgverlener.n a lexinfo:Noun, ontolex:LexicalEntry;
+:ontolexLexicalEntry_zorgverlener.n a <http://www.lexinfo.net/ontology/3.0/lexinfo#Noun>,
+    ontolex:LexicalEntry;
   dct:created "2021-09-08"^^xsd:date;
   dct:creator :EK;
   lime:language "nl"^^xsd:language;
@@ -721,45 +799,58 @@ In de thesaurus Zorg & Welzijn voor iStandaarden staat: officiële opdracht van 
 :ontolexLexicalEntry_zorgprofiel.n ontolex:denotes <http://purl.org/ozo/vph-g#RequiredCareAgreement>;
   ontolex:sense :ontolexLexicalSense_zorgprofiel_1 .
 
-:ontolexLexicalSense_zorgprofiel_1 a thor:PreferredSense, ontolex:LexicalSense;
-  lexinfo:synonym :ontolexLexicalSense_zorgzwaartepakket_1;
+:ontolexLexicalSense_zorgprofiel_1 a <http://purl.org/thor/PreferredSense>, ontolex:LexicalSense;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#synonym> :ontolexLexicalSense_zorgzwaartepakket_1;
   ontolex:isSenseOf :ontolexLexicalEntry_zorgprofiel.n;
   ontolex:reference <http://purl.org/ozo/vph-g#RequiredCareAgreement> .
 
-:ontolexLexicalSense_bericht_1 lexinfo:hypernym :ontolexLexicalSense_bericht_2;
-  skos:definition "verzameling gegevens die samen een logisch geheel en daarmee een mededeling vormt; een bericht bevat gecodeerde gegevens over een cliënt in het zorgproces, bijvoorbeeld over zorgtoewijzing of declaratie."@nl .
+:ontolexLexicalSense_bericht_1 <http://www.lexinfo.net/ontology/3.0/lexinfo#hypernym>
+    :ontolexLexicalSense_bericht_2;
+  skos:definition :def_ontolexLexicalSense_bericht_1 .
+
+:def_ontolexLexicalSense_bericht_1 a <http://purl.org/thor/Definition>;
+  rdf:value "verzameling gegevens die samen een logisch geheel en daarmee een mededeling vormt; een bericht bevat gecodeerde gegevens over een cliënt in het zorgproces, bijvoorbeeld over zorgtoewijzing of declaratie."@nl .
 
 :ontolexLexicalEntry_bericht.n dct:created "2021-09-20"^^xsd:date;
   ontolex:sense :ontolexLexicalSense_bericht_2 .
 
 :ontolexLexicalSense_bericht_2 a ontolex:LexicalSense;
-  skos:definition "een digitaal of fysiek document waarmee een zender informatie of een mededeling doorgeeft aan een ontvanger."@nl;
+  skos:definition :def_ontolexLexicalSense_bericht_2;
   ontolex:isSenseOf :ontolexLexicalEntry_bericht.n .
+
+:def_ontolexLexicalSense_bericht_2 a <http://purl.org/thor/Definition>;
+  rdf:value "een digitaal of fysiek document waarmee een zender informatie of een mededeling doorgeeft aan een ontvanger."@nl .
 
 :c_61248933 ontolex:lexicalizedSense :ontolexLexicalSense_verzender_1 .
 
 :ontolexLexicalSense_verzender_1 ontolex:isLexicalizedSenseOf :c_61248933 .
 
-:ontolexLexicalSense_aanbieder_1 lexinfo:domain :sociaal_domein .
+:ontolexLexicalSense_aanbieder_1 <http://www.lexinfo.net/ontology/3.0/lexinfo#domain>
+    :sociaal_domein .
 
 :c_d19fb063 a ontolex:LexicalConcept;
   rdfs:label "zelfstandige zonder personeel"@nl;
   skos:inScheme :conceptScheme_442ec41b .
 
 :ontolexLexicalSense_uitstroom_3 a ontolex:LexicalSense;
-  dct:source <https://github.com/kik-v/use-cases/wiki/14.-Indicator-2.4.2-%E2%80%93-Percentage-uitstroom>;
-  lexinfo:domain :KIK;
-  lexinfo:hypernym :ontolexLexicalSense_uitstroom_2;
-  skos:definition "Uitstroom is het aantal zorgverleners met een arbeids- en of oproepovereenkomst dat tussen twee meetmomenten ontslag heeft genomen of gekregen bij een zorgorganisatie, en die zorg verleenden aan cliënten met een zorgprofiel 4 tot en met 10."@nl;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#domain> :KIK;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#hypernym> :ontolexLexicalSense_uitstroom_2;
+  skos:definition :def_ontolexLexicalSense_uitstroom_3;
   skos:editorialNote "\"permutable\""@en;
   ontolex:isSenseOf :ontolexLexicalEntry_uitstroom.n;
   ontolex:reference <http://purl.org/ozo/vph-g#LeavingAnOrganizationEvent> .
 
+:def_ontolexLexicalSense_uitstroom_3 a <http://purl.org/thor/Definition>;
+  dct:source <https://github.com/kik-v/use-cases/wiki/14.-Indicator-2.4.2-%E2%80%93-Percentage-uitstroom>;
+  rdf:value "Uitstroom is het aantal zorgverleners met een arbeids- en of oproepovereenkomst dat tussen twee meetmomenten ontslag heeft genomen of gekregen bij een zorgorganisatie, en die zorg verleenden aan cliënten met een zorgprofiel 4 tot en met 10."@nl .
+
 :ontolexLexicalEntry_uitstroom.n ontolex:sense :ontolexLexicalSense_uitstroom_3 .
 
-:ontolexLexicalSense_uitstroom_1 lexinfo:hyponym :ontolexLexicalSense_uitstroom_2 .
+:ontolexLexicalSense_uitstroom_1 <http://www.lexinfo.net/ontology/3.0/lexinfo#hyponym>
+    :ontolexLexicalSense_uitstroom_2 .
 
-:ontolexLexicalEntry_zorginstelling.n a lexinfo:Noun, ontolex:LexicalEntry;
+:ontolexLexicalEntry_zorginstelling.n a <http://www.lexinfo.net/ontology/3.0/lexinfo#Noun>,
+    ontolex:LexicalEntry;
   dct:created "2021-09-13"^^xsd:date;
   dct:creator :RS;
   lime:language "nl"^^xsd:language;
@@ -768,16 +859,20 @@ In de thesaurus Zorg & Welzijn voor iStandaarden staat: officiële opdracht van 
   ontolex:sense :ontolexLexicalSense_zorginstelling_1 .
 
 :ontolexLexicalSense_zorginstelling_1 a ontolex:LexicalSense;
-  lexinfo:domain :generiek;
-  lexinfo:synonym :ontolexLexicalSense_zorgorganisatie_1;
-  skos:definition "Een zorginstelling is een organisatie die als primaire taak zorg verleent aan personen."@nl;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#domain> :generiek;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#synonym> :ontolexLexicalSense_zorgorganisatie_1;
+  skos:definition :def_ontolexLexicalSense_zorginstelling_1;
   ontolex:isSenseOf :ontolexLexicalEntry_zorginstelling.n;
   ontolex:reference <http://purl.org/ozo/vph-g#CareOrganization> .
+
+:def_ontolexLexicalSense_zorginstelling_1 a <http://purl.org/thor/Definition>;
+  rdf:value "Een zorginstelling is een organisatie die als primaire taak zorg verleent aan personen."@nl .
 
 :ontolexForm_7b2d0155 a ontolex:Form;
   ontolex:writtenRep "zorginstelling"@nl .
 
-:ontolexLexicalEntry_zorgorganisatie.n a lexinfo:Noun, ontolex:LexicalEntry;
+:ontolexLexicalEntry_zorgorganisatie.n a <http://www.lexinfo.net/ontology/3.0/lexinfo#Noun>,
+    ontolex:LexicalEntry;
   dct:created "2021-09-13"^^xsd:date;
   dct:creator :RS;
   lime:language "nl"^^xsd:language;
@@ -789,72 +884,15 @@ In de thesaurus Zorg & Welzijn voor iStandaarden staat: officiële opdracht van 
   ontolex:writtenRep "zorgorganisatie"@nl .
 
 :ontolexLexicalSense_zorgorganisatie_1 a ontolex:LexicalSense;
-  lexinfo:domain :algemeen;
-  lexinfo:hyponym :ontolexLexicalSense_verpleeghuis_1, :ontolexLexicalSense_verpleeghuisorganisatie_1;
-  lexinfo:synonym :ontolexLexicalSense_zorginstelling_1;
-  skos:definition "Een zorgorganisatie is een organisatie die als primaire taak zorg verleent aan personen."@nl;
-  ontolex:reference <http://purl.org/ozo/vph-g#CareOrganization> .
-
-:KIK_Lexicon lime:entry :ontolexLexicalEntry_bestuursorgaan_1, :ontolexLexicalEntry_verpleeghuis.n,
-    :ontolexLexicalEntry_verpleeghuisorganisatie.n, :ontolexLexicalEntry_zelfstandig_bestuursorgaan.n,
-    :ontolexLexicalEntry_zorgorganisatie.n .
-
-:ontolexLexicalEntry_verpleeghuis.n a lexinfo:Noun, ontolex:LexicalEntry;
-  dct:created "2021-09-13"^^xsd:date;
-  dct:creator :RS;
-  lime:language "nl"^^xsd:language;
-  ontolex:canonicalForm :ontolexForm_138145fa;
-  ontolex:denotes <http://purl.org/ozo/vph-g#AccomodativeObject>, <http://purl.org/ozo/vph-g#NursingHomeOrganization>;
-  ontolex:sense :ontolexLexicalSense_verpleeghuis_1, :ontolexLexicalSense_verpleeghuis_2 .
-
-:ontolexLexicalSense_verpleeghuis_1 a ontolex:LexicalSense;
-  lexinfo:domain :algemeen;
-  lexinfo:hypernym :ontolexLexicalSense_zorgorganisatie_1;
-  lexinfo:synonym :ontolexLexicalSense_verpleeghuisorganisatie_1;
-  skos:definition "Een verpleeghuis is een zorgorganisatie die zich richt op het geclusterd verlenen van woonruimte en intensieve zorg en verpleging aan mensen die door ziekte of beperking (tijdelijk) niet in staat zijn zelfstandig te wonen en/of in hun eigen verzorging te voorzien."@nl;
-  skos:example "'Het verpleeghuis is failliet/gaat fuseren/heeft 200 medewerkers.'"@nl;
-  ontolex:isLexicalizedSenseOf :c_2e63c75e;
-  ontolex:isSenseOf :ontolexLexicalEntry_verpleeghuis.n;
-  ontolex:reference <http://purl.org/ozo/vph-g#NursingHomeOrganization>;
-  ontolex:usage "Vanaf 2020 moet een persoon een zorgprofiel 'Verpleging en Verzorging' (VV) van 5  of hoger hebben om zorg te ontvangen van een verpleeghuisorganisatie."@nl .
-
-:ontolexLexicalSense_verpleeghuis_2 a ontolex:LexicalSense;
-  lexinfo:domain :algemeen;
-  skos:definition "Een verpleeghuis is een gebouw of verblijfsobject dat is gebouwd of ingericht voor het verlenen van verpleeghuiszorg door een verpleeghuisorganisatie."@nl;
-  skos:example "'Het verpleeghuis wordt binnenkort gerenoveerd.'"@nl;
-  ontolex:isSenseOf :ontolexLexicalEntry_verpleeghuis.n;
-  ontolex:reference <http://purl.org/ozo/vph-g#AccomodativeObject> .
-
-:ontolexForm_138145fa a ontolex:Form;
-  ontolex:writtenRep "verpleeghuis"@nl .
-
-:c_2e63c75e a ontolex:LexicalConcept;
-  rdfs:label "verpleeghuisorganisatie"@nl;
-  skos:broader :c_44957a12;
-  skos:exactMatch <http://dbpedia.org/resource/Nursing_home>, <http://purl.bioontology.org/ontology/SNOMEDCT/42665001>;
-  skos:inScheme :conceptScheme_442ec41b;
-  skos:topConceptOf :conceptScheme_442ec41b;
-  ontolex:lexicalizedSense :ontolexLexicalSense_verpleeghuis_1, :ontolexLexicalSense_verpleeghuisorganisatie_1 .
-
-:ontolexLexicalEntry_verpleeghuisorganisatie.n a lexinfo:Noun, ontolex:LexicalEntry;
-  dct:created "2021-09-14"^^xsd:date;
-  dct:creator :RS;
-  lime:language "nl"^^xsd:language;
-  ontolex:canonicalForm :ontolexForm_64d7f5d8;
-  ontolex:denotes <http://purl.org/ozo/vph-g#NursingHomeOrganization>;
-  ontolex:sense :ontolexLexicalSense_verpleeghuisorganisatie_1 .
-
-:ontolexLexicalSense_verpleeghuisorganisatie_1 a ontolex:LexicalSense;
-  lexinfo:domain :algemeen;
-  lexinfo:hypernym :ontolexLexicalSense_zorgorganisatie_1;
-  lexinfo:synonym :ontolexLexicalSense_verpleeghuis_1;
-  skos:definition "Een verpleeghuisorganisatie is een zorgorganisatie die zich richt op het geclusterd verlenen van woonruimte en intensieve zorg en verpleging aan mensen die door ziekte of beperking (tijdelijk) niet in staat zijn zelfstandig te wonen en/of in hun eigen verzorging te voorzien."@nl;
-  ontolex:isLexicalizedSenseOf :c_2e63c75e;
-  ontolex:isSenseOf :ontolexLexicalEntry_verpleeghuisorganisatie.n;
-  ontolex:reference <http://purl.org/ozo/vph-g#NursingHomeOrganization> .
-
-:ontolexForm_64d7f5d8 a ontolex:Form;
-  ontolex:writtenRep "verpleeghuisorganisatie"@nl .
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#domain> :algemeen;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#hypernym> :ontolexLexicalSense_organisatie_1;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#hyponym> :ontolexLexicalSense_verpleeghuis_1,
+    :ontolexLexicalSense_verpleeghuisorganisatie_1;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#synonym> :ontolexLexicalSense_zorginstelling_1;
+  skos:definition :def1_ontolexLexicalSense_zorgorganisatie_1, :def2_ontolexLexicalSense_zorgorganisatie_1;
+  ontolex:isLexicalizedSenseOf :c_44957a12;
+  ontolex:reference <http://purl.org/ozo/vph-g#CareOrganization>;
+  ontolex:usage "Zorgorganisaties die zorg willen verlenen die op grond van de \"Zorgverzekeringswet\" of de \"Wet langdurige zorg\" voor vergoeding in aanmerking komt, moeten voldoen aan de eisen, voorwaarden en regelgeving beschreven in de \"Wet toelating zorginstellingen\" (WTZi)."@nl .
 
 :c_44957a12 a ontolex:LexicalConcept;
   rdfs:label "zorgorganisatie"@nl;
@@ -863,11 +901,71 @@ In de thesaurus Zorg & Welzijn voor iStandaarden staat: officiële opdracht van 
   skos:narrower :c_2e63c75e, :c_bc3f75f1;
   ontolex:lexicalizedSense :ontolexLexicalSense_zorgorganisatie_1 .
 
-<http://dbpedia.org/resource/Nursing_home> skos:exactMatch :c_2e63c75e .
+:def1_ontolexLexicalSense_zorgorganisatie_1 a <http://purl.org/thor/Definition>;
+  dct:source <https://zoek.officielebekendmakingen.nl/stb-2015-407.html>;
+  rdf:value "Een zorgorganisatie is een organisatie die als primaire taak zorg verleent aan personen."@nl .
 
-<http://purl.bioontology.org/ontology/SNOMEDCT/42665001> skos:exactMatch :c_2e63c75e .
+:def2_ontolexLexicalSense_zorgorganisatie_1 a <http://purl.org/thor/Definition>;
+  dct:source "Wet kwaliteit, klachten en geschillen zorg (Wkkgz)"@nl;
+  rdf:value "Een zorginstelling is \"een rechtspersoon die bedrijfsmatig zorg verleent, een organisatorisch verband van natuurlijke personen die bedrijfsmatig zorg verlenen of doen verlenen, alsmede een natuurlijke persoon die bedrijfsmatig zorg doet verlenen\"."@nl .
+
+:KIK_Lexicon lime:entry :ontolexLexicalEntry_bestuursorgaan_1, :ontolexLexicalEntry_verpleeghuis.n,
+    :ontolexLexicalEntry_verpleeghuisorganisatie.n, :ontolexLexicalEntry_zelfstandig_bestuursorgaan.n,
+    :ontolexLexicalEntry_zorgorganisatie.n .
+
+:ontolexLexicalEntry_verpleeghuis.n a <http://www.lexinfo.net/ontology/3.0/lexinfo#Noun>,
+    ontolex:LexicalEntry;
+  dct:created "2021-09-13"^^xsd:date;
+  dct:creator :RS;
+  lime:language "nl"^^xsd:language;
+  ontolex:canonicalForm :ontolexForm_138145fa;
+  ontolex:denotes <http://purl.org/ozo/vph-g#AccomodativeObject>, <http://purl.org/ozo/vph-g#NursingHomeOrganization>;
+  ontolex:sense :ontolexLexicalSense_verpleeghuis_1, :ontolexLexicalSense_verpleeghuis_2 .
+
+:ontolexLexicalSense_verpleeghuis_1 a ontolex:LexicalSense;
+  <http://purl.org/thor/exactMapping> <http://dbpedia.org/resource/Nursing_home>, <http://purl.bioontology.org/ontology/SNOMEDCT/42665001>;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#domain> :algemeen;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#hypernym> :ontolexLexicalSense_zorgorganisatie_1;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#synonym> :ontolexLexicalSense_verpleeghuisorganisatie_1;
+  skos:definition :def_ontolexLexicalSense_verpleeghuis_1;
+  skos:example "'Het verpleeghuis is failliet/gaat fuseren/heeft 200 medewerkers.'"@nl;
+  ontolex:isLexicalizedSenseOf :c_2e63c75e;
+  ontolex:isSenseOf :ontolexLexicalEntry_verpleeghuis.n;
+  ontolex:reference <http://purl.org/ozo/vph-g#NursingHomeOrganization>;
+  ontolex:usage "Vanaf 2020 moet een persoon een zorgprofiel 'Verpleging en Verzorging' (VV) van 5  of hoger hebben om zorg te ontvangen van een verpleeghuisorganisatie."@nl .
+
+:ontolexLexicalSense_verpleeghuis_2 a ontolex:LexicalSense;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#domain> :algemeen;
+  skos:definition :def_ontolexLexicalSense_verpleeghuis_2;
+  skos:example "'Het verpleeghuis wordt binnenkort gerenoveerd.'"@nl;
+  ontolex:isSenseOf :ontolexLexicalEntry_verpleeghuis.n;
+  ontolex:reference <http://purl.org/ozo/vph-g#AccomodativeObject> .
+
+:c_2e63c75e a ontolex:LexicalConcept;
+  rdfs:label "verpleeghuisorganisatie"@nl;
+  skos:broader :c_44957a12;
+  skos:inScheme :conceptScheme_442ec41b;
+  skos:topConceptOf :conceptScheme_442ec41b;
+  ontolex:lexicalizedSense :ontolexLexicalSense_verpleeghuis_1, :ontolexLexicalSense_verpleeghuisorganisatie_1 .
+
+:def_ontolexLexicalSense_verpleeghuis_1 a <http://purl.org/thor/Definition>;
+  rdf:value "Een verpleeghuis is een zorgorganisatie die zich richt op het geclusterd verlenen van woonruimte en intensieve zorg en verpleging aan mensen die door ziekte of beperking (tijdelijk) niet in staat zijn zelfstandig te wonen en/of in hun eigen verzorging te voorzien."@nl .
+
+:def_ontolexLexicalSense_verpleeghuis_2 a <http://purl.org/thor/Definition>;
+  rdf:value "Een verpleeghuis is een gebouw of verblijfsobject dat is gebouwd of ingericht voor het verlenen van verpleeghuiszorg door een verpleeghuisorganisatie."@nl .
+
+:c_172efd62 ontolex:isEvokedBy :ontolexLexicalEntry_artefact .
+
+:ontolexLexicalEntry_artefact ontolex:evokes :c_172efd62 .
+
+:c_c12a4a64 ontolex:isEvokedBy :ontolexLexicalEntry_digitaal_document .
+
+:ontolexLexicalEntry_digitaal_document ontolex:evokes :c_c12a4a64 .
 
 :conceptScheme_442ec41b skos:hasTopConcept :c_2e63c75e, :c_dd21993d .
+
+:ontolexForm_138145fa a ontolex:Form;
+  ontolex:writtenRep "verpleeghuis"@nl .
 
 :c_dd21993d a ontolex:LexicalConcept;
   rdfs:label "organisatie"@nl;
@@ -875,9 +973,43 @@ In de thesaurus Zorg & Welzijn voor iStandaarden staat: officiële opdracht van 
   skos:narrower :c_44957a12, :c_88e6b01a;
   skos:topConceptOf :conceptScheme_442ec41b .
 
+:c_bc3f75f1 a ontolex:LexicalConcept;
+  rdfs:label "ziekenhuisorganisatie"@nl;
+  skos:broader :c_44957a12;
+  skos:inScheme :conceptScheme_442ec41b;
+  ontolex:lexicalizedSense :ontolexLexicalSense_ziekenhuis_1 .
+
+:ontolexLexicalEntry_verpleeghuisorganisatie.n a <http://www.lexinfo.net/ontology/3.0/lexinfo#Noun>,
+    ontolex:LexicalEntry;
+  dct:created "2021-09-14"^^xsd:date;
+  dct:creator :RS;
+  lime:language "nl"^^xsd:language;
+  ontolex:canonicalForm :ontolexForm_64d7f5d8;
+  ontolex:denotes <http://purl.org/ozo/vph-g#NursingHomeOrganization>;
+  ontolex:sense :ontolexLexicalSense_verpleeghuisorganisatie_1 .
+
+:ontolexLexicalSense_verpleeghuisorganisatie_1 a ontolex:LexicalSense;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#domain> :algemeen;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#hypernym> :ontolexLexicalSense_zorgorganisatie_1;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#synonym> :ontolexLexicalSense_verpleeghuis_1;
+  skos:definition :def_ontolexLexicalSense_verpleeghuisorganisatie_1;
+  ontolex:isLexicalizedSenseOf :c_2e63c75e;
+  ontolex:isSenseOf :ontolexLexicalEntry_verpleeghuisorganisatie.n;
+  ontolex:reference <http://purl.org/ozo/vph-g#NursingHomeOrganization> .
+
+:def_ontolexLexicalSense_verpleeghuisorganisatie_1 a <http://purl.org/thor/Definition>;
+  rdf:value "Een verpleeghuisorganisatie is een zorgorganisatie die zich richt op het geclusterd verlenen van woonruimte en intensieve zorg en verpleging aan mensen die door ziekte of beperking (tijdelijk) niet in staat zijn zelfstandig te wonen en/of in hun eigen verzorging te voorzien."@nl .
+
+:ontolexForm_64d7f5d8 a ontolex:Form;
+  ontolex:writtenRep "verpleeghuisorganisatie"@nl .
+
+:c_88e6b01a a ontolex:LexicalConcept;
+  rdfs:label "bestuursorgaan"@nl;
+  skos:broader :c_dd21993d;
+  skos:inScheme :conceptScheme_442ec41b .
+
 :ontolexLexicalSense_Zorginstituut_Nederland_1 a ontolex:LexicalSense;
-  dct:source <https://nl.wikipedia.org/wiki/Zorginstituut_Nederland>;
-  skos:definition "Het Zorginstituut Nederland is een Nederlands zelfstandig bestuursorgaan dat erop toeziet dat Nederlandse burgers verzekerd zijn en blijven volgens de Zorgverzekeringswet (Zvw) en de Wet langdurige zorg (Wlz). Daarmee wordt gewaarborgd dat iedereen die recht heeft op zorg het ook krijgt. "@nl;
+  skos:definition :def_ontolexLexicalSense_Zorginstituut_Nederland_1;
   ontolex:reference <http://purl.org/ozo/vph-g#ServiceOrganization>;
   ontolex:usage """De taken van het Zorginstituut Nederland zijn:
 1. Advies geven aan de minister van Volksgezondheid, Welzijn en Sport (VWS) over de samenstelling van het basiszorgverzekeringspakket. Ook aan onder andere zorgverzekeraars en verzekerden verduidelijken wat tot het basispakket behoort. 
@@ -886,21 +1018,25 @@ In de thesaurus Zorg & Welzijn voor iStandaarden staat: officiële opdracht van 
 4. Adviseren over toekomstige beroepen- en opleidingenstructuur in de zorg."""@nl;
   foaf:homepage <https://www.zorginstituutnederland.nl> .
 
-:ontolexLexicalSense_Centrum_Indicatiestelling_Zorg_1 a thor:PreferredSense, ontolex:LexicalSense;
-  dct:source <https://nl.wikipedia.org/wiki/Centrum_Indicatiestelling_Zorg>;
-  skos:definition "Het Centrum Indicatiestelling Zorg (CIZ) is een zelfstandig bestuursorgaan van het ministerie van Volksgezondheid, Welzijn en Sport (VWS) dat beoordeelt of iemand in aanmerking komt voor zorg uit de Wet langdurige zorg (Wlz)."@nl;
+:def_ontolexLexicalSense_Zorginstituut_Nederland_1 a <http://purl.org/thor/Definition>;
+  dct:source <https://nl.wikipedia.org/wiki/Zorginstituut_Nederland>;
+  rdf:value "Het Zorginstituut Nederland is een Nederlands zelfstandig bestuursorgaan dat erop toeziet dat Nederlandse burgers verzekerd zijn en blijven volgens de Zorgverzekeringswet (Zvw) en de Wet langdurige zorg (Wlz). Daarmee wordt gewaarborgd dat iedereen die recht heeft op zorg het ook krijgt."@nl .
+
+:ontolexLexicalSense_Centrum_Indicatiestelling_Zorg_1 a <http://purl.org/thor/PreferredSense>,
+    ontolex:LexicalSense;
+  skos:definition :def_ontolexLexicalSense_Centrum_Indicatiestelling_Zorg_1;
   ontolex:isSenseOf :ontolexLexicalEntry_Centrum_Indicatiestelling_Zorg.mwu;
   ontolex:reference <http://purl.org/ozo/vph-g#ServiceOrganization>;
   foaf:homepage <https://www.ciz.nl/> .
 
+:def_ontolexLexicalSense_Centrum_Indicatiestelling_Zorg_1 a <http://purl.org/thor/Definition>;
+  dct:source <https://nl.wikipedia.org/wiki/Centrum_Indicatiestelling_Zorg>;
+  rdf:value "Het Centrum Indicatiestelling Zorg (CIZ) is een zelfstandig bestuursorgaan van het ministerie van Volksgezondheid, Welzijn en Sport (VWS) dat beoordeelt of iemand in aanmerking komt voor zorg uit de Wet langdurige zorg (Wlz)."@nl .
+
 :ontolexLexicalEntry_Zorginstituut_Nederland.n ontolex:denotes <http://purl.org/ozo/vph-g#ServiceOrganization> .
 
-:c_88e6b01a a ontolex:LexicalConcept;
-  rdfs:label "bestuursorgaan"@nl;
-  skos:broader :c_dd21993d;
-  skos:inScheme :conceptScheme_442ec41b .
-
-:ontolexLexicalEntry_bestuursorgaan_1 a lexinfo:Noun, ontolex:LexicalEntry;
+:ontolexLexicalEntry_bestuursorgaan_1 a <http://www.lexinfo.net/ontology/3.0/lexinfo#Noun>,
+    ontolex:LexicalEntry;
   dct:created "2021-09-15"^^xsd:date;
   dct:creator :RS;
   lime:language "nl"^^xsd:language;
@@ -909,11 +1045,14 @@ In de thesaurus Zorg & Welzijn voor iStandaarden staat: officiële opdracht van 
   ontolex:sense :ontolexLexicalSense_bestuursorgaan_1 .
 
 :ontolexLexicalSense_bestuursorgaan_1 a ontolex:LexicalSense;
-  lexinfo:domain :generiek;
-  skos:definition "Een bestuursorgaan is een door het publiekrecht ingesteld rechtspersoon die overheidstaken uitvoert en daarbij onder ministriële verantwoordelijkheid valt."@nl;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#domain> :generiek;
+  skos:definition :def_ontolexLexicalSense_bestuursorgaan_1;
   ontolex:isSenseOf :ontolexLexicalEntry_bestuursorgaan_1;
   ontolex:reference <http://purl.org/ozo/vph-g#ServiceOrganization>;
   ontolex:usage "Zowel bepaalde functies  ('minister', 'officier van justitie') als organisaties (Dienst UItvoering Onderwijs, Gemeenteraad) kunnen een bestuursorgaan zijn volgens de Algemene Wet Bestuursrecht. Een bestuursorgaan dat niet onder de ministriële verantwoordelijkheid valt, heet een 'zelfstandig bestuursorgaan'."@nl .
+
+:def_ontolexLexicalSense_bestuursorgaan_1 a <http://purl.org/thor/Definition>;
+  rdf:value "Een bestuursorgaan is een door het publiekrecht ingesteld rechtspersoon die overheidstaken uitvoert en daarbij onder ministriële verantwoordelijkheid valt."@nl .
 
 :ontolexForm_14a96ff9 a ontolex:Form;
   ontolex:writtenRep "bestuursorgaan"@nl .
@@ -927,25 +1066,22 @@ In de thesaurus Zorg & Welzijn voor iStandaarden staat: officiële opdracht van 
   ontolex:sense :ontolexLexicalSense_zelfstandig_bestuursorgaan_1 .
 
 :ontolexLexicalSense_zelfstandig_bestuursorgaan_1 a ontolex:LexicalSense;
-  lexinfo:domain :generiek;
-  skos:definition "Een zelfstandig bestuursorgaan is een organisatie die bij wet is aangewezen om  bepaalde overheidstaken uit te voeren maar daarbij niet onder ministeriële verantwoordelijkheid valt."@nl;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#domain> :generiek;
+  skos:definition :def_ontolexLexicalSense_zelfstandig_bestuursorgaan_1;
   ontolex:isSenseOf :ontolexLexicalEntry_zelfstandig_bestuursorgaan.n;
   ontolex:reference <http://purl.org/ozo/vph-g#ServiceOrganization>;
   ontolex:usage "Functies en organisaties die wél onder ministeriële verantwoordelijkheid vallen, heten geen 'zelfstandig bestuursorgaan' maar 'bestuursorgaan'."@nl .
+
+:def_ontolexLexicalSense_zelfstandig_bestuursorgaan_1 a <http://purl.org/thor/Definition>;
+  rdf:value "Een zelfstandig bestuursorgaan is een organisatie die bij wet is aangewezen om  bepaalde overheidstaken uit te voeren maar daarbij niet onder ministeriële verantwoordelijkheid valt."@nl .
 
 :ontolexForm_6914bfd8 a ontolex:Form;
   ontolex:writtenRep "zelfstandig bestuursorgaan"@nl .
 
 :isInstanceOf rdfs:comment "This Thor property can be used to relate some Lexical Sense that denotes a Named Entity to some Concept or Class in an Ontology and/or Conceptual Model."@en .
 
-:c_bc3f75f1 a ontolex:LexicalConcept;
-  rdfs:label "ziekenhuisorganisatie"@nl;
-  skos:broader :c_44957a12;
-  skos:exactMatch <http://purl.bioontology.org/ontology/SNOMEDCT/22232009>;
-  skos:inScheme :conceptScheme_442ec41b;
-  ontolex:lexicalizedSense :ontolexLexicalSense_ziekenhuis_1 .
-
-:ontolexLexicalEntry_organisatie.n a lexinfo:Noun, ontolex:LexicalEntry;
+:ontolexLexicalEntry_organisatie.n a <http://www.lexinfo.net/ontology/3.0/lexinfo#Noun>,
+    ontolex:LexicalEntry;
   dct:created "2021-09-20"^^xsd:date;
   dct:creator :RS;
   lime:language "nl"^^xsd:language;
@@ -954,12 +1090,15 @@ In de thesaurus Zorg & Welzijn voor iStandaarden staat: officiële opdracht van 
   ontolex:sense :ontolexLexicalSense_organisatie_1 .
 
 :ontolexLexicalSense_organisatie_1 a ontolex:LexicalSense;
-  dct:source <https://nl.wikipedia.org/wiki/Organisatie>;
-  lexinfo:domain :algemeen;
-  lexinfo:hyponym :ontolexLexicalSense_zorgorganisatie_1;
-  skos:definition "\"Een organisatie is een doelgerichte samenbundeling van kennis, vaardigheden en kracht tussen meerdere personen die primair middelen en activiteiten aanwendt om te voorzien in de behoefte aan producten en/of diensten in haar omgeving.\""@nl;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#domain> :algemeen;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#hyponym> :ontolexLexicalSense_zorgorganisatie_1;
+  skos:definition :def_ontolexLexicalSense_organisatie_1;
   ontolex:isSenseOf :ontolexLexicalEntry_organisatie.n;
   ontolex:reference <http://purl.org/ozo/vph-g#Organization> .
+
+:def_ontolexLexicalSense_organisatie_1 a <http://purl.org/thor/Definition>;
+  dct:source <https://nl.wikipedia.org/wiki/Organisatie>;
+  rdf:value "\"Een organisatie is een doelgerichte samenbundeling van kennis, vaardigheden en kracht tussen meerdere personen die primair middelen en activiteiten aanwendt om te voorzien in de behoefte aan producten en/of diensten in haar omgeving.\""@nl .
 
 :KIK_Lexicon lime:entry :ontolexLexicalEntry_Centrum_Indicatiestelling_Zorg.mwu, :ontolexLexicalEntry_organisatie.n,
     :ontolexLexicalEntry_ziekenhuis.n .
@@ -971,10 +1110,8 @@ In de thesaurus Zorg & Welzijn voor iStandaarden staat: officiële opdracht van 
   rdfs:label "zelfstandig bestuursorgaan"@nl;
   skos:inScheme :conceptScheme_442ec41b .
 
-<http://purl.bioontology.org/ontology/SNOMEDCT/22232009> skos:exactMatch :c_bc3f75f1 .
-
-:ontolexLexicalEntry_Centrum_Indicatiestelling_Zorg.mwu a lexinfo:ProperNoun, ontolex:LexicalEntry,
-    ontolex:MultiWordExpression;
+:ontolexLexicalEntry_Centrum_Indicatiestelling_Zorg.mwu a <http://www.lexinfo.net/ontology/3.0/lexinfo#ProperNoun>,
+    ontolex:LexicalEntry, ontolex:MultiWordExpression;
   dct:created "2021-09-16"^^xsd:date;
   dct:creator :RS;
   lime:language "nl"^^xsd:language;
@@ -982,34 +1119,32 @@ In de thesaurus Zorg & Welzijn voor iStandaarden staat: officiële opdracht van 
   ontolex:denotes <http://purl.org/ozo/vph-g#ServiceOrganization>;
   ontolex:sense :ontolexLexicalSense_Centrum_Indicatiestelling_Zorg_1 .
 
-:ontolexLexicalSense_mens_1 skos:definition "Een mens is een individueel wezen van de soort Homo Sapiens."@nl;
+:ontolexLexicalSense_mens_1 <http://purl.org/thor/closeMapping> <http://purl.bioontology.org/ontology/SNOMEDCT/337915000>;
+  skos:definition :def_ontolexLexicalSense_mens_1;
   ontolex:isLexicalizedSenseOf :c_9f500d3c .
 
 :c_9f500d3c a ontolex:LexicalConcept;
   rdfs:label "persoon"@nl;
   skos:broader :c_c4d7e81a;
-  skos:closeMatch <http://purl.bioontology.org/ontology/SNOMEDCT/125676002>;
   skos:inScheme :conceptScheme_442ec41b;
   skos:narrower :c_116342e9, :c_1b7dedc6, :c_3284ca3b, :c_4eb7f814, :c_61248933, :c_d19fb063,
     :c_db994816;
   ontolex:lexicalizedSense :ontolexLexicalSense_mens_1, :ontolexLexicalSense_persoon_1 .
 
-:ontolexForm_fd1dff18 a ontolex:Form;
-  ontolex:writtenRep "Centrum Indicatiestelling Zorg"@nl .
+:def_ontolexLexicalSense_mens_1 a <http://purl.org/thor/Definition>;
+  rdf:value "Een mens is een individueel wezen van de soort Homo Sapiens."@nl .
 
 :c_c4d7e81a a ontolex:LexicalConcept;
   rdfs:label "organisme"@nl;
-  skos:exactMatch <http://purl.bioontology.org/ontology/SNOMEDCT/410607006>, <http://www.ontologyportal.org/translations/SUMO.owl.txt#Organism>;
   skos:inScheme :conceptScheme_442ec41b;
   skos:narrower :c_9f500d3c;
   skos:topConceptOf :conceptScheme_442ec41b .
 
-<http://purl.bioontology.org/ontology/SNOMEDCT/125676002> skos:closeMatch :c_9f500d3c .
+:ontolexLexicalSense_persoon_1 <http://purl.org/thor/closeMapping> <http://purl.bioontology.org/ontology/SNOMEDCT/125676002> .
 
 :c_116342e9 a ontolex:LexicalConcept;
   rdfs:label "cliënt (patient)"@nl;
   skos:broader :c_9f500d3c;
-  skos:closeMatch <https://zibs.nl/wiki/Patient-v3.2(2020NL)>;
   skos:inScheme :conceptScheme_442ec41b .
 
 :c_1b7dedc6 a ontolex:LexicalConcept;
@@ -1017,8 +1152,8 @@ In de thesaurus Zorg & Welzijn voor iStandaarden staat: officiële opdracht van 
   skos:broader :c_9f500d3c;
   skos:inScheme :conceptScheme_442ec41b .
 
-:c_61248933 a ontolex:LexicalConcept;
-  rdfs:label "verzender"@nl;
+:c_3284ca3b a ontolex:LexicalConcept;
+  rdfs:label "zorgverlener"@nl;
   skos:broader :c_9f500d3c;
   skos:inScheme :conceptScheme_442ec41b .
 
@@ -1027,7 +1162,50 @@ In de thesaurus Zorg & Welzijn voor iStandaarden staat: officiële opdracht van 
   skos:broader :c_9f500d3c;
   skos:inScheme :conceptScheme_442ec41b .
 
+:c_61248933 a ontolex:LexicalConcept;
+  rdfs:label "verzender"@nl;
+  skos:broader :c_9f500d3c;
+  skos:inScheme :conceptScheme_442ec41b .
+
 :c_d19fb063 skos:broader :c_9f500d3c .
+
+:c_db994816 a ontolex:LexicalConcept;
+  rdfs:label "contactpersoon"@nl;
+  skos:broader :c_9f500d3c;
+  skos:inScheme :conceptScheme_442ec41b;
+  ontolex:lexicalizedSense :ontolexLexicalSense_contactpersoon_1 .
+
+:ontolexLexicalSense_organisme a <http://purl.org/thor/PreferredSense>;
+  <http://purl.org/thor/exactMapping> <http://purl.bioontology.org/ontology/SNOMEDCT/410607006>,
+    <http://www.ontologyportal.org/translations/SUMO.owl.txt#Organism>;
+  ontolex:isSenseOf :ontolexLexicalEntry_organisme .
+
+:ontolexLexicalSense_ziekenhuis_1 a ontolex:LexicalSense;
+  <http://purl.org/thor/exactMapping> <http://purl.bioontology.org/ontology/SNOMEDCT/22232009>;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#hypernym> :ontolexLexicalSense_zorginstelling_1;
+  skos:definition :def_ontolexLexicalSense_ziekenhuis_1;
+  ontolex:isLexicalizedSenseOf :c_bc3f75f1;
+  ontolex:isSenseOf :ontolexLexicalEntry_ziekenhuis.n;
+  ontolex:reference <http://purl.org/ozo/vph-g#Hospital> .
+
+:conceptScheme_442ec41b skos:hasTopConcept :c_c4d7e81a .
+
+:ontolexLexicalSense_artefact a ontolex:LexicalSense;
+  ontolex:isSenseOf :ontolexLexicalEntry_artefact .
+
+:ontolexLexicalEntry_digitaal_document ontolex:sense :ontolexLexicalSense_digitaal_document .
+
+:ontolexLexicalSense_client_2 <http://purl.org/thor/closeMapping> <https://zibs.nl/wiki/Patient-v3.2(2020NL)>;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#domain> :iStandaarden .
+
+:ontolexLexicalSense_zorgverlener_1 <http://purl.org/thor/exactMapping> <https://zibs.nl/wiki/Zorgverlener-v3.5(2020NL)>;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#domain> :algemeen;
+  skos:definition :def_ontolexLexicalSense_zorgverlener_1 .
+
+:ontolexLexicalEntry_organisme ontolex:sense :ontolexLexicalSense_organisme .
+
+:ontolexForm_fd1dff18 a ontolex:Form;
+  ontolex:writtenRep "Centrum Indicatiestelling Zorg"@nl .
 
 :ontolexLexicalEntry_zorgtoewijzing.n a ontolex:LexicalEntry .
 
@@ -1037,43 +1215,45 @@ In de thesaurus Zorg & Welzijn voor iStandaarden staat: officiële opdracht van 
 
 :THOR_Lexicon lime:entry :ontolexLexicalEntry_toewijzen.v .
 
-:iWlz a thor:iStandard .
+:iWlz a <http://purl.org/thor/iStandard> .
 
-:iWmo a thor:iStandard .
+:iWmo a <http://purl.org/thor/iStandard> .
 
-:iPgb a thor:iStandard .
+:iPgb a <http://purl.org/thor/iStandard> .
 
-:iJw a thor:iStandard .
+:iJw a <http://purl.org/thor/iStandard> .
 
-:iEb a thor:iStandard .
+:iEb a <http://purl.org/thor/iStandard> .
 
-:iStandaarden a thor:iStandard .
+:iStandaarden a <http://purl.org/thor/iStandard> .
 
-:zorg_en_ondersteuning a thor:Community .
+:zorg_en_ondersteuning a <http://purl.org/thor/Community> .
 
-:sociaal_domein a thor:Community .
+:sociaal_domein a <http://purl.org/thor/Community> .
 
-:algemeen a thor:Community .
-
-:ontolexLexicalSense_client_2 lexinfo:domain :iStandaarden .
+:algemeen a <http://purl.org/thor/Community> .
 
 :ontolexLexicalSense_verzender_1 a ontolex:LexicalSense .
 
-:ontolexLexicalSense_zorgverlener_1 lexinfo:domain :algemeen;
-  skos:definition "persoon die beroepsmatig zorg verleent aan een ander persoon"@nl .
+:def_ontolexLexicalSense_zorgverlener_1 a <http://purl.org/thor/Definition>;
+  rdf:value "persoon die beroepsmatig zorg verleent aan een ander persoon"@nl .
 
-:ontolexLexicalEntry_bericht.n a lexinfo:Noun;
+:ontolexLexicalEntry_bericht.n a <http://www.lexinfo.net/ontology/3.0/lexinfo#Noun>;
   dct:creator :EK .
 
 :ontolexLexicalSense_aanbieder_2 a ontolex:LexicalSense;
   dct:created "2021-09-20"^^xsd:date;
   dct:creator :EK;
-  skos:definition "persoon of organisatie die goederen of diensten levert aan een vragende partij"@nl;
+  skos:definition :def_ontolexLexicalSense_aanbieder_2;
   ontolex:isSenseOf :ontolexLexicalEntry_aanbieder.n .
+
+:def_ontolexLexicalSense_aanbieder_2 a <http://purl.org/thor/Definition>;
+  rdf:value "persoon of organisatie die goederen of diensten levert aan een vragende partij"@nl .
 
 :ontolexLexicalEntry_aanbieder.n ontolex:sense :ontolexLexicalSense_aanbieder_2 .
 
-:ontolexLexicalEntry_ziekenhuis.n a lexinfo:Noun, ontolex:LexicalEntry;
+:ontolexLexicalEntry_ziekenhuis.n a <http://www.lexinfo.net/ontology/3.0/lexinfo#Noun>,
+    ontolex:LexicalEntry;
   dct:created "2021-09-20"^^xsd:date;
   dct:creator :RS;
   lime:language "nl"^^xsd:language;
@@ -1081,63 +1261,26 @@ In de thesaurus Zorg & Welzijn voor iStandaarden staat: officiële opdracht van 
   ontolex:denotes <http://purl.org/ozo/vph-g#Hospital>;
   ontolex:sense :ontolexLexicalSense_ziekenhuis_1 .
 
-:ontolexLexicalSense_ziekenhuis_1 a ontolex:LexicalSense;
-  lexinfo:hypernym :ontolexLexicalSense_zorginstelling_1;
-  skos:definition "Een ziekenhuis is een instelling die personen opneemt voor het ondergaan van een genees-, heel- of verloskundig onderzoek of een genees-, heel- of verloskundige behandeling."@nl;
-  ontolex:isLexicalizedSenseOf :c_bc3f75f1;
-  ontolex:isSenseOf :ontolexLexicalEntry_ziekenhuis.n;
-  ontolex:reference <http://purl.org/ozo/vph-g#Hospital> .
+:def_ontolexLexicalSense_ziekenhuis_1 a <http://purl.org/thor/Definition>;
+  rdf:value "Een ziekenhuis is een instelling die personen opneemt voor het ondergaan van een genees-, heel- of verloskundig onderzoek of een genees-, heel- of verloskundige behandeling."@nl .
 
 :ontolexForm_84a396e7 a ontolex:Form;
   ontolex:writtenRep "ziekenhuis"@nl .
 
-:ontolexLexicalSense_zorgorganisatie_1 dct:source "Wet kwaliteit, klachten en geschillen zorg (Wkkgz)"@nl,
-    <https://zoek.officielebekendmakingen.nl/stb-2015-407.html>;
-  lexinfo:hypernym :ontolexLexicalSense_organisatie_1;
-  skos:definition "Een zorginstelling is \"een rechtspersoon die bedrijfsmatig zorg verleent, een organisatorisch verband van natuurlijke personen die bedrijfsmatig zorg verlenen of doen verlenen, alsmede een natuurlijke persoon die bedrijfsmatig zorg doet verlenen\"."@nl;
-  ontolex:isLexicalizedSenseOf :c_44957a12;
-  ontolex:usage "Zorgorganisaties die zorg willen verlenen die op grond van de \"Zorgverzekeringswet\" of de \"Wet langdurige zorg\" voor vergoeding in aanmerking komt, moeten voldoen aan de eisen, voorwaarden en regelgeving beschreven in de \"Wet toelating zorginstellingen\" (WTZi)."@nl .
-
-:c_dd21993d skos:exactMatch <http://www.ontologyportal.org/translations/SUMO.owl.txt#Organization> .
-
-<http://www.ontologyportal.org/translations/SUMO.owl.txt#Organization> skos:exactMatch
-    :c_dd21993d .
+:ontolexLexicalSense_digitaal_document a ontolex:LexicalSense .
 
 :ontolexLexicalSense_bestuursorgaan_1 ontolex:isLexicalizedSenseOf :c_88e6b01a .
 
 :c_88e6b01a ontolex:lexicalizedSense :ontolexLexicalSense_bestuursorgaan_1 .
 
-<http://purl.bioontology.org/ontology/SNOMEDCT/410607006> skos:exactMatch :c_c4d7e81a .
+:ontolexLexicalSense_aanbieder_1 <http://www.lexinfo.net/ontology/3.0/lexinfo#hypernym>
+    :ontolexLexicalSense_aanbieder_2 .
 
-<http://www.ontologyportal.org/translations/SUMO.owl.txt#Organism> skos:exactMatch
-    :c_c4d7e81a .
+:ontolexLexicalSense_zorgaanbieder_1 <http://www.lexinfo.net/ontology/3.0/lexinfo#hypernym>
+    :ontolexLexicalSense_aanbieder_2 .
 
-:conceptScheme_442ec41b skos:hasTopConcept :c_c4d7e81a .
-
-:ontolexLexicalSense_aanbieder_1 lexinfo:hypernym :ontolexLexicalSense_aanbieder_2 .
-
-:ontolexLexicalSense_zorgaanbieder_1 lexinfo:hypernym :ontolexLexicalSense_aanbieder_2 .
-
-<https://zibs.nl/wiki/Patient-v3.2(2020NL)> skos:closeMatch :c_116342e9 .
-
-:c_3284ca3b a ontolex:LexicalConcept;
-  rdfs:label "zorgverlener"@nl;
-  skos:broader :c_9f500d3c;
-  skos:exactMatch <https://zibs.nl/wiki/Zorgverlener-v3.5(2020NL)>;
-  skos:inScheme :conceptScheme_442ec41b .
-
-<https://zibs.nl/wiki/Zorgverlener-v3.5(2020NL)> skos:exactMatch :c_3284ca3b .
-
-:c_db994816 a ontolex:LexicalConcept;
-  rdfs:label "contactpersoon"@nl;
-  skos:broader :c_9f500d3c;
-  skos:exactMatch <https://zibs.nl/wiki/Contactpersoon-v3.4(2020NL)>;
-  skos:inScheme :conceptScheme_442ec41b;
-  ontolex:lexicalizedSense :ontolexLexicalSense_contactpersoon_1 .
-
-<https://zibs.nl/wiki/Contactpersoon-v3.4(2020NL)> skos:exactMatch :c_db994816 .
-
-:ontolexLexicalEntry_contactpersoon.n a lexinfo:Noun, ontolex:LexicalEntry;
+:ontolexLexicalEntry_contactpersoon.n a <http://www.lexinfo.net/ontology/3.0/lexinfo#Noun>,
+    ontolex:LexicalEntry;
   dct:created "2021-09-21"^^xsd:date;
   dct:creator :RS;
   lime:language "nl"^^xsd:language;
@@ -1146,12 +1289,15 @@ In de thesaurus Zorg & Welzijn voor iStandaarden staat: officiële opdracht van 
   ontolex:sense :ontolexLexicalSense_contactpersoon_1 .
 
 :ontolexLexicalSense_contactpersoon_1 a ontolex:LexicalSense;
-  lexinfo:domain :algemeen;
-  lexinfo:hypernym :ontolexLexicalSense_persoon_1;
-  skos:definition "Een contactpersoon is iemand die als vertegenwoordiger optreedt van iemand anders en, indien nodig, persoonlijke informatie ontvangt en/of verstrekt over deze persoon. "@nl;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#domain> :algemeen;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#hypernym> :ontolexLexicalSense_persoon_1;
+  skos:definition :def_ontolexLexicalSense_contactpersoon_1;
   ontolex:isLexicalizedSenseOf :c_db994816;
   ontolex:isSenseOf :ontolexLexicalEntry_contactpersoon.n;
   ontolex:reference <http://purl.org/ozo/vph-g#ContactPerson> .
+
+:def_ontolexLexicalSense_contactpersoon_1 a <http://purl.org/thor/Definition>;
+  rdf:value "Een contactpersoon is iemand die als vertegenwoordiger optreedt van iemand anders en, indien nodig, persoonlijke informatie ontvangt en/of verstrekt over deze persoon."@nl .
 
 :ontolexForm_deb7774e a ontolex:Form;
   ontolex:writtenRep "contactpersoon"@nl .
@@ -1159,7 +1305,8 @@ In de thesaurus Zorg & Welzijn voor iStandaarden staat: officiële opdracht van 
 :KIK_Lexicon lime:entry :ontolexLexicalEntry_CIZ.n, :ontolexLexicalEntry_contactpersoon.n,
     :ontolexLexicalEntry_mens.n, :ontolexLexicalEntry_persoon.n .
 
-:ontolexLexicalEntry_persoon.n a lexinfo:Noun, ontolex:LexicalEntry;
+:ontolexLexicalEntry_persoon.n a <http://www.lexinfo.net/ontology/3.0/lexinfo#Noun>,
+    ontolex:LexicalEntry;
   dct:creator :RS;
   lime:language "nl"^^xsd:language;
   ontolex:canonicalForm :ontolexForm_ade1cac0;
@@ -1167,16 +1314,19 @@ In de thesaurus Zorg & Welzijn voor iStandaarden staat: officiële opdracht van 
   ontolex:sense :ontolexLexicalSense_persoon_1 .
 
 :ontolexLexicalSense_persoon_1 a ontolex:LexicalSense;
-  lexinfo:domain :algemeen;
-  lexinfo:hyponym :ontolexLexicalSense_aanbieder_2, :ontolexLexicalSense_client_1, :ontolexLexicalSense_contactpersoon_1,
-    :ontolexLexicalSense_freelancer_1, :ontolexLexicalSense_ontvanger_1, :ontolexLexicalSense_verzender_1,
-    :ontolexLexicalSense_zelfstandige_zonder_personeel_1, :ontolexLexicalSense_zender_1,
-    :ontolexLexicalSense_zorgaanbieder_1, :ontolexLexicalSense_zorgverlener_1;
-  lexinfo:synonym :ontolexLexicalSense_mens_1;
-  skos:definition "Een persoon is een menselijk individu."@nl;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#domain> :algemeen;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#hyponym> :ontolexLexicalSense_aanbieder_2,
+    :ontolexLexicalSense_client_1, :ontolexLexicalSense_contactpersoon_1, :ontolexLexicalSense_freelancer_1,
+    :ontolexLexicalSense_ontvanger_1, :ontolexLexicalSense_verzender_1, :ontolexLexicalSense_zelfstandige_zonder_personeel_1,
+    :ontolexLexicalSense_zender_1, :ontolexLexicalSense_zorgaanbieder_1, :ontolexLexicalSense_zorgverlener_1;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#synonym> :ontolexLexicalSense_mens_1;
+  skos:definition :def_ontolexLexicalSense_persoon_1;
   ontolex:isLexicalizedSenseOf :c_9f500d3c;
   ontolex:isSenseOf :ontolexLexicalEntry_persoon.n;
   ontolex:reference <http://purl.org/ozo/vph-g#Human> .
+
+:def_ontolexLexicalSense_persoon_1 a <http://purl.org/thor/Definition>;
+  rdf:value "Een persoon is een menselijk individu."@nl .
 
 :ontolexForm_ade1cac0 a ontolex:Form;
   ontolex:writtenRep "persoon"@nl .
@@ -1186,17 +1336,22 @@ In de thesaurus Zorg & Welzijn voor iStandaarden staat: officiële opdracht van 
   ontolex:sense :ontolexLexicalSense_indicatiebericht_1 .
 
 :ontolexLexicalSense_indicatiebericht_1 a ontolex:LexicalSense;
-  lexinfo:domain :iWlz;
-  lexinfo:hypernym :ontolexLexicalSense_bericht_1;
-  lexinfo:normativeAuthorization lexinfo:preferredTerm;
-  skos:definition "een iStandaarden bericht dat het CIZ verstuurt naar een zorgkantoor en dat het indicatiebesluit bevat."@nl;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#domain> :iWlz;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#hypernym> :ontolexLexicalSense_bericht_1;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#normativeAuthorization> <http://www.lexinfo.net/ontology/3.0/lexinfo#preferredTerm>;
+  skos:definition :def_ontolexLexicalSense_indicatiebericht_1;
   skos:editorialNote "EK: Ik geef nu aan dat 'bericht' (als in iStandaarden bericht) een hypernym is van indicatiebericht. Alternatief kan ik ook aangeven dat 'heenbericht' een hypernym is (die moet nog opgenomen worden)."@nl;
   ontolex:isSenseOf :ontolexLexicalEntry_indicatiebericht.n .
 
-:ontolexLexicalSense_indicatiebesluit_1 lexinfo:domain :iWlz;
-  lexinfo:normativeAuthorization lexinfo:preferredTerm .
+:def_ontolexLexicalSense_indicatiebericht_1 a <http://purl.org/thor/Definition>;
+  rdf:value "een iStandaarden bericht dat het CIZ verstuurt naar een zorgkantoor en dat het indicatiebesluit bevat."@nl .
 
-:ontolexLexicalEntry_indicatiebesluitbericht.n a lexinfo:Noun, ontolex:LexicalEntry;
+:ontolexLexicalSense_indicatiebesluit_1 <http://www.lexinfo.net/ontology/3.0/lexinfo#domain>
+    :iWlz;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#normativeAuthorization> <http://www.lexinfo.net/ontology/3.0/lexinfo#preferredTerm> .
+
+:ontolexLexicalEntry_indicatiebesluitbericht.n a <http://www.lexinfo.net/ontology/3.0/lexinfo#Noun>,
+    ontolex:LexicalEntry;
   dct:created "2021-09-21"^^xsd:date;
   dct:creator :EK;
   lime:language "nl"^^xsd:language;
@@ -1204,7 +1359,7 @@ In de thesaurus Zorg & Welzijn voor iStandaarden staat: officiële opdracht van 
   ontolex:sense :ontolexLexicalSense_indicatiebesluitbericht_1 .
 
 :ontolexLexicalSense_indicatiebesluitbericht_1 a ontolex:LexicalSense;
-  lexinfo:domain :iWlz;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#domain> :iWlz;
   ontolex:isSenseOf :ontolexLexicalEntry_indicatiebesluitbericht.n .
 
 :THOR_Lexicon lime:entry :ontolexLexicalEntry_indicatie.n, :ontolexLexicalEntry_indicatiebesluitbericht.n .
@@ -1212,7 +1367,8 @@ In de thesaurus Zorg & Welzijn voor iStandaarden staat: officiële opdracht van 
 :ontolexForm_e94cc169 a ontolex:Form;
   ontolex:writtenRep "indicatiebesluitbericht"@nl .
 
-:ontolexLexicalEntry_indicatie.n a lexinfo:Noun, ontolex:LexicalEntry;
+:ontolexLexicalEntry_indicatie.n a <http://www.lexinfo.net/ontology/3.0/lexinfo#Noun>,
+    ontolex:LexicalEntry;
   dct:created "2021-09-21"^^xsd:date;
   dct:creator :EK;
   lime:language "nl"^^xsd:language;
@@ -1220,21 +1376,28 @@ In de thesaurus Zorg & Welzijn voor iStandaarden staat: officiële opdracht van 
   ontolex:sense :ontolexLexicalSense_indicatie_1, :ontolexLexicalSense_indicatie_2 .
 
 :ontolexLexicalSense_indicatie_1 a ontolex:LexicalSense;
-  lexinfo:domain :iWlz;
-  lexinfo:synonym :ontolexLexicalSense_indicatiebericht_1;
-  skos:definition "een iStandaarden bericht dat het CIZ verstuurt naar een zorgkantoor en dat het indicatiebesluit bevat."@nl;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#domain> :iWlz;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#synonym> :ontolexLexicalSense_indicatiebericht_1;
+  skos:definition :def_ontolexLexicalSense_indicatie_1;
   ontolex:isSenseOf :ontolexLexicalEntry_indicatie.n .
 
 :ontolexLexicalSense_indicatie_2 a ontolex:LexicalSense;
-  lexinfo:synonym :ontolexLexicalSense_indicatiebesluit_1;
-  skos:definition "Wetten.nl wlz Art 1.1.1 besluit van het CIZ waarbij beoordeeld wordt of en in welke omvang de verzekerde in aanmerking komt voor zorg"@nl;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#synonym> :ontolexLexicalSense_indicatiebesluit_1;
+  skos:definition :def_ontolexLexicalSense_indicatie_2;
   ontolex:isSenseOf :ontolexLexicalEntry_indicatie.n .
+
+:def_ontolexLexicalSense_indicatie_1 a <http://purl.org/thor/Definition>;
+  rdf:value "een iStandaarden bericht dat het CIZ verstuurt naar een zorgkantoor en dat het indicatiebesluit bevat."@nl .
+
+:def_ontolexLexicalSense_indicatie_2 a <http://purl.org/thor/Definition>;
+  rdf:value "Wetten.nl wlz Art 1.1.1 besluit van het CIZ waarbij beoordeeld wordt of en in welke omvang de verzekerde in aanmerking komt voor zorg"@nl .
 
 :ontolexForm_7aef882d a ontolex:Form;
   ontolex:writtenRep "indicatie"@nl .
 
-:ontolexLexicalSense_ontvanger_1 lexinfo:domain :algemeen;
-  lexinfo:hypernym :ontolexLexicalSense_persoon_1 .
+:ontolexLexicalSense_ontvanger_1 <http://www.lexinfo.net/ontology/3.0/lexinfo#domain>
+    :algemeen;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#hypernym> :ontolexLexicalSense_persoon_1 .
 
 :ontolexLexicalEntry_mens.n a ontolex:LexicalEntry;
   dct:created "2021-09-21"^^xsd:date;
@@ -1245,8 +1408,9 @@ In de thesaurus Zorg & Welzijn voor iStandaarden staat: officiële opdracht van 
   ontolex:sense :ontolexLexicalSense_mens_1 .
 
 :ontolexLexicalSense_mens_1 a ontolex:LexicalSense;
-  lexinfo:domain :generiek;
-  lexinfo:synonym :ontolexLexicalSense_persoon_1;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#domain> :generiek;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#hypernym> :ontolexLexicalSense_organisme;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#synonym> :ontolexLexicalSense_persoon_1;
   skos:editorialNote "Voor alle hyponiemen (specifiekere termen), zie het synoniem 'persoon_1'."@nl;
   ontolex:isSenseOf :ontolexLexicalEntry_mens.n;
   ontolex:reference <http://purl.org/ozo/vph-g#Human> .
@@ -1254,45 +1418,54 @@ In de thesaurus Zorg & Welzijn voor iStandaarden staat: officiële opdracht van 
 :ontolexForm_5c8e2bd2 a ontolex:Form;
   ontolex:writtenRep "mens"@nl .
 
-:ontolexLexicalSense_zorgverlener_1 lexinfo:hypernym :ontolexLexicalSense_persoon_1 .
+:ontolexLexicalSense_zorgverlener_1 <http://www.lexinfo.net/ontology/3.0/lexinfo#hypernym>
+    :ontolexLexicalSense_persoon_1 .
 
-:ontolexLexicalSense_Centrum_Indicatiestelling_Zorg_1 lexinfo:domain :algemeen .
+:ontolexLexicalSense_Centrum_Indicatiestelling_Zorg_1 <http://www.lexinfo.net/ontology/3.0/lexinfo#domain>
+    :algemeen .
 
 :ontolexLexicalEntry_CIZ.n a ontolex:LexicalEntry;
   dct:created "2021-09-23"^^xsd:date;
   dct:creator :RS;
-  lexinfo:contractionFor :ontolexLexicalEntry_Centrum_Indicatiestelling_Zorg.mwu;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#contractionFor> :ontolexLexicalEntry_Centrum_Indicatiestelling_Zorg.mwu;
   lime:language "nl"^^xsd:language;
   ontolex:canonicalForm :ontolexForm_d8f15016 .
 
 :ontolexForm_d8f15016 a ontolex:Form;
   ontolex:writtenRep "CIZ"@nl .
 
-:ontolexLexicalEntry_Centrum_Indicatiestelling_Zorg.mwu lexinfo:fullFormFor :ontolexLexicalEntry_CIZ.n .
+:ontolexLexicalEntry_Centrum_Indicatiestelling_Zorg.mwu <http://www.lexinfo.net/ontology/3.0/lexinfo#fullFormFor>
+    :ontolexLexicalEntry_CIZ.n .
 
 :ontolexLexicalEntry_Zorginstituut_Nederland.n a ontolex:MultiWordExpression .
 
-:ontolexLexicalSense_aanbieder_2 lexinfo:hypernym :ontolexLexicalSense_persoon_1 .
+:ontolexLexicalSense_aanbieder_2 <http://www.lexinfo.net/ontology/3.0/lexinfo#hypernym>
+    :ontolexLexicalSense_persoon_1 .
 
-:ontolexLexicalSense_client_1 lexinfo:hypernym :ontolexLexicalSense_persoon_1 .
+:ontolexLexicalSense_client_1 <http://www.lexinfo.net/ontology/3.0/lexinfo#hypernym>
+    :ontolexLexicalSense_persoon_1 .
 
-:ontolexLexicalSense_verzender_1 lexinfo:hypernym :ontolexLexicalSense_persoon_1 .
+:ontolexLexicalSense_verzender_1 <http://www.lexinfo.net/ontology/3.0/lexinfo#hypernym>
+    :ontolexLexicalSense_persoon_1 .
 
-:ontolexLexicalSense_zender_1 lexinfo:hypernym :ontolexLexicalSense_persoon_1 .
+:ontolexLexicalSense_zender_1 <http://www.lexinfo.net/ontology/3.0/lexinfo#hypernym>
+    :ontolexLexicalSense_persoon_1 .
 
 :c_dd21993d dct:created "2021-09-28"^^xsd:date;
-  dct:creator :RS;
-  skos:exactMatch <http://purl.bioontology.org/ontology/STY/T092> .
+  dct:creator :RS .
 
-<http://purl.bioontology.org/ontology/STY/T092> skos:exactMatch :c_dd21993d .
+:ontolexLexicalSense_contactpersoon_1 <http://purl.org/thor/exactMapping> <http://purl.bioontology.org/ontology/SNOMEDCT/70862002>,
+    <https://zibs.nl/wiki/Contactpersoon-v3.4(2020NL)> .
 
 :c_44957a12 dct:created "2021-09-28"^^xsd:date;
-  dct:creator :RS;
-  skos:closeMatch <http://purl.bioontology.org/ontology/SNOMEDCT/257622000>, <https://zibs.nl/wiki/Zorgaanbieder-v3.4(2020NL)> .
+  dct:creator :RS .
 
-<http://purl.bioontology.org/ontology/SNOMEDCT/257622000> skos:closeMatch :c_44957a12 .
+:ontolexForm_f225108c ontolex:writtenRep "digitaal document"@nl .
 
-<https://zibs.nl/wiki/Zorgaanbieder-v3.4(2020NL)> skos:closeMatch :c_44957a12 .
+:ontolexLexicalSense_organisme a ontolex:LexicalSense .
+
+:ontolexLexicalSense_organisatie_1 <http://purl.org/thor/exactMapping> <http://purl.bioontology.org/ontology/STY/T092>,
+    <http://www.ontologyportal.org/translations/SUMO.owl.txt#Organization> .
 
 :c_88e6b01a dct:created "2021-09-28"^^xsd:date;
   dct:creator :RS;
@@ -1309,8 +1482,7 @@ In de thesaurus Zorg & Welzijn voor iStandaarden staat: officiële opdracht van 
   dct:creator :RS .
 
 :c_c4d7e81a dct:created "2021-09-28"^^xsd:date;
-  dct:creator :RS;
-  skos:editorialNote "Note that this concept has deliberately no lexicalizations as these fall out of scope for Thor. The concept is here in order to provide some structure to the thesaurus hierarchy for future extensions."@en .
+  dct:creator :RS .
 
 :c_9f500d3c dct:created "2021-09-28"^^xsd:date;
   dct:creator :RS;
@@ -1322,22 +1494,26 @@ From an ontological point of view, one should NOT translate this hierarchical re
   skos:editorialNote "Voor dit lexicaal concept is (nog) geen mapping mogelijk naar externe vocabulaires en thesauri."@nl .
 
 :c_116342e9 dct:created "2021-09-28"^^xsd:date;
-  dct:creator :RS;
-  skos:closeMatch <http://purl.bioontology.org/ontology/SNOMEDCT/116154003> .
+  dct:creator :RS .
 
-<http://purl.bioontology.org/ontology/SNOMEDCT/116154003> skos:closeMatch :c_116342e9 .
+:ontolexLexicalSense_digitaal_document a <http://purl.org/thor/PreferredSense>;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#hypernym> :ontolexLexicalSense_artefact;
+  ontolex:isSenseOf :ontolexLexicalEntry_digitaal_document .
+
+:ontolexLexicalSense_artefact a <http://purl.org/thor/PreferredSense> .
 
 :c_db994816 dct:created "2021-09-28"^^xsd:date;
-  dct:creator :RS;
-  skos:exactMatch <http://purl.bioontology.org/ontology/SNOMEDCT/70862002> .
+  dct:creator :RS .
 
-<http://purl.bioontology.org/ontology/SNOMEDCT/70862002> skos:exactMatch :c_db994816 .
+:ontolexLexicalEntry_artefact ontolex:sense :ontolexLexicalSense_artefact .
+
+:ontolexLexicalSense_client_2 <http://purl.org/thor/closeMapping> <http://purl.bioontology.org/ontology/SNOMEDCT/116154003> .
 
 :c_d19fb063 dct:created "2021-09-28"^^xsd:date;
-  dct:creator :RS;
-  skos:closeMatch <http://dbpedia.org/resource/Freelance> .
+  dct:creator :RS .
 
-<http://dbpedia.org/resource/Freelance> skos:closeMatch :c_d19fb063 .
+:ontolexLexicalSense_freelancer_1 <http://purl.org/thor/closeMapping> <http://dbpedia.org/resource/Freelance>,
+    <http://www.ontologyportal.org/translations/SUMO.owl.txt#Freelancer> .
 
 :c_1b7dedc6 dct:created "2021-09-28"^^xsd:date;
   dct:creator :RS;
@@ -1349,7 +1525,8 @@ From an ontological point of view, one should NOT translate this hierarchical re
   dct:creator :RS;
   ontolex:lexicalizedSense :ontolexLexicalSense_verloop_2 .
 
-:ontolexLexicalEntry_verloop.n.1 a lexinfo:Noun, ontolex:LexicalEntry;
+:ontolexLexicalEntry_verloop.n.1 a <http://www.lexinfo.net/ontology/3.0/lexinfo#Noun>,
+    ontolex:LexicalEntry;
   dct:created "2021-09-14"^^xsd:date;
   dct:creator :RS;
   lime:language "nl"^^xsd:language;
@@ -1358,25 +1535,28 @@ From an ontological point of view, one should NOT translate this hierarchical re
   ontolex:sense :ontolexLexicalSense_verloop_2 .
 
 :ontolexLexicalSense_verloop_2 a ontolex:LexicalSense;
-  lexinfo:domain :algemeen;
-  lexinfo:synonym :ontolexLexicalSense_uitstroom_2;
-  skos:definition "Verloop is het geheel van personeelsleden dat gedurende een periode ontslag neemt of krijgt bij een werkgever."@nl;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#domain> :algemeen;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#synonym> :ontolexLexicalSense_uitstroom_2;
+  skos:definition :def_ontolexLexicalSense_verloop_2;
   ontolex:isLexicalizedSenseOf :c_uitstroom_verloop;
   ontolex:isSenseOf :ontolexLexicalEntry_verloop.n.1;
   ontolex:reference <http://purl.org/ozo/vph-g#LeavingAnOrganizationEvent>;
   ontolex:usage "Verloop en 'uitstroom' worden doorgaans als synoniemen gebruikt, echter, in sommige gevallen wordt bij 'verloop' zowel de 'instroom' (aantal werknemers dat bij een werkgever is gaan werken) als de 'uitstroom' van personeelsleden bedoeld."@nl .
+
+:def_ontolexLexicalSense_verloop_2 a <http://purl.org/thor/Definition>;
+  rdf:value "Verloop is het geheel van personeelsleden dat gedurende een periode ontslag neemt of krijgt bij een werkgever."@nl .
 
 :ontolexForm_04ad40c1 a ontolex:Form;
   ontolex:writtenRep "verloop"@nl .
 
 :KIK_Lexicon lime:entry :ontolexLexicalEntry_verloop.n.1 .
 
-:ontolexLexicalSense_uitstroom_2 lexinfo:synonym :ontolexLexicalSense_verloop_2 .
+:ontolexLexicalSense_uitstroom_2 <http://www.lexinfo.net/ontology/3.0/lexinfo#synonym>
+    :ontolexLexicalSense_verloop_2 .
 
 :c_172efd62 a ontolex:LexicalConcept;
   dct:created "2021-09-28"^^xsd:date;
   dct:creator :RS;
-  skos:editorialNote "Note that this concept has deliberately no lexicalizations as these fall out of scope for Thor. The concept is here in order to provide some structure to the thesaurus hierarchy for future extensions."@en;
   skos:inScheme :conceptScheme_442ec41b;
   skos:narrower :c_c12a4a64;
   skos:prefLabel "artefact"@nl;
@@ -1387,7 +1567,6 @@ From an ontological point of view, one should NOT translate this hierarchical re
   dct:creator :RS;
   rdfs:label "digitaal document"@nl;
   skos:broader :c_172efd62;
-  skos:editorialNote "Note that this concept has deliberately no lexicalizations as these fall out of scope for Thor. The concept is here in order to provide some structure to the thesaurus hierarchy for future extensions."@en;
   skos:inScheme :conceptScheme_442ec41b;
   skos:narrower :c_217e9a59 .
 
@@ -1422,18 +1601,19 @@ From an ontological point of view, one should NOT translate this hierarchical re
   skos:note "Vanuit dit lexicale concept is (nog) geen mapping mogelijk naar externe vocabulaires en thesauri."@nl;
   ontolex:lexicalizedSense :ontolexLexicalSense_indicatiebericht_1, :ontolexLexicalSense_indicatiebesluitbericht_1 .
 
-:ontolexLexicalSense_bericht_2 a thor:PreferredSense;
-  lexinfo:hyponym :ontolexLexicalSense_bericht_1;
+:ontolexLexicalSense_bericht_2 a <http://purl.org/thor/PreferredSense>;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#hyponym> :ontolexLexicalSense_bericht_1;
   ontolex:isLexicalizedSenseOf :c_217e9a59 .
 
-:ontolexLexicalSense_bericht_1 a thor:PreferredSense;
+:ontolexLexicalSense_bericht_1 a <http://purl.org/thor/PreferredSense>;
   ontolex:isLexicalizedSenseOf :c_ab25b8b4 .
 
-:ontolexLexicalSense_indicatiebericht_1 lexinfo:synonym :ontolexLexicalSense_indicatiebesluitbericht_1;
+:ontolexLexicalSense_indicatiebericht_1 <http://www.lexinfo.net/ontology/3.0/lexinfo#synonym>
+    :ontolexLexicalSense_indicatiebesluitbericht_1;
   skos:editorialNote "@EK: kan, maar dan alleen als berichten OF altijd een heenbericht zijn OF een retourbericht. Anders zou ik deze informatie als literal bij 'usage' zetten en de kennis uitmodelleren in het CM (dus als Rol: Heenbericht equivalentTo inheresIn only Bericht / kortom: Heenbericht is een rol die gedragen kan, maar niet hoeft te worden door Berichten, maar als iets de rol Heenbericht draagt, dan moet het een Bericht zijn of een subklasse daarvan)."@nl;
   ontolex:isLexicalizedSenseOf :c_7c28efb9 .
 
-:ontolexLexicalSense_indicatiebesluitbericht_1 a thor:PreferredSense;
+:ontolexLexicalSense_indicatiebesluitbericht_1 a <http://purl.org/thor/PreferredSense>;
   ontolex:isLexicalizedSenseOf :c_7c28efb9 .
 
 :isInstanceOf rdfs:domain ontolex:LexicalSense .
@@ -1441,9 +1621,9 @@ From an ontological point of view, one should NOT translate this hierarchical re
 :instanceOf a rdf:Property;
   rdfs:domain ontolex:LexicalSense .
 
-:ontolexLexicalSense_Zorginstituut_Nederland_1 a thor:PreferredSense;
+:ontolexLexicalSense_Zorginstituut_Nederland_1 a <http://purl.org/thor/PreferredSense>;
   :instanceOf <http://purl.org/ozo/vph-g#ServiceOrganization>;
-  lexinfo:hypernym :ontolexLexicalSense_zelfstandig_bestuursorgaan_1;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#hypernym> :ontolexLexicalSense_zelfstandig_bestuursorgaan_1;
   ontolex:isLexicalizedSenseOf :c_384f79cf .
 
 :c_384f79cf a ontolex:LexicalConcept;
@@ -1454,9 +1634,7 @@ From an ontological point of view, one should NOT translate this hierarchical re
   skos:inScheme :conceptScheme_442ec41b;
   ontolex:lexicalizedSense :ontolexLexicalSense_Zorginstituut_Nederland_1 .
 
-:ontolexLexicalSense_Centrum_Indicatiestelling_Zorg_1 :instanceOf "http://purl.org/ozo/vph-g#ServiceOrganization"@nl;
-  lexinfo:hypernym :ontolexLexicalSense_zelfstandig_bestuursorgaan_1;
-  ontolex:isLexicalizedSenseOf :c_371f418d .
+:c_f560d44f skos:narrower :c_371f418d, :c_384f79cf .
 
 :c_371f418d a ontolex:LexicalConcept;
   dct:creator :RS;
@@ -1465,66 +1643,92 @@ From an ontological point of view, one should NOT translate this hierarchical re
   skos:inScheme :conceptScheme_442ec41b;
   ontolex:lexicalizedSense :ontolexLexicalSense_Centrum_Indicatiestelling_Zorg_1 .
 
-:c_f560d44f skos:narrower :c_371f418d, :c_384f79cf .
+:ontolexLexicalSense_Centrum_Indicatiestelling_Zorg_1 :instanceOf "http://purl.org/ozo/vph-g#ServiceOrganization"@nl;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#hypernym> :ontolexLexicalSense_zelfstandig_bestuursorgaan_1;
+  ontolex:isLexicalizedSenseOf :c_371f418d .
 
-:ontolexLexicalSense_zelfstandig_bestuursorgaan_1 a thor:PreferredSense;
-  lexinfo:hyponym :ontolexLexicalSense_Centrum_Indicatiestelling_Zorg_1, :ontolexLexicalSense_Zorginstituut_Nederland_1 .
+:ontolexLexicalSense_zelfstandig_bestuursorgaan_1 a <http://purl.org/thor/PreferredSense>;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#hyponym> :ontolexLexicalSense_Centrum_Indicatiestelling_Zorg_1,
+    :ontolexLexicalSense_Zorginstituut_Nederland_1 .
 
 :ontolexLexicalEntry_bestuursorgaan_1 ontolex:evokes :c_88e6b01a .
 
 :c_88e6b01a ontolex:isConceptOf <http://purl.org/ozo/vph-g#ServiceOrganization>;
   ontolex:isEvokedBy :ontolexLexicalEntry_bestuursorgaan_1 .
 
-:generiek a thor:Context;
+:generiek a <http://purl.org/thor/Context>;
   rdfs:label "Generiek"@nl .
 
-:KIK a thor:Context .
+:KIK a <http://purl.org/thor/Context> .
 
-<http://purl.org/ZIN-Thor/> owl:imports <http://purl.org/thor/> .
+:ontolexLexicalSense_verzender_1 a <http://purl.org/thor/PreferredSense> .
 
-:ontolexLexicalSense_verzender_1 a thor:PreferredSense .
+:ontolexLexicalSense_bestuursorgaan_1 a <http://purl.org/thor/PreferredSense> .
 
-:ontolexLexicalSense_bestuursorgaan_1 a thor:PreferredSense .
+:ontolexLexicalSense_client_1 a <http://purl.org/thor/PreferredSense> .
 
-:ontolexLexicalSense_client_1 a thor:PreferredSense .
+:ontolexLexicalSense_client_2 a <http://purl.org/thor/PreferredSense> .
 
-:ontolexLexicalSense_client_2 a thor:PreferredSense .
+:ontolexLexicalSense_indicatiebesluit_1 a <http://purl.org/thor/PreferredSense>;
+  <http://www.lexinfo.net/ontology/3.0/lexinfo#synonym> :ontolexLexicalSense_indicatie_2 .
 
-:ontolexLexicalSense_indicatiebesluit_1 a thor:PreferredSense;
-  lexinfo:synonym :ontolexLexicalSense_indicatie_2 .
+:ontolexLexicalSense_mens_1 a <http://purl.org/thor/PreferredSense> .
 
-:ontolexLexicalSense_mens_1 a thor:PreferredSense .
+:ontolexLexicalSense_zorgaanbieder_1 a <http://purl.org/thor/PreferredSense> .
 
-:ontolexLexicalSense_zorgaanbieder_1 a thor:PreferredSense .
+:ontolexLexicalSense_aanbieder_2 a <http://purl.org/thor/PreferredSense> .
 
-:ontolexLexicalSense_aanbieder_2 a thor:PreferredSense .
+:ontolexLexicalSense_contactpersoon_1 a <http://purl.org/thor/PreferredSense> .
 
-:ontolexLexicalSense_contactpersoon_1 a thor:PreferredSense .
+:ontolexLexicalSense_freelancer_1 a <http://purl.org/thor/PreferredSense> .
 
-:ontolexLexicalSense_freelancer_1 a thor:PreferredSense .
+:ontolexLexicalSense_ontvanger_1 a <http://purl.org/thor/PreferredSense> .
 
-:ontolexLexicalSense_ontvanger_1 a thor:PreferredSense .
+:ontolexLexicalSense_zorgverlener_1 a <http://purl.org/thor/PreferredSense> .
 
-:ontolexLexicalSense_zorgverlener_1 a thor:PreferredSense .
+:ontolexLexicalSense_organisatie_1 a <http://purl.org/thor/PreferredSense> .
 
-:ontolexLexicalSense_organisatie_1 a thor:PreferredSense .
+:ontolexLexicalSense_zorginstelling_1 a <http://purl.org/thor/PreferredSense>;
+  <http://purl.org/thor/closeMapping> <http://purl.bioontology.org/ontology/SNOMEDCT/257622000>,
+    <https://zibs.nl/wiki/Zorgaanbieder-v3.4(2020NL)> .
 
-:ontolexLexicalSense_zorginstelling_1 a thor:PreferredSense .
+:ontolexLexicalSense_verpleeghuisorganisatie_1 a <http://purl.org/thor/PreferredSense> .
 
-:ontolexLexicalSense_verpleeghuisorganisatie_1 a thor:PreferredSense .
+:ontolexLexicalSense_ziekenhuis_1 a <http://purl.org/thor/PreferredSense> .
 
-:ontolexLexicalSense_ziekenhuis_1 a thor:PreferredSense .
+:ontolexLexicalSense_toekenningsbeschikking_1 a <http://purl.org/thor/PreferredSense> .
 
-:ontolexLexicalSense_toekenningsbeschikking_1 a thor:PreferredSense .
+:ontolexLexicalSense_toewijzen_1 a <http://purl.org/thor/PreferredSense> .
 
-:ontolexLexicalSense_toewijzen_1 a thor:PreferredSense .
+:ontolexLexicalSense_toewijzing_1 a <http://purl.org/thor/PreferredSense> .
 
-:ontolexLexicalSense_toewijzing_1 a thor:PreferredSense .
+:ontolexLexicalSense_uitstroom_1 a <http://purl.org/thor/PreferredSense> .
 
-:ontolexLexicalSense_uitstroom_1 a thor:PreferredSense .
+:ontolexLexicalSense_verloop_2 a <http://purl.org/thor/PreferredSense> .
 
-:ontolexLexicalSense_verloop_2 a thor:PreferredSense .
+:ontolexLexicalSense_uitstroom_3 a <http://purl.org/thor/PreferredSense> .
 
-:ontolexLexicalSense_uitstroom_3 a thor:PreferredSense .
+:ontolexLexicalSense_verpleeghuis_2 a <http://purl.org/thor/PreferredSense> .
 
-:ontolexLexicalSense_verpleeghuis_2 a thor:PreferredSense .
+:ontolexLexicalEntry_organisme a ontolex:LexicalEntry;
+  lime:language "nl"^^xsd:language;
+  ontolex:canonicalForm :ontolexForm_2b89eb6f .
+
+:KIK_Lexicon lime:entry :ontolexLexicalEntry_artefact, :ontolexLexicalEntry_digitaal_document,
+    :ontolexLexicalEntry_organisme .
+
+:ontolexForm_2b89eb6f a ontolex:Form;
+  ontolex:writtenRep "organisme"@nl .
+
+:ontolexLexicalEntry_artefact a ontolex:LexicalEntry;
+  lime:language "nl"^^xsd:language;
+  ontolex:canonicalForm :ontolexForm_9b143718 .
+
+:ontolexForm_9b143718 a ontolex:Form;
+  ontolex:writtenRep "artefact"@nl .
+
+:ontolexLexicalEntry_digitaal_document a ontolex:LexicalEntry;
+  lime:language "nl"^^xsd:language;
+  ontolex:canonicalForm :ontolexForm_f225108c .
+
+:ontolexForm_f225108c a ontolex:Form .

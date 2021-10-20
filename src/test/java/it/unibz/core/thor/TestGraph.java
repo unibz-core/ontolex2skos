@@ -35,17 +35,22 @@ public class TestGraph extends KnowledgeGraph {
     insertStatements(s);
   }
 
-  public void createInstace(String uri, String typeUri) {
+  public void addTypeStatement(String uri, String typeUri) {
     Statement s = new Statement(uri, "rdf:type", typeUri);
     insertStatements(s);
   }
 
   public void createLexicalSense(String uri) {
-    createInstace(uri, "ontolex:LexicalSense");
+    addTypeStatement(uri, "ontolex:LexicalSense");
+  }
+
+  public void createPreferredSense(String uri) {
+    addTypeStatement(uri, "thor:PreferredSense");
+    addTypeStatement(uri, "ontolex:LexicalSense");
   }
 
   public void createLexicon(String uri) {
-    createInstace(uri, "ontolex:Lexicon");
+    addTypeStatement(uri, "ontolex:Lexicon");
   }
 
   public void insert(String subjectUri, String predicateUri, String objectUri) {

@@ -18,3 +18,19 @@ ontolex:isConceptOf rdf:type owl:ObjectProperty ;
 foaf:homepage rdf:type owl:ObjectProperty ;
               rdfs:label "homepage"@en ;
               rdfs:label "is concept van"@nl .
+
+thor:exactMapping rdf:type owl:ObjectProperty ;
+                  rdfs:label "exact mapping"@en ;
+                  rdfs:label "exacte mapping"@nl .
+
+thor:closeMapping rdf:type owl:ObjectProperty ;
+                  rdfs:label "close mapping"@en ;
+                  rdfs:label "sluiten mapping"@nl .
+
+thor:broadMapping rdf:type owl:ObjectProperty ;
+                  rdfs:label "broad mapping"@en ;
+                  rdfs:label "brede mapping"@nl .
+
+thor:narrowMapping rdf:type owl:ObjectProperty ;
+                  rdfs:label "narrow mapping"@en ;
+                  rdfs:label "beperkte mapping"@nl .

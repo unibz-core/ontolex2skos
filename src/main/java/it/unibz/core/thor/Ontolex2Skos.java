@@ -55,10 +55,11 @@ public class Ontolex2Skos {
     logger.info("Deriving skos:altLabel from acronyms...");
     graph.deriveAlternativeLabelsFromAcronyms();
 
-    // TODO: Gerated skos:related from ontolex:relatedTerm
-
     logger.info("Deriving skos:broader and skos:narrower from lexinfo:hypernym and lexinfo:hyponym...");
     graph.deriveBroaderNarrower();
+
+    logger.info("Deriving mapping properties...");
+    graph.deriveThorMappingProperties();
 
     logger.info("Deriving skos:topConceptOf...");
     graph.deriveTopConceptOf();
@@ -112,8 +113,14 @@ public class Ontolex2Skos {
     logger.info("Extracting concepts' properties...");
     thesaurus.copyConceptData();
 
-    logger.info("Extracting semantic relations...");
-    thesaurus.copySemanticRelations();
+    logger.info("Extracting reified property values...");
+    thesaurus.copyReifiedPropertyValues();
+
+    logger.info("Extracting semantic properties...");
+    thesaurus.copySemanticProperties();
+
+    logger.info("Extracting mapping properties...");
+    thesaurus.copyMappingProperties();
 
     logger.info("Extracting context labels...");
     thesaurus.copyDomainLabels();
@@ -143,7 +150,6 @@ public class Ontolex2Skos {
 
   public static void generateAndSave(Path sourceFile, Path targetDirectory) throws IOException {
     logger.info("Generating a thesaurus for '" + sourceFile + "'");
-
     Ontolex2Skos gen = new Ontolex2Skos(sourceFile);
     gen.run();
 

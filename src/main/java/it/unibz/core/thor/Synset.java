@@ -8,6 +8,7 @@ import java.util.stream.Stream;
 
 public class Synset {
   private TreeSet<String> senses = new TreeSet<>();
+  private String preferredSense;
 
   public Synset(String... senses) {
     this.senses.addAll(Arrays.asList(senses));
@@ -31,6 +32,14 @@ public class Synset {
 
   public boolean isEmpty() {
     return this.size() == 0;
+  }
+
+  public String getPreferredSense() {
+    return preferredSense;
+  }
+
+  public void setPreferredSense(String preferredSense) {
+    this.preferredSense = preferredSense;
   }
 
   public SortedSet<String> getSenses() {

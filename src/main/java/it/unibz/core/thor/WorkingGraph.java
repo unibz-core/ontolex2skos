@@ -39,8 +39,10 @@ public class WorkingGraph extends KnowledgeGraph {
     return model;
   }
 
-  public String createSkosConcept() {
-    String individualUri = THORL.uri + "Concept_" + UUID.randomUUID();
+  public String createSkosConcept(Synset synset) {
+    Objects.requireNonNull(synset.getPreferredSense(), "Cannot generate the URI of a skos:Concept without a thor:PreferredSense for a synset.");
+
+    String individualUri = THORL.uri + "c_" + UUID.nameUUIDFromBytes(synset.getPreferredSense().getBytes()).toString().replaceAll("-","_");
     Statement s1 = new Statement(individualUri, "rdf:type", "skos:Concept");
     Statement s2 = new Statement(individualUri, "rdf:type", "thor:DerivedConcept");
     insertStatements(s1, s2);
@@ -50,6 +52,10 @@ public class WorkingGraph extends KnowledgeGraph {
 
   public List<String> getLexicalSenseUris() {
     return getInstanceUris("ontolex:LexicalSense");
+  }
+
+  public List<String> getPrefSenseUris() {
+    return getInstanceUris("thor:PreferredSense");
   }
 
   public List<Synset> findSynsets() {
@@ -72,6 +78,17 @@ public class WorkingGraph extends KnowledgeGraph {
 
       for (String synonym : synonyms) {
         map.put(synonym, synset);
+      }
+    }
+
+    List<String> prefSenses = getPrefSenseUris();
+
+    for (Synset synset : synsets) {
+      for (String senseUri : synset.getSenses()) {
+        if (prefSenses.contains(senseUri)) {
+          synset.setPreferredSense(senseUri);
+          break;
+        }
       }
     }
 
@@ -448,6 +465,11 @@ public class WorkingGraph extends KnowledgeGraph {
             "foaf:homepage",
     };
 
+    copyProperties(properties);
+    copyPropertiesOfReifiedValues(properties);
+  }
+
+  private void copyProperties(String[] properties) {
     String sparql = Vocabulary.getPrefixDeclarations() +
             "SELECT ?concept ?property ?value " +
             "WHERE { " +
@@ -476,11 +498,43 @@ public class WorkingGraph extends KnowledgeGraph {
     }
   }
 
+  private void copyPropertiesOfReifiedValues(String[] properties) {
+    String sparql = Vocabulary.getPrefixDeclarations() +
+            "SELECT ?reifiedValue ?property2 ?value " +
+            "WHERE { " +
+            "   ?concept ontolex:lexicalizedSense ?sense . " +
+            "   ?sense ?property ?reifiedValue . " +
+            "   ?concept ?property ?reifiedValue . " +
+            "   ?reifiedValue ?property2 ?value . " +
+            "FILTER(?property IN (" + String.join(", ", properties) + ")) " +
+            "}";
+
+    Query query = QueryFactory.create(sparql);
+
+    try (QueryExecution qexec = QueryExecutionFactory.create(query, model)) {
+      List<Statement> statements = new ArrayList<>();
+      ResultSet results = qexec.execSelect();
+
+      while (results.hasNext()) {
+        QuerySolution solution = results.nextSolution();
+
+        RDFNode subject = solution.get("reifiedValue");
+        RDFNode predicate = solution.get("property2");
+        RDFNode object = solution.get("value");
+
+        Statement s = new Statement(subject, predicate, object);
+        statements.add(s);
+      }
+
+      insertStatements(statements);
+    }
+  }
+
   public void deriveConcepts() {
     List<Synset> synsets = findSynsets();
 
     for (Synset synset : synsets) {
-      String conceptUri = createSkosConcept();
+      String conceptUri = createSkosConcept(synset);
       addIsLexicalizedSenseOf(conceptUri, synset);
     }
   }
@@ -614,4 +668,40 @@ public class WorkingGraph extends KnowledgeGraph {
     }
   }
 
+  public void deriveThorMappingProperties() {
+    String[] mappingProperties = {
+            "thor:exactMapping",
+            "thor:closeMapping",
+            "thor:broadMapping",
+            "thor:narrowMapping",
+    };
+
+    String sparql = Vocabulary.getPrefixDeclarations() +
+            "SELECT ?concept ?property ?object " +
+            "WHERE { " +
+            "   ?concept ontolex:lexicalizedSense ?sense . " +
+            "   ?sense ?property ?object . " +
+            "FILTER(?property IN (" + String.join(", ", mappingProperties) + ")) " +
+            "}";
+
+    Query query = QueryFactory.create(sparql);
+
+    try (QueryExecution qexec = QueryExecutionFactory.create(query, model)) {
+      List<Statement> statements = new ArrayList<>();
+      ResultSet results = qexec.execSelect();
+
+      while (results.hasNext()) {
+        QuerySolution solution = results.nextSolution();
+        RDFNode concept = solution.get("concept");
+        RDFNode property = solution.get("property");
+        RDFNode object = solution.get("object");
+
+        Statement s = new Statement(concept, property, object);
+        statements.add(s);
+      }
+
+      insertStatements(statements);
+    }
+
+  }
 }

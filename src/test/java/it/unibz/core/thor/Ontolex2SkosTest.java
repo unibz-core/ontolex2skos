@@ -1,5 +1,7 @@
 package it.unibz.core.thor;
 
+import org.apache.jena.riot.Lang;
+import org.apache.jena.riot.RDFDataMgr;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -17,7 +19,7 @@ class Ontolex2SkosTest {
 
   @Test
   void senseShouldGenerateConceptFromSense() {
-    testGraph.createLexicalSense("http://e.com/sense1");
+    testGraph.createPreferredSense("http://e.com/sense1");
     testGraph.transform();
 
     String sparql = getPrefixDeclarations() +
@@ -33,7 +35,7 @@ class Ontolex2SkosTest {
 
   @Test
   void senseShouldGenerateOneConceptFromSynonyms() {
-    testGraph.createLexicalSense("http://e.com/sense1");
+    testGraph.createPreferredSense("http://e.com/sense1");
     testGraph.createLexicalSense("http://e.com/sense2");
     testGraph.insert("http://e.com/sense1", "lexinfo:synonym", "http://e.com/sense2");
     testGraph.transform();
