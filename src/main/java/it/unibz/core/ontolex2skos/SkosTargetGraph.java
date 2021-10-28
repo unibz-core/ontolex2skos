@@ -1,7 +1,5 @@
 package it.unibz.core.ontolex2skos;
 
-import org.apache.jena.ontology.OntModel;
-import org.apache.jena.ontology.OntModelSpec;
 import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -12,10 +10,10 @@ import java.util.List;
 
 public class SkosTargetGraph extends KnowledgeGraph {
   WorkingGraph source;
-  OntModel model;
+  Model model;
 
   public SkosTargetGraph(WorkingGraph source) {
-    this.model = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
+    this.model = ModelFactory.createDefaultModel();
     this.source = source;
     this.loadCustomProperties();
     addDefaultNamespaces();
@@ -166,7 +164,6 @@ public class SkosTargetGraph extends KnowledgeGraph {
   public void copyReifiedPropertyValues() {
 
     String[] properties = {
-            "skos:topConceptOf",
             "skos:prefLabel",
             "skos:altLabel",
             "skos:definition",
@@ -180,9 +177,9 @@ public class SkosTargetGraph extends KnowledgeGraph {
     String sparql = Vocabulary.getPrefixDeclarations() +
             "SELECT * " +
             "WHERE { " +
-            "   ?subject ?property ?object . " +
             "   ?concept ?baseProperty ?subject . " +
             "   ?concept rdf:type thor:DerivedConcept . " +
+            "   ?subject ?property ?object . " +
             "FILTER(?baseProperty IN (" + String.join(", ", properties) + ")) " +
             "}";
 
