@@ -1,4 +1,4 @@
-package it.unibz.core.thor;
+package it.unibz.core.ontolex2skos;
 
 import java.io.IOException;
 import java.nio.file.Files;

@@ -1,4 +1,4 @@
-package it.unibz.core.thor;
+package it.unibz.core.ontolex2skos;
 
 import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryFactory;
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static it.unibz.core.thor.Vocabulary.getPrefixDeclarations;
+import static it.unibz.core.ontolex2skos.Vocabulary.getPrefixDeclarations;
 import static java.util.stream.Collectors.joining;
 
 public class QueryBuilder {

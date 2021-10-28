@@ -1,4 +1,4 @@
-package it.unibz.core.thor;
+package it.unibz.core.ontolex2skos;
 
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.ontology.OntModelSpec;
@@ -10,8 +10,8 @@ import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Stream;
 
-import static it.unibz.core.thor.Vocabulary.THORL;
-import static it.unibz.core.thor.Vocabulary.getPrefixDeclarations;
+import static it.unibz.core.ontolex2skos.Vocabulary.THORL;
+import static it.unibz.core.ontolex2skos.Vocabulary.getPrefixDeclarations;
 import static java.util.Arrays.asList;
 import static java.util.stream.Collectors.toList;
 

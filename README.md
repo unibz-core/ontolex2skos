@@ -52,7 +52,7 @@ To run the application, execute the command below, replacing `sourceFile.ttl` wi
 
 
 ```shell
-java -jar thor-1.0.jar sourceFile.ttl
+java -jar ontolex2skos-1.0.jar sourceFile.ttl
 ```
 
 After the program executes, you should see the following files:
@@ -66,7 +66,7 @@ You can also specify the directory where the output files are saved.
 To do that, execute the command below, replacing `targetDir` with your custom output directory:
 
 ```shell
-java -jar target/thor-1.0.jar sourceFile.ttl targetDir
+java -jar target/ontolex2skos-1.0.jar sourceFile.ttl targetDir
 ```
 
 ## Transformation

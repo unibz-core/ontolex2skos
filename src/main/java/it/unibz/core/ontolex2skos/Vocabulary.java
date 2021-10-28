@@ -1,4 +1,4 @@
-package it.unibz.core.thor;
+package it.unibz.core.ontolex2skos;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;

@@ -1,4 +1,4 @@
-package it.unibz.core.thor;
+package it.unibz.core.ontolex2skos;
 
 import org.apache.jena.ontology.OntModel;
 import org.apache.logging.log4j.LogManager;
@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Objects;
 
-import static it.unibz.core.thor.Vocabulary.*;
+import static it.unibz.core.ontolex2skos.Vocabulary.*;
 
 public class Ontolex2Skos {
   private static final Logger logger = LogManager.getLogger(Ontolex2Skos.class);

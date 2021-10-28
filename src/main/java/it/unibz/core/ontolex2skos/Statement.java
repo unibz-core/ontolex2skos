@@ -1,12 +1,12 @@
-package it.unibz.core.thor;
+package it.unibz.core.ontolex2skos;
 
 import org.apache.jena.rdf.model.RDFNode;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static it.unibz.core.thor.UriSanitizer.getSafeString;
-import static it.unibz.core.thor.UriSanitizer.getSafeNodeString;
+import static it.unibz.core.ontolex2skos.UriSanitizer.getSafeString;
+import static it.unibz.core.ontolex2skos.UriSanitizer.getSafeNodeString;
 
 public class Statement {
 

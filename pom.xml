@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>groupId</groupId>
-    <artifactId>thor</artifactId>
+    <groupId>it.unibz.core</groupId>
+    <artifactId>ontolex2skos</artifactId>
     <version>1.0</version>
 
     <properties>
@@ -95,7 +95,7 @@
                     <transformers>
                         <transformer
                                 implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                            <mainClass>it.unibz.core.thor.Runner</mainClass>
+                            <mainClass>it.unibz.core.ontolex2skos.Runner</mainClass>
                             <!-- https://issues.apache.org/jira/browse/LOG4J2-2537 -->
                             <manifestEntries>
                                 <Multi-Release>true</Multi-Release>

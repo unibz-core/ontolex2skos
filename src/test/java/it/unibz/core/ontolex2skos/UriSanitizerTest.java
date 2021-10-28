@@ -1,8 +1,8 @@
-package it.unibz.core.thor;
+package it.unibz.core.ontolex2skos;
 
 import org.junit.jupiter.api.Test;
 
-import static it.unibz.core.thor.UriSanitizer.*;
+import static it.unibz.core.ontolex2skos.UriSanitizer.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class UriSanitizerTest {

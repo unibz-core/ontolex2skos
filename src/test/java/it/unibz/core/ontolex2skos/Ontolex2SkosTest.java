@@ -1,11 +1,9 @@
-package it.unibz.core.thor;
+package it.unibz.core.ontolex2skos;
 
-import org.apache.jena.riot.Lang;
-import org.apache.jena.riot.RDFDataMgr;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static it.unibz.core.thor.Vocabulary.getPrefixDeclarations;
+import static it.unibz.core.ontolex2skos.Vocabulary.getPrefixDeclarations;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class Ontolex2SkosTest {
