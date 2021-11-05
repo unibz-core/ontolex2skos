@@ -15,11 +15,11 @@ public class Ontolex2Skos {
 
   WorkingGraph graph;
 
-  public Ontolex2Skos(Path sourceOntolexFile) throws IOException {
-    Objects.requireNonNull(sourceOntolexFile);
+  public Ontolex2Skos(Path sourceFile) throws IOException {
+    Objects.requireNonNull(sourceFile);
 
-    logger.info("Creating knowledge graph from '" + sourceOntolexFile + "'...");
-    graph = new WorkingGraph(sourceOntolexFile);
+    logger.info("Creating knowledge graph from '" + sourceFile + "'...");
+    graph = new WorkingGraph(sourceFile);
 
     loadRequiredVocabularies();
   }
@@ -128,52 +128,24 @@ public class Ontolex2Skos {
     return thesaurus;
   }
 
-  public OntolexTargetGraph getOntolexSubgraph() {
+  public ExtendedTargetGraph getGraphWithInferences() {
     requireGraph();
 
-    OntolexTargetGraph lexicon = new OntolexTargetGraph(graph);
+    ExtendedTargetGraph graph = new ExtendedTargetGraph(this.graph);
 
-    logger.info("Extracting lexicons...");
-    lexicon.copyLexicons();
+    logger.info("Extracting type assertions...");
+    graph.extractTypeAssertions();
 
-    logger.info("Extracting lexicons' properties...");
-    lexicon.copyLexiconData();
+    logger.info("Extracting property assertions...");
+    graph.extractPropertyAssertions();
 
-    return lexicon;
+    return graph;
   }
 
   public WorkingGraph getWorkingGraph() {
     requireGraph();
 
     return graph;
-  }
-
-  public static void generateAndSave(Path sourceFile, Path targetDirectory) throws IOException {
-    logger.info("Generating a thesaurus for '" + sourceFile + "'");
-    Ontolex2Skos gen = new Ontolex2Skos(sourceFile);
-    gen.run();
-
-    logger.info("Extracting thesaurus data...");
-    KnowledgeGraph skosSubgraph = gen.getSkosSubgraph();
-
-    final Path thesaurusFile = targetDirectory.resolve("thesaurus.ttl");
-    logger.info("Writing thesauri to '" + thesaurusFile + "'");
-    skosSubgraph.writeToFile(thesaurusFile);
-
-    logger.info("Extracting lexicon data...");
-    KnowledgeGraph ontolexSubgraph = gen.getOntolexSubgraph();
-
-    final Path lexiconFile = targetDirectory.resolve("lexicon.ttl");
-    logger.info("Writing lexica to '" + lexiconFile + "'");
-    ontolexSubgraph.writeToFile(lexiconFile);
-
-    KnowledgeGraph completeGraph = gen.getWorkingGraph();
-
-    final Path kgFile = targetDirectory.resolve("kg.ttl");
-    logger.info("Writing complete dataset to '" + kgFile + "'");
-    completeGraph.writeToFile(kgFile);
-
-    logger.info("Transformation successfully completed.");
   }
 
 }

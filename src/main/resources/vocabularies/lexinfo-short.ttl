@@ -17,4 +17,43 @@ lexinfo:synonym rdf:type owl:ObjectProperty ;
                 rdf:type owl:TransitiveProperty ;
                 rdfs:domain <http://www.w3.org/ns/lemon/ontolex#LexicalSense> ;
                 rdfs:range <http://www.w3.org/ns/lemon/ontolex#LexicalSense> ;
-                rdfs:label "synonym"@en ;
+                rdfs:label "synonym"@en .
+
+lexinfo:hypernym rdf:type owl:ObjectProperty ;
+                 rdfs:subPropertyOf <http://www.w3.org/ns/lemon/vartrans#senseRel> ;
+                 owl:inverseOf lexinfo:hyponym ;
+                 rdf:type owl:TransitiveProperty ;
+                 rdfs:domain <http://www.w3.org/ns/lemon/ontolex#LexicalSense> ;
+                 rdfs:range <http://www.w3.org/ns/lemon/ontolex#LexicalSense> ;
+                 rdfs:label "hypernym"@en .
+
+lexinfo:hyponym rdf:type owl:ObjectProperty ;
+                rdfs:subPropertyOf <http://www.w3.org/ns/lemon/vartrans#senseRel> ;
+                rdf:type owl:TransitiveProperty ;
+                rdfs:domain <http://www.w3.org/ns/lemon/ontolex#LexicalSense> ;
+                rdfs:range <http://www.w3.org/ns/lemon/ontolex#LexicalSense> ;
+                rdfs:label "hyponym"@en .
+
+lexinfo:contractionFor rdf:type owl:ObjectProperty ;
+                       rdfs:subPropertyOf lexinfo:derivedForm ;
+                       owl:inverseOf lexinfo:fullFormFor ;
+                       rdfs:domain <http://www.w3.org/ns/lemon/ontolex#LexicalEntry> ;
+                       rdfs:range <http://www.w3.org/ns/lemon/ontolex#LexicalEntry> ;
+                       rdfs:comment "The full form that corresponds to a contracted form."@en ;
+                       rdfs:label "contraction for"@en .
+
+lexinfo:fullFormFor rdf:type owl:ObjectProperty ;
+                    rdfs:subPropertyOf <http://www.w3.org/ns/lemon/vartrans#lexicalRel> ;
+                    rdfs:domain <http://www.w3.org/ns/lemon/ontolex#LexicalEntry> ;
+                    rdfs:range <http://www.w3.org/ns/lemon/ontolex#LexicalEntry> ;
+                    rdfs:comment "A linking element used to identify a relation between any full form of a term or lexical unit and its abbreviated form."@en ;
+                    rdfs:label "full form for"@en .
+
+lexinfo:homograph rdf:type owl:ObjectProperty ;
+                  rdfs:subPropertyOf <http://www.w3.org/ns/lemon/vartrans#lexicalRel> ;
+                  rdf:type owl:SymmetricProperty ,
+                           owl:TransitiveProperty ;
+                  rdfs:domain <http://www.w3.org/ns/lemon/ontolex#LexicalEntry> ;
+                  rdfs:range <http://www.w3.org/ns/lemon/ontolex#LexicalEntry> ;
+                  rdfs:comment "A word that is spelled like another, but that has a different pronunciation, meaning, and/or origin. // Word that is written like another, but that has a different pronunciation, meaning, and/or origin."@en ;
+                  rdfs:label "homograph"@en .

@@ -18,11 +18,6 @@ import static java.util.stream.Collectors.toList;
 public class WorkingGraph extends KnowledgeGraph {
   OntModel model;
 
-  public WorkingGraph() {
-    this.model = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM_RULE_INF);
-    addDefaultNamespaces();
-  }
-
   public WorkingGraph(Path file) throws IOException {
     this.model = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM_RULE_INF);
     addDefaultNamespaces();

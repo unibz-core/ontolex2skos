@@ -14,7 +14,7 @@ import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
 public enum Vocabulary {
-  THOR("thor", "http://purl.org/thor/", null, null),
+  THOR("thor", "http://purl.org/net/thor-ontology/", null, null),
   THORL("thorl", "http://purl.org/ZIN-Thor/", null, null),
   ONTOLEX("ontolex", "http://www.w3.org/ns/lemon/ontolex#", "vocabularies/ontolex.ttl", Lang.TURTLE),
   LEXINFO("lexinfo", "http://www.lexinfo.net/ontology/3.0/lexinfo#", "vocabularies/lexinfo-short.ttl", Lang.TURTLE),
