@@ -1,10 +1,10 @@
-# ontolex2skos
+# Ontolex2SKOS
 
-An automated model-driven transformation that generates thesauri from lexica.
+**Ontolex2SKOS** is an automated model-driven transformation for generating SKOS thesauri from Ontolex-Lemon lexicons.
 
-This Java application reads lexical data, structured using the [Ontolex](https://www.w3.org/2016/05/ontolex/) vocabulary, and yields thesauri data structured according to the [SKOS](https://www.w3.org/2004/02/skos/) vocabulary.
+This Java application reads lexical data, structured using the [Ontolex](https://www.w3.org/2016/05/ontolex/) vocabulary, and yields thesauri data structured according to the [SKOS](https://www.w3.org/2004/02/skos/) vocabulary. For making this possible, it uses a small vocabulary extension called [ThOR Ontology](https://github.com/unibz-core/thor/).
 
-`ontolex2thor` has been developed in the context of the project **ThOR: Thesaurus and Ontological Representation in Healthcare**, a collaboration between the [Conceptual and Cognitive Modeling Research Group (CORE)](https://www.inf.unibz.it/krdb/core/) of the [Free University of Bozen-Bolzano (UNIBZ)](https://unibz.it) and the [iStandaarden](https://istandaarden.nl) unit of the [Zorginstituut Nederland (ZIN)](https://www.zorginstituutnederland.nl).
+ThOR stands for “Thesaurus and Ontology Representation”. The ThOR Project was a collaboration project that happened in 2021 between the [*Zorginstituut Nederland* (ZIN)](https://english.zorginstituutnederland.nl/) – the Dutch National Health Care Institute – and the [Conceptual and Cognitive Modeling Research Group (CORE)](https://www.inf.unibz.it/krdb/core/) from the [Free University of Bozen-Bolzano (Unibz)](https://unibz.it/).
 
 Contributors:
 
@@ -71,7 +71,7 @@ java -jar target/ontolex2skos-1.0.jar sourceFile.ttl targetDir
 
 ## Transformation
 
-The transformation rules implemented in the `ontolex2skos` application are listed below.
+The transformation rules implemented in the `Ontolex2SKOS` application are listed below.
 
 #### 1. From lexical senses to concepts
 
