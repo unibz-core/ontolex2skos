@@ -1,0 +1,247 @@
+********thesaurus.ttl 12/06/2022 20:58:01*************
+
+
+url : null
+
+Ambiguous Notation References: OK
+Cyclic Hierarchical Relations: OK
+Disconnected Concept Clusters: FAIL (4)
+Disjoint Labels Violation: OK
+Empty Labels: OK
+Hierarchical Redundancy: FAIL (11)
+HTTP URI Scheme Violation: OK
+Incomplete Language Coverage: OK
+Inconsistent Preferred Labels: OK
+Missing Labels: OK
+Mapping Relations Misuse: OK
+No Common Languages: OK
+Orphan Concepts: FAIL (6)
+Omitted or Invalid Language Tags: OK
+Overlapping Labels: FAIL (4)
+Omitted Top Concepts: OK
+Relation Clashes: OK
+Reflexively Related Concepts: OK
+Solely Transitively Related Concepts: OK
+Top Concepts Having Broader Concepts: OK
+Undocumented Concepts: FAIL (3)
+Unprintable Characters in Labels: OK
+Unidirectionally Related Concepts: FAIL (10)
+Undefined SKOS Resources: OK
+Valueless Associative Relations: OK
+
+* Detailed coverage of each Quality Issue:
+
+--- Ambiguous Notation References
+Description: Finds concepts with multiple or identical notations within the same concept scheme.
+informations: https://github.com/cmader/qSKOS/wiki/Quality-Issues#Ambiguous_Notation_References
+count: 0
+
+
+--- Cyclic Hierarchical Relations
+Description: Finds concepts that are hierarchically related to each other.
+informations: https://github.com/cmader/qSKOS/wiki/Quality-Issues#cyclic-hierarchical-relations
+count: 0
+
+
+
+--- Disconnected Concept Clusters
+Description: Finds sets of concepts that are isolated from the rest of the vocabulary.
+informations: https://github.com/cmader/qSKOS/wiki/Quality-Issues#disconnected-concept-clusters
+count: 4
+Cluster 1, size: 8
+Cluster 2, size: 11
+Cluster 3, size: 3
+Cluster 4, size: 5
+Cluster 1, size: 8
+	http://purl.org/ZIN-Thor/c_442d74d3_3577_3994_95c3_d23603f51a4f
+	http://purl.org/ZIN-Thor/c_c31d4944_cedb_338e_a693_6d791d928db5
+	http://purl.org/ZIN-Thor/c_c0502441_0d93_3a7d_a8bc_3f5dbdd2ed6d
+	http://purl.org/ZIN-Thor/c_a1cad33b_4247_36d7_812e_884ccade6bbb
+	http://purl.org/ZIN-Thor/c_bbcafa7a_ba73_3e61_bfdf_6305ec67fb0a
+	http://purl.org/ZIN-Thor/c_84bed9a4_0dfa_3801_bc16_fe03325694e9
+	http://purl.org/ZIN-Thor/c_01b0d12d_7f49_3028_8c25_c84ae66678fc
+	http://purl.org/ZIN-Thor/c_931f79a5_0a40_3729_8095_8beeb8ad1917
+Cluster 2, size: 11
+	http://purl.org/ZIN-Thor/c_17a6fd61_2f15_3067_bb5e_a27aeb707495
+	http://purl.org/ZIN-Thor/c_4e678824_d99a_37a9_8708_e34eba0b9222
+	http://purl.org/ZIN-Thor/c_046b5682_0188_3a92_bf7d_f6d7ba49a89d
+	http://purl.org/ZIN-Thor/c_999117e3_a1e6_39d0_8568_a7ddd8708495
+	http://purl.org/ZIN-Thor/c_6c20a5f7_1c89_3acb_8d3a_7d8e911620c0
+	http://purl.org/ZIN-Thor/c_b9893738_316e_397c_8f6d_c26c0e787a54
+	http://purl.org/ZIN-Thor/c_9ff699a8_bc39_395d_a7f9_4b3ee006f7e3
+	http://purl.org/ZIN-Thor/c_a5ccb9ff_8663_3ffe_8eda_aeea14f07839
+	http://purl.org/ZIN-Thor/c_0ed39503_37b0_3ab1_a72c_a0fdbb8f9134
+	http://purl.org/ZIN-Thor/c_2e613459_0a80_3ace_83e4_84c64535d12e
+	http://purl.org/ZIN-Thor/c_634b1909_d903_3823_94b9_af22cca6f223
+Cluster 3, size: 3
+	http://purl.org/ZIN-Thor/c_61ee735f_a773_38ea_9a45_ac49219ed24c
+	http://purl.org/ZIN-Thor/c_1a5773a0_fbdc_30a7_ab87_0207ca6a14ac
+	http://purl.org/ZIN-Thor/c_3b882e72_0843_3cfa_ad8c_2be88cd585c3
+Cluster 4, size: 5
+	http://purl.org/ZIN-Thor/c_5ff584a9_3f61_31a3_90ba_9558ffbc33eb
+	http://purl.org/ZIN-Thor/c_32f3840e_455d_30da_a07d_91c6fbae236b
+	http://purl.org/ZIN-Thor/c_d94dead2_4462_323d_90c8_89e2743e9fbe
+	http://purl.org/ZIN-Thor/c_52c37198_ce82_3064_a816_807e8b461be7
+	http://purl.org/ZIN-Thor/c_b6028f8e_b603_3faa_b8ad_9969bae24514
+
+--- Disjoint Labels Violation
+Description: Finds resources with identical entries for different label types.
+informations: https://github.com/cmader/qSKOS/wiki/Quality-Issues#disjoint-labels-violation
+count: 0
+
+
+
+--- Empty Labels
+Description: Finds empty labels or labels containing only whitespaces.
+count: 0
+
+
+
+--- Hierarchical Redundancy
+Description: Finds broader/narrower relations over multiple hierarchy levels.
+informations: https://github.com/cmader/qSKOS/wiki/Quality-Issues#hierarchical-redundancy
+count: 11
+(http://purl.org/ZIN-Thor/c_b6028f8e_b603_3faa_b8ad_9969bae24514, http://purl.org/ZIN-Thor/c_32f3840e_455d_30da_a07d_91c6fbae236b)
+(http://purl.org/ZIN-Thor/c_52c37198_ce82_3064_a816_807e8b461be7, http://purl.org/ZIN-Thor/c_5ff584a9_3f61_31a3_90ba_9558ffbc33eb)
+(http://purl.org/ZIN-Thor/c_52c37198_ce82_3064_a816_807e8b461be7, http://purl.org/ZIN-Thor/c_32f3840e_455d_30da_a07d_91c6fbae236b)
+(http://purl.org/ZIN-Thor/c_52c37198_ce82_3064_a816_807e8b461be7, http://purl.org/ZIN-Thor/c_d94dead2_4462_323d_90c8_89e2743e9fbe)
+(http://purl.org/ZIN-Thor/c_931f79a5_0a40_3729_8095_8beeb8ad1917, http://purl.org/ZIN-Thor/c_01b0d12d_7f49_3028_8c25_c84ae66678fc)
+(http://purl.org/ZIN-Thor/c_bbcafa7a_ba73_3e61_bfdf_6305ec67fb0a, http://purl.org/ZIN-Thor/c_01b0d12d_7f49_3028_8c25_c84ae66678fc)
+(http://purl.org/ZIN-Thor/c_61ee735f_a773_38ea_9a45_ac49219ed24c, http://purl.org/ZIN-Thor/c_3b882e72_0843_3cfa_ad8c_2be88cd585c3)
+(http://purl.org/ZIN-Thor/c_0ed39503_37b0_3ab1_a72c_a0fdbb8f9134, http://purl.org/ZIN-Thor/c_4e678824_d99a_37a9_8708_e34eba0b9222)
+(http://purl.org/ZIN-Thor/c_442d74d3_3577_3994_95c3_d23603f51a4f, http://purl.org/ZIN-Thor/c_01b0d12d_7f49_3028_8c25_c84ae66678fc)
+(http://purl.org/ZIN-Thor/c_b6028f8e_b603_3faa_b8ad_9969bae24514, http://purl.org/ZIN-Thor/c_5ff584a9_3f61_31a3_90ba_9558ffbc33eb)
+(http://purl.org/ZIN-Thor/c_d94dead2_4462_323d_90c8_89e2743e9fbe, http://purl.org/ZIN-Thor/c_32f3840e_455d_30da_a07d_91c6fbae236b)
+
+--- HTTP URI Scheme Violation
+Description: Finds triple subjects that are no HTTP URIs.
+informations: https://github.com/cmader/qSKOS/wiki/Quality-Issues#http-uri-scheme-violation
+count: 0
+
+
+--- Incomplete Language Coverage
+Description: Finds concepts lacking description in languages that are present for other concepts.
+informations: https://github.com/cmader/qSKOS/wiki/Quality-Issues#incomplete-language-coverage
+count: 0
+
+
+--- Inconsistent Preferred Labels
+Description: Finds resources with more then one prefLabel per language.
+informations: https://github.com/cmader/qSKOS/wiki/Quality-Issues#inconsistent-preferred-labels
+count: 0
+
+
+
+--- Missing Labels
+Description: Finds concepts and conceptSchemes with missing labels.
+informations: https://github.com/cmader/qSKOS/wiki/Quality-Issues#missing-labels
+count: 0
+
+
+--- Mapping Relations Misuse
+Description: Finds concepts within the same concept scheme that are related by a mapping relation.
+informations: https://github.com/cmader/qSKOS/wiki/Quality-Issues#mapping-relations-misuse
+count: 0
+
+
+--- No Common Languages
+Description: Checks for common languages in all concept literals.
+At least one common language for text literals of all concepts has been found
+Common language(s) for all concepts: [nl]
+
+--- Orphan Concepts
+Description: Finds all orphan concepts, i.e. those not having semantic relationships to other concepts.
+informations: https://github.com/cmader/qSKOS/wiki/Quality-Issues#orphan-concepts
+count: 6
+http://purl.org/ZIN-Thor/c_3d1259b6_28d9_3f69_aa3e_9b7fa3986c1a
+http://purl.org/ZIN-Thor/c_28891188_e8f2_34f9_b083_877b8f5260c8
+http://purl.org/ZIN-Thor/c_429addd7_9c05_3c41_9b04_3bad0ecffba6
+http://purl.org/ZIN-Thor/c_5e705e38_02f2_37e9_94a6_6fbc9529ae6d
+http://purl.org/ZIN-Thor/c_5183dccc_5eb3_3350_a524_e6967af0a5a2
+http://purl.org/ZIN-Thor/c_4e63f309_6a7e_31d7_91e7_5286444221d3
+
+--- Omitted or Invalid Language Tags
+Description: Finds omitted or invalid language tags of text literals.
+informations: https://github.com/cmader/qSKOS/wiki/Quality-Issues#omitted-or-invalid-language-tags
+count: 0
+
+
+--- Overlapping Labels
+Description: Finds concepts with similar (identical) labels.
+informations: https://github.com/cmader/qSKOS/wiki/Quality-Issues#overlapping-labels
+count: 4
+[http://purl.org/ZIN-Thor/c_9ff699a8_bc39_395d_a7f9_4b3ee006f7e3 ("aanbieder"@nl, PREF_LABEL), http://purl.org/ZIN-Thor/c_0ed39503_37b0_3ab1_a72c_a0fdbb8f9134 ("aanbieder"@nl, ALT_LABEL)]
+[http://purl.org/ZIN-Thor/c_046b5682_0188_3a92_bf7d_f6d7ba49a89d ("zzp"@nl, ALT_LABEL), http://purl.org/ZIN-Thor/c_429addd7_9c05_3c41_9b04_3bad0ecffba6 ("zzp"@nl, ALT_LABEL)]
+[http://purl.org/ZIN-Thor/c_931f79a5_0a40_3729_8095_8beeb8ad1917 ("verpleeghuis"@nl, ALT_LABEL), http://purl.org/ZIN-Thor/c_28891188_e8f2_34f9_b083_877b8f5260c8 ("verpleeghuis"@nl, PREF_LABEL)]
+[http://purl.org/ZIN-Thor/c_52c37198_ce82_3064_a816_807e8b461be7 ("indicatie"@nl, ALT_LABEL), http://purl.org/ZIN-Thor/c_5e705e38_02f2_37e9_94a6_6fbc9529ae6d ("indicatie"@nl, ALT_LABEL)]
+
+--- Omitted Top Concepts
+Description: Finds skos:ConceptSchemes that don't have top concepts defined.
+informations: https://github.com/cmader/qSKOS/wiki/Quality-Issues#omitted-top-concepts
+count: 0
+
+
+--- Relation Clashes
+Description: Covers condition S27 from the SKOS reference document (Associative vs. Hierarchical Relation Clashes).
+informations: https://github.com/cmader/qSKOS/wiki/Quality-Issues#relation-clashes
+count: 0
+
+
+--- Reflexively Related Concepts
+Description: Finds concepts that are related to themselves.
+informations: https://github.com/cmader/qSKOS/wiki/Quality-Issues#wiki-Reflexive_Relations
+count: 0
+
+
+--- Solely Transitively Related Concepts
+Description: Concepts only related by skos:broaderTransitive or skos:narrowerTransitive.
+informations: https://github.com/cmader/qSKOS/wiki/Quality-Issues#solely-transitively-related-concepts
+count: 0
+
+
+--- Top Concepts Having Broader Concepts
+Description: Finds top concepts internal to the vocabulary hierarchy tree.
+informations: https://github.com/cmader/qSKOS/wiki/Quality-Issues#top-concepts-having-broader-concepts
+count: 0
+
+
+--- Undocumented Concepts
+Description: Finds concepts that don't use any SKOS documentation properties.
+informations: https://github.com/cmader/qSKOS/wiki/Quality-Issues#undocumented-concepts
+count: 3
+http://purl.org/ZIN-Thor/c_6c20a5f7_1c89_3acb_8d3a_7d8e911620c0
+http://purl.org/ZIN-Thor/c_5ff584a9_3f61_31a3_90ba_9558ffbc33eb
+http://purl.org/ZIN-Thor/c_32f3840e_455d_30da_a07d_91c6fbae236b
+
+--- Unprintable Characters in Labels
+Description: Finds concepts having labels that contain unprintable characters.
+informations: https://github.com/cmader/qSKOS/wiki/Quality-Issues#unprintable-characters-in-labels
+count: 0
+
+
+--- Unidirectionally Related Concepts
+Description: Concepts not including reciprocal relations
+informations: https://github.com/cmader/qSKOS/wiki/Quality-Issues#unidirectionally-related-concepts
+count: 10
+concepts: (http://purl.org/ZIN-Thor/c_3d1259b6_28d9_3f69_aa3e_9b7fa3986c1a, http://purl.org/ZIN-Thor/Scheme_f034c8c5-55de-423e-88ea-79f207c47110), related by: 'skos:topConceptOf/skos:hasTopConcept'
+concepts: (http://purl.org/ZIN-Thor/c_28891188_e8f2_34f9_b083_877b8f5260c8, http://purl.org/ZIN-Thor/Scheme_0d14a327-402c-443a-af50-851b6a8d4438), related by: 'skos:topConceptOf/skos:hasTopConcept'
+concepts: (http://purl.org/ZIN-Thor/c_4e63f309_6a7e_31d7_91e7_5286444221d3, http://purl.org/ZIN-Thor/Scheme_f034c8c5-55de-423e-88ea-79f207c47110), related by: 'skos:topConceptOf/skos:hasTopConcept'
+concepts: (http://purl.org/ZIN-Thor/c_5e705e38_02f2_37e9_94a6_6fbc9529ae6d, http://purl.org/ZIN-Thor/Scheme_f034c8c5-55de-423e-88ea-79f207c47110), related by: 'skos:topConceptOf/skos:hasTopConcept'
+concepts: (http://purl.org/ZIN-Thor/c_6c20a5f7_1c89_3acb_8d3a_7d8e911620c0, http://purl.org/ZIN-Thor/Scheme_0d14a327-402c-443a-af50-851b6a8d4438), related by: 'skos:topConceptOf/skos:hasTopConcept'
+concepts: (http://purl.org/ZIN-Thor/c_01b0d12d_7f49_3028_8c25_c84ae66678fc, http://purl.org/ZIN-Thor/Scheme_0d14a327-402c-443a-af50-851b6a8d4438), related by: 'skos:topConceptOf/skos:hasTopConcept'
+concepts: (http://purl.org/ZIN-Thor/c_32f3840e_455d_30da_a07d_91c6fbae236b, http://purl.org/ZIN-Thor/Scheme_0d14a327-402c-443a-af50-851b6a8d4438), related by: 'skos:topConceptOf/skos:hasTopConcept'
+concepts: (http://purl.org/ZIN-Thor/c_3b882e72_0843_3cfa_ad8c_2be88cd585c3, http://purl.org/ZIN-Thor/Scheme_0d14a327-402c-443a-af50-851b6a8d4438), related by: 'skos:topConceptOf/skos:hasTopConcept'
+concepts: (http://purl.org/ZIN-Thor/c_429addd7_9c05_3c41_9b04_3bad0ecffba6, http://purl.org/ZIN-Thor/Scheme_0d14a327-402c-443a-af50-851b6a8d4438), related by: 'skos:topConceptOf/skos:hasTopConcept'
+concepts: (http://purl.org/ZIN-Thor/c_5183dccc_5eb3_3350_a524_e6967af0a5a2, http://purl.org/ZIN-Thor/Scheme_f034c8c5-55de-423e-88ea-79f207c47110), related by: 'skos:topConceptOf/skos:hasTopConcept'
+
+
+--- Undefined SKOS Resources
+Description: Finds 'invented' new terms within the SKOS namespace or deprecated properties.
+informations: https://github.com/cmader/qSKOS/wiki/Quality-Issues#undefined-skos-resources
+count: 0
+
+
+--- Valueless Associative Relations
+Description: Finds sibling concept pairs that are also connected by an associative relation.
+informations: https://github.com/cmader/qSKOS/wiki/Quality-Issues#valueless-associative-relations
+count: 0
