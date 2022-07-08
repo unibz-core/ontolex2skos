@@ -133,15 +133,15 @@ An exception to the former conditional is the case of lexical entries that are c
 ```
 ### Input
 :batEntry a ontolex:LexicalEntry ;
-	ontolex:sense :batSense ;
-	ontolex:canonicalForm :batForm .
+    ontolex:sense :batSense ;
+    ontolex:canonicalForm :batForm .
 :batSense a thor:PreferredSense ;
 	lexinfo:synonym :clubSense .
 :batForm a ontolex:Form ;
-	ontolex:writtenRep "bat"@en .
+    ontolex:writtenRep "bat"@en .
 :clubEntry a ontolex:LexicalEntry ;
-	ontolex:sense :clubSense ;
-	ontolex:canonicalForm :batForm .
+    ontolex:sense :clubSense ;
+    ontolex:canonicalForm :batForm .
 :clubSense a ontolex:LexicalSense .
 :clubForm a ontolex:Form ;
 	ontolex:writtenRep "club"@en .
@@ -161,14 +161,14 @@ Some documentation properties apply only to lexical senses and thus need to be t
 ```
 ### Input
 :batSense skos:definition "a specially shaped piece of wood used for hitting the ball in some games"@en ;
-	   skos:example "She hit the ball with her bat"@en ;
-	   ontolex:usage "Bat is most often used for sports equipment"@en .
+    skos:example "She hit the ball with her bat"@en ;
+    ontolex:usage "Bat is most often used for sports equipment"@en .
 
 ### Output
 :batConcept ontolex:lexicalizedSense :batSense ;
-	   skos:definition "a specially shaped piece of wood used for hitting the ball in some games"@en ;
-	   skos:example "She hit the ball with her bat"@en ;
-	   skos:scopeNote "Bat is most often used for sports equipment"@en .
+    skos:definition "a specially shaped piece of wood used for hitting the ball in some games"@en ;
+    skos:example "She hit the ball with her bat"@en ;
+    skos:scopeNote "Bat is most often used for sports equipment"@en .
 ```
 
 ### Rule 5. Derive semantic relations
@@ -251,7 +251,7 @@ Following **Rule 3**, homographs would yield concepts with the same preferred la
 :zoologyDomain rdfs:label "zoology"@en .
 
 :batArtifactSense a ontolex:LexicalSense ;
-	lexinfo:domain :sportsDomain .
+    lexinfo:domain :sportsDomain .
 :sportsDomain rdfs:label "sports"@en .
 
 :batEntry ontolex:sense :batAnimalSense, :batArtifactSense ;
