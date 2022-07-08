@@ -108,18 +108,18 @@ Each synset expresses a single unique concept and corresponds to an *ontolex:Lex
 ```
 ### Input
 :batEntry a ontolex:LexicalEntry ;
-        ontolex:sense :batSense .
+    ontolex:sense :batSense .
 :batSense a ontolex:LexicalSense .
 
 :clubEntry a ontolex:LexicalEntry ;
-        ontolex:sense :clubSense .
+    ontolex:sense :clubSense .
 :clubSense a ontolex:LexicalSense ;
-        lexinfo:synonym :batSense .
+    lexinfo:synonym :batSense .
 
 ### Output
 :batConcept a skos:Concept ;
-        ontolex:lexicalizedSense :batSense, :clubSense ;
-        ontolex:isEvokedBy :clubEntry, :batEntry .
+    ontolex:lexicalizedSense :batSense, :clubSense ;
+    ontolex:isEvokedBy :clubEntry, :batEntry .
 ```
 
 ### Rule 3. Derive concept labels
@@ -147,9 +147,9 @@ An exception to the former conditional is the case of lexical entries that are c
 	ontolex:writtenRep "club"@en .
 
 ### Output
-:batConcept ontolex:lexicalizedSense :batSense, :clubSense ;	
+:batConcept ontolex:lexicalizedSense :batSense, :clubSense ;
     skos:prefLabel "bat"@en ;
-	skos:altLabel "club"@en ;
+    skos:altLabel "club"@en ;
 ```
 
 ### Rule 4. Derive documentation properties from lexical senses
@@ -185,9 +185,9 @@ The mapping of *lexinfo:hypernym* into *skos:broader* works as follows. For ever
 
 # Added via the application of Rule 2
 :equipmentConcept a skos:Concept ;
-	ontolex:lexicalizedSense equipmentSense .
+    ontolex:lexicalizedSense equipmentSense .
 :batConcept a skos:Concept ;
-	ontolex:lexicalizedSense batSense . 
+    ontolex:lexicalizedSense batSense . 
 
 ### Output
 :batConcept skos:broader :equipmentConcept .
@@ -205,16 +205,16 @@ In this rule we simply migrate thor’s mapping properties from lexical senses t
 ```
 ### Input
 :batSense a ontolex:LexicalSense ;
-	thor:closeMapping ex1:BaseballBat ;
+    thor:closeMapping ex1:BaseballBat ;
     thor:broadMapping ex2:Artifact .
 ex1:BaseballBat a owl:Class .
 ex2:Artifact a skos:Concept .
 
 ### Output
 :batConcept a skos:Concept ;
-	ontolex:lexicalizedSense :batSense ;
+    ontolex:lexicalizedSense :batSense ;
     thor:closeMapping ex1:BaseballBat ;
-	skos:broadMatch ex2:Artifact .
+    skos:broadMatch ex2:Artifact .
 ```
 
 ### Rule 7. Derive thesaurus components from lexicon components. 
@@ -261,11 +261,11 @@ Following **Rule 3**, homographs would yield concepts with the same preferred la
 ### Output
 :batAnimalConcept ontolex:lexicalizedSense :batAnimalSense ;
     skos:prefLabel "bat (zoology)"@en ;
-	skos:altLabel "bat"@en ;
+    skos:altLabel "bat"@en ;
     thor:hasContext :zoologyDomain .
 :batArtifactConcept ontolex:lexicalizedSense :batArtifactSense ;
     skos:prefLabel "bat (sports)"@en ;
-	skos:altLabel "bat"@en ;
+    skos:altLabel "bat"@en ;
     thor:hasContext :sportsDomain .
 ```
 
