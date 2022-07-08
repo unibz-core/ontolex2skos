@@ -136,7 +136,7 @@ An exception to the former conditional is the case of lexical entries that are c
     ontolex:sense :batSense ;
     ontolex:canonicalForm :batForm .
 :batSense a thor:PreferredSense ;
-	lexinfo:synonym :clubSense .
+    lexinfo:synonym :clubSense .
 :batForm a ontolex:Form ;
     ontolex:writtenRep "bat"@en .
 :clubEntry a ontolex:LexicalEntry ;
@@ -144,7 +144,7 @@ An exception to the former conditional is the case of lexical entries that are c
     ontolex:canonicalForm :batForm .
 :clubSense a ontolex:LexicalSense .
 :clubForm a ontolex:Form ;
-	ontolex:writtenRep "club"@en .
+    ontolex:writtenRep "club"@en .
 
 ### Output
 :batConcept ontolex:lexicalizedSense :batSense, :clubSense ;
@@ -224,7 +224,7 @@ A *skos:Concept* `CO` should belong to a *skos:ConceptScheme* `CS` if there is a
 ```
 ### Input
 :myLexicon a lime:Lexicon ;
-	lime:entry :batEntry .
+    lime:entry :batEntry .
 :batEntry ontolex:sense :batSense .
 
 # Added via the application of Rule 1
@@ -232,7 +232,7 @@ A *skos:Concept* `CO` should belong to a *skos:ConceptScheme* `CS` if there is a
 
 # Added via the application of Rule 2
 :batConcept a skos:Concept ;
-	ontolex:lexicalizedSense :batSense .
+    ontolex:lexicalizedSense :batSense .
 
 ### Output
 :batConcept skos:inScheme :myThesaurus .
