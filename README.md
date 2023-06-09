@@ -20,6 +20,8 @@ This Java application reads lexical data, structured using the [Ontolex](https:/
 
 ThOR stands for “Thesaurus and Ontology Representation”. The ThOR Project was a collaboration project that happened in 2021 between the [*Zorginstituut Nederland* (ZIN)](https://english.zorginstituutnederland.nl/) – the Dutch National Health Care Institute – and the [Conceptual and Cognitive Modeling Research Group (CORE)](https://www.inf.unibz.it/krdb/core/) from the [Free University of Bozen-Bolzano (Unibz)](https://unibz.it/).
 
+More information about the developed work is available in our [published paper](https://w3id.org/thor/paper).
+
 ## Contributors
 
 * [Tiago Prince Sales (UNIBZ)](https://www.linkedin.com/in/tiago-sales/)
@@ -126,7 +128,7 @@ Each synset expresses a single unique concept and corresponds to an *ontolex:Lex
 
 Each generated *skos:Concept* receives one preferred label (via *skos:prefLabel*) and potentially multiple alternative labels (via *skos:altLabel*). Every label is derived from an ontolex:Form of a lexical entry associated with a sense that composes the synset from which the concept was derived.
 
-For a given concept, if a single form is indirectly associated with its source synset, the representation of that form (identified via the ontolex:writtenRep property) becomes the concept’s preferred label. In this situation, the concept does not receive alternative labels. Alternatively, if multiple forms are indirectly associated with the synset from which a concept was derived, the preferred label comes from the form associated with a thor:PreferredSense—a subclass of LexicalSense defined in the thor vocabulary. All the other forms are mapped into alternative labels.
+For a given concept, if a single form is indirectly associated with its source synset, the representation of that form (identified via the ontolex:writtenRep property) becomes the concept’s preferred label. In this situation, the concept does not receive alternative labels. Alternatively, if multiple forms are indirectly associated with the synset from which a concept was derived, the preferred label comes from the form associated with a thor:PreferredSense—a subclass of LexicalSense defined in the [thor vocabulary](https://w3id.org/thor/thor-ontology/git). All the other forms are mapped into alternative labels.
 
 An exception to the former conditional is the case of lexical entries that are contractions of others (e.g., “EU” is a contraction of “European Union”), which are identified via the *lexinfo:contractionFor*. In such cases, acronyms are always mapped into alternative labels.
 
@@ -271,4 +273,4 @@ Following **Rule 3**, homographs would yield concepts with the same preferred la
 
 ## Publication
 
-Barcelos, P. P. F., Sales, T. P., Kampert, E., Reniers, F., Segers, R., Guizzardi, G., Franke, W. (2023).  17th Terminology & Ontology: Theories and applications (TOTh 2023) International Conference. Chambéry, France.
+Barcelos, P. P. F., Sales, T. P., Kampert, E., Reniers, F., Segers, R., Guizzardi, G., Franke, W. (2023).  17th Terminology & Ontology: Theories and applications (TOTh 2023) International Conference. Chambéry, France. Available at [https://w3id.org/thor/paper](https://w3id.org/thor/paper).
