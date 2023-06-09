@@ -22,7 +22,7 @@ ThOR stands for “Thesaurus and Ontology Representation”. The ThOR Project wa
 
 ## Contributors
 
-* [Tiago Prince Sales (UNIBZ)](http://inf.unibz.it/~tpsales)
+* [Tiago Prince Sales (UNIBZ)](https://www.linkedin.com/in/tiago-sales/)
 * [Pedro Paulo Favato Barcelos (UNIBZ)](https://www.linkedin.com/in/pedro-paulo-favato-barcelos/)
 * [Elly Kampert (ZIN)](https://www.linkedin.com/in/elly-kampert-van-galen/)
 * [Fabien Reniers (ZIN)](https://www.linkedin.com/in/fabienreniers/)
