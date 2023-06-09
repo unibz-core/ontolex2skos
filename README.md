@@ -269,6 +269,6 @@ Following **Rule 3**, homographs would yield concepts with the same preferred la
     thor:hasContext :sportsDomain .
 ```
 
-## How to cite this work
+## Publication
 
-*Sales, T. P., Barcelos, P. P. F., Kampert, E., Reniers, F., & Segers, R. (2021). Ontolex2SKOS: A Model-Driven Transformation from Lexicons to Thesauri. https://github.com/unibz-core/ontolex2skos*
+Barcelos, P. P. F., Sales, T. P., Kampert, E., Reniers, F., Segers, R., Guizzardi, G., Franke, W. (2023).  17th Terminology & Ontology: Theories and applications (TOTh 2023) International Conference. Chambéry, France.
