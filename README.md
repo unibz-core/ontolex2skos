@@ -8,7 +8,7 @@
   - [Code compilation](#code-compilation)
   - [Code execution](#code-execution)
   - [Transformation rules](#transformation-rules)
-  - [How to cite this work](#how-to-cite-this-work)
+  - [Publication](#publication)
 
 ## Overview
 
